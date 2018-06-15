@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "path=ReDi('WissenAusDaten2014/15Clusterung/01Transformierte/DataBased100')\nout=ReDi('WissenAusDaten2014/12cPswarm/11DataBased100Islands')\nnames=list.files(path)\nFmins4000=FCPS[-c(3,4)]\n\ni=1 #Atom\n\n  Proj=ReadLRN(filenames[k],path)$Data\n\ni=2 #Chainlink\nfilenames=names[101:200]\n\n  Proj=ReadLRN(filenames[k],path)$Data\n\n\ni=3 #Hepta\nfilenames=names[201:300]\ncanvasHeight=(40 +1)*2#Columns\ncanvasWidth=  (38+1)*2 #Lines\nfor(k in 1:100){\n  Proj=ReadLRN(filenames[k],path)$Data\n  BMU=cbind(1:nrow(Proj),(Proj+1)*2)\n  PlotProjectedPoints(BMU,Fmins4000[[i]]$Cls)\n  BMuTrans=iIslandBMOnly(BMU,canvasWidth,canvasHeight,Cls = Fmins4000[[i]]$Cls)$Bestmatches\n  ProjTrans=BMuTrans\n  ProjTrans[,2:3]=BMuTrans[,2:3]/2-1\n  PlotProjectedPoints(ProjTrans,Fmins4000[[i]]$Cls)\n  WriteLRN(paste0('Islandpoints',filenames[k]),Key=ProjTrans[,1],Data = ProjTrans[,2:3],Header=c('X','Y'),OutDirectory = out,CommentOrDigits = '26Toroid2PlanarThroughIsland.R')\n}",
+    "created" : 1467122603798.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "873457373",
+    "id" : "895692C4",
+    "lastKnownWriteTime" : 1467124578,
+    "last_content_update" : 1467124578454,
+    "path" : "D:/Subversion/PRO/Research/WissenAusDaten2014/12cPswarm/08AnalyseProgramme/26Toroid2PlanarThroughIsland.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

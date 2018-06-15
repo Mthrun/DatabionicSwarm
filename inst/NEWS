@@ -1,0 +1,9 @@
+Version 1.1.0
+    o Delaunay Classification Error (DCE) added. DCE evaluates projection methods unbiased.
+    
+Version 1.0.4
+    o Minor bugfixes
+	o Vignette added
+    
+Version 1.0.3 (2018-05-06)
+    o Added distance methods of ParallelCpp package

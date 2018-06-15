@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1528884521264.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3478625536",
+    "id" : "84A2561D",
+    "lastKnownWriteTime" : 1528884538,
+    "last_content_update" : 1528884538,
+    "path" : "D:/Subversion/PUB/dbt/DataBionicSwarm/vignettes/DatabionicSwarm.Rmd",
+    "project_path" : "vignettes/DatabionicSwarm.Rmd",
+    "properties" : {
+        "cursorPosition" : "12,51",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1527602983282.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2673606953",
+    "id" : "2D47B7C3",
+    "lastKnownWriteTime" : 1528790687,
+    "last_content_update" : 1528790687389,
+    "path" : "D:/Subversion/PUB/dbt/DataBionicSwarm/man/DatabionicSwarm-package.Rd",
+    "project_path" : "man/DatabionicSwarm-package.Rd",
+    "properties" : {
+        "cursorPosition" : "114,109",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

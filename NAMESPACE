@@ -1,0 +1,28 @@
+export(DBSclustering)
+export(Delaunay4Points)
+export(DelaunayClassificationError)
+export(GeneratePswarmVisualization)
+export(ProjectedPoints2Grid)
+export(Pswarm)
+export(sESOM4BMUs)
+export(setGridSize)
+export(ShortestGraphPathsC)
+export(DijkstraSSSP)
+export(RobustNormalization)
+
+import(Rcpp)
+
+importFrom("deldir","deldir")
+importFrom('stats', "hclust","cutree","as.dendrogram","dist", "quantile", "runif", "as.dist", "median")
+useDynLib(DatabionicSwarm, .registration = TRUE)
+importFrom("graphics", "axis", "box", "par", "plot.new", "points",
+             "title","plot")
+importFrom("utils", "tail","getSrcDirectory")
+importFrom("GeneralizedUmatrix","plotTopographicMap")
+
+#importFrom(ABCanalysis,"ABCRemoveSmallYields","ABCanalysis")
+#importFrom(AdaptGauss,"ParetoRadius")#
+  importFrom("grDevices", "contourLines")
+  importFrom("utils", "setTxtProgressBar", "txtProgressBar")
+  
+ importFrom("utils", "packageVersion")

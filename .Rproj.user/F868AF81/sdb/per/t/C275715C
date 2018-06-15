@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "DelaunayClassificationError=function(Data,ProjectedPoints,Cls,k=8,LC=NULL){\n#error=DelaunayClassificationError(Data,ProjectedPoints,Cls)\n# sucht die k Naechsten Mit Euklidgewichteten DelaunayNachbahr und sucht alle Zellen, welche nicht\n# in selber Klasse sind\n# INPUT\n# Data[1:n,1:d]\n# ProjectedPoints[1:n,1:2]\n# Cls[1:n]\n#OPTIONAL\n# k                 Anzahl naechster nachbahrn\n# LC                Wenn toroid, muss c(Lines,Columns) angeben werden\n# OUTPUT\n# error[1:k]        Fallsch klassifizierte Daten in den k naechsten Nachbahr bzgl jeden Projezierten Punktes, welcher die richtige Klasse vorgibt\n# author: MT 07/2016\n#                   \n  \n  if(is.null(LC))\n    del=Delaunay4Points(ProjectedPoints,F)\n  else\n    del=Delaunay4Points(ProjectedPoints,T,LC[c(2,1)])\n  \n  Dist=DistanceMatrix(Data)*del$Delaunay\n  ind=which(Dist==0,arr.ind=T)\n  Dist[ind]=NaN\n  cerror=c()\n  if(missing(k)){\n  k=c()\n  for(i in 1:nrow(Data)){\n    k=c(k,sum(!is.nan(Dist[,i])))\n  }\n  #histopt(k)\n  #print(quantile(x = k,c(0.9)))\n  #k=round(median(k),0)\n  k=round(quantile(x = k,c(0.9)),0)\n  print(k)  \n  }\n  for(m in 2:k){\n  error=0\n  for(i in 1:nrow(Data)){\n    ind=order(Dist[,i],decreasing = F,na.last = T)\n    n=sum(!is.nan(Dist[,i]))\n    l=min(m,n)\n    cc=Cls[ind[1:l]]\n    error=error+sum(cc!=cc[1])/length(cc)\n   # error=error+1-ClsToTrueCls(cc,rep(cc[1],l))$accuracy\n    #c1=Cls[ind[1]]\n    #c2=Cls[ind[2]]\n    # if(c1!=c2)\n    #error=error+1\n  }\n  cerror=c(cerror,error)\n  }\n  return(cerror)\n  \n}",
+    "created" : 1467021567416.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3266206098",
+    "id" : "C275715C",
+    "lastKnownWriteTime" : 1467020513,
+    "last_content_update" : 1467020513,
+    "path" : "D:/Subversion/PUB/dbt/DataBionicSwarm/R/DelaunayClassificationError.R",
+    "project_path" : "R/DelaunayClassificationError.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

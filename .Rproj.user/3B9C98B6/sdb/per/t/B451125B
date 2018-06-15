@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "path=paste0(SubversionDirectory(),'PUB/GOdata/09Originale')\nname='GOAdirekt.lrn'\nV=ReadLRN(name,path)\nV$Header\nData=V$Data\nind=which(Data[,3]!=1)\nData=Data[ind,]\npath2=ReDi('ChronificationGenes2016/09Originale')\nname2='SchmerzGene463.names'\nNamesV=ReadNAMES(name2,path2)\nNCBI=NamesV$Key\n\nGeneListe=list()\nfor(i in 1:length(NCBI)){\n  ind=which(Data[,1]==NCBI[i])\n  GeneListe[[i]]=Data[ind,2]\n}\n#Dokuemnt=Term\n#Term=Gene\nfin=unlist(lapply(GeneListe,length))\nmaxind=which.max(fin)\nAnzahlDokumente=length(unique(Data[,2]))\nidf=rep(NaN,length(fin))\nfor(i in 1:length(NCBI)){\n \n idf[i]=log(AnzahlDokumente/fin[i])\n if(fin[i]==0)\n   idf[i]=log(AnzahlDokumente)\n}\n\n#InspectVariable(idf)\nPDEplot(idf)\nDistance=matrix(NaN,length(idf),length(idf))\nreldiff=function(x,y){ \n  if((x+y)>0)\n    return((x-y)/(0.5*(x+y)))\n  else\n    return(2)\n}\nfor(i in 1:length(idf)){\n  for(j in 1:length(idf))\n    Distance[i,j]=abs(idf[i]-idf[j])\n}\nInspectDistances(Distance)\nLC=setGridSize(Distance,0.01,0.99)\nLC\n\nres=pswarmCpp(Distance,LC = LC,PlotIt = T,Silent = F)\nTrans=MDS(Distance,OutputDimension = round(mean(fin),0))\nresults=GeneratePswarmVisualization(Trans$ProjectedPoints,res$ProjectedPoints,LC)\nWriteUMX('test',results$Umatrix,OutDirectory = ReDi())\nWriteBM('test',results$Bestmatches,OutDirectory = ReDi())\nplotUmatrix(results$Umatrix.results$Bestmatches)\npmx=GeneratePmatrix(Trans$ProjectedPoints,results$WeightsOfNeurons,PlotIt = T)\nustar=calcUstarmatrix(results$Umatrix,pmx)\nplotUmatrix(ustar,results$Bestmatches)\nCls=DBSclustering(3,Trans$ProjectedPoints,BestMatches = results$Bestmatches,LC=LC,PlotIt = T,Alg = T)\nCls2=DBSclustering(12,Trans$ProjectedPoints,BestMatches = results$Bestmatches,LC=LC,PlotIt = T,Alg = F)\nplotUmatrix(ustar,results$Bestmatches,Cls2)\n\nind1=which(Cls2==1)\nind2=which(Cls2==5)\nind3=setdiff(1:length(Cls),c(ind1,ind2))\nCls3=Cls\nCls3[ind3]=Cls2[ind3]+4\nplotUmatrix(ustar,results$Bestmatches,Cls3)\nimx=iIsland(ustar,results$Bestmatches,Cls3)\nshowUmatrix3D(ustar,results$Bestmatches,Cls3,Imx = imx)\n\nCls5=Cls4\nCls5[ind3]=Cls2[ind3]+4\n\nout=ReDi('WissenAusDaten2014/15Clusterung/02Clusterungen/SchmerzGene')\nsetwd(out)\nsave(file='SchmerzGeneClusterung',Cls5,LC,res,results,Trans,Distance,idf,fin,NCBI,V,ustar,pmx,imx)\nsetwd(out)\nload(file='SchmerzGeneClusterung')\nClassCount(cls = Cls5)\n\n",
+    "created" : 1466409804588.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "380712838",
+    "id" : "B451125B",
+    "lastKnownWriteTime" : 1466411213,
+    "last_content_update" : 1466411213906,
+    "path" : "D:/Subversion/PRO/Research/WissenAusDaten2014/15Clusterung/08AnalyseProgramme/99SchwerzGeneClusterung.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
