@@ -9,7 +9,7 @@
 \packageDescription{DatabionicSwarm}
 }
 \details{
-For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{../doc/DatabionicSwarm.html}{Short Intro into the Databionic Swarm (DBS)}.
+For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{../doc/DatabionicSwarm.html}{Short Intro to the Databionic Swarm (DBS)}.
 
 \tabular{ll}{
 Package: \tab Databonic swarm\cr

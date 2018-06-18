@@ -1,46 +1,49 @@
 ---
-title: "Short Intro into the Databionic Swarm (DBS)"
+title: "Short Intro to the Databionic Swarm (DBS)"
 author: "Michael C. Thrun"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: 
-        rmarkdown: html_document 
-        toc: true
-        doc_depth: 2
-        number_sections: true
-        toc_float: true
+          html_document:
+            theme: united
+            highlight: tango 
+            toc: true
+            number_sections: true
+            doc_depth: 2
+            toc_float: true
+            dpi: 50
+            fig.width: 6
+            fig.height: 6
 vignette: >
-  %\VignetteIndexEntry{Short Intro into the Databionic Swarm (DBS)}
+  %\VignetteIndexEntry{Short Intro to the Databionic Swarm (DBS)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-
 ```{r setup, include=FALSE}
-
+library(rgl)
+#library(rglwidget)
+setupKnitr()
 knitr::opts_chunk$set(echo = TRUE,
                       fig.align = "center",
                       warning = FALSE,
-                      webgl = TRUE
+                      webgl = TRUE,
+                      dpi=50,
+                      fig.width = 6, 
+                      fig.height = 6,
+                      fig.keep = "all",
+                      fig.ext = "jpeg"
                       )
-library(rgl)
-knitr::knit_hooks$set(webgl = hook_webgl)
 ```
-
-
-
 # Introduction
-
 DBS is a flexible and robust clustering framework that consists of three independent modules. The first module is the parameter-free projection method Pswarm, which exploits the concepts of self-organization and emergence, game theory, swarm intelligence and symmetry considerations. The second module is a parameter-free high-dimensional data visualization technique, which generates projected points on a topographic map with hypsometric colors, called the generalized U-matrix. The third module is a clustering method with no sensitive parameters. The clustering can be verified by the visualization and vice versa. The term DBS refers to the method as a whole. 
-
 For further details, see Databionic swarm in [Thrun, 2018], chapter 8. 
-Further examples and a comparison to 26 common clustering algorithms is provided in http://www.deepbionics.org/Projects/ClusteringAlgorithms.html.
-If you want to verifiy your clustering result externally, you can use Heatmap or SilhouettePlot of the CRAN package DataVisualizations.
 
 # First Example: Automatic approach
+Here one example is presented using the automatic approach without any user interaction with shiny. Further automatic examples and a comparison to 26 common clustering algorithms is provided in http://www.deepbionics.org/Projects/ClusteringAlgorithms.html.
+If you want to verify your clustering result externally, you can use Heatmap or SilhouettePlot of the CRAN package DataVisualizations.
 
 ## First Module: Projection of high-dimensional Data
-2d projection, with instant visualization of annealing steps. DistanceMatrix hast to be defined by the user. 
-```{r}
+First generate a 2d projection, the DistanceMatrix has to be defined by the user.
+```{r,results = "hide"}
 library(DatabionicSwarm)
 
 data('Hepta')
@@ -48,74 +51,80 @@ InputDistances=as.matrix(dist(Hepta$Data))
 projection=Pswarm(InputDistances)
 ```
 ## Second Module: Generalized Umatrix
-Here the Generalized Umatrix is calculated using a simplified emergent self-organizing map algorithm. Then, the Visualizuation of Generalized Umatrix is done by a 3D landscape called topographic map with hypsometric tints. Seven valleys are shown resulting in seven main clusters.
-Note, that the resulting visualization will be toroidal meaning that the left borders cyclically connects to the right border (and bottom to top). This means there are no "real"" borders in this visualizations, instead the visualization is "continuous".
-```{r}
+Here the Generalized Umatrix is calculated using a simplified emergent self-organizing map algorithm. Then, the visualization of Generalized Umatrix is done by a 3D landscape called topographic map with hypsometric tints. Seven valleys are shown resulting in seven main clusters.
+The resulting visualization will be toroidal meaning that the left borders cyclically connects to the right border (and bottom to top). It means there are no "real" borders in this visualizations. Instead, the visualization is "continuous". This can be visualized using the 'Tiled=TRUE' option of 'plotTopographicMap'.
+
+Note, that the 'nlevels' option is only set to load this vignette faster and should normally not be set manually. It describes the number contour lines placed relative to the hypsometric tints. All visualizations here are small and a low dpi is set in knitr in order to load the vignette faster.
+```{r,results = "hide",webGL = TRUE }
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
-library(rgl)
 visualization=GeneratePswarmVisualization(Data = Hepta$Data,projection$ProjectedPoints,projection$LC)
-rgl::open3d()
-GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,nlevels=10)
+rgl::rgl.close()#please ignore, indicates that this plot should not be saved in Rmarkdown
+
 ```
 ## Third Module: Automatic Clustering
-The number of Cluster can be derived from dendrogram (PlotIt=TRUE) or from the visualization. In this example, outliers should marked manually in the visualization after the prozess of automatic clustering. Therefore we choose the three main valleys as the number of clusters. TThe function DBSclustering has one parameter to be set. Normally, the Defaul setting StructureType = TRUE works fine. However, for density based structures sometimes StructureType = FALSE of the function 'DBSclustering' yields better results. Please verify with the visualiziation or the Dendrogram. For the Dendrogram choose PlotIt=TRUE in the function 'DBSclustering'.
-```{r}
+The number of clusters can be derived from dendrogram (PlotIt=TRUE) or the visualization. Therefore we choose the seven valleys as the number of clusters. The function DBSclustering has one parameter to be set. Typically, the default setting ‘StructureType = TRUE’ works fine. However, for density-based structures sometimes StructureType = FALSE of the function 'DBSclustering' yields better results. Please verify with the visualization or the Dendrogram. For the Dendrogram choose PlotIt=TRUE in the function 'DBSclustering'. 
+In the case of “BestmatchingUnits”, the parameter ‘LC’ defines the size of the grid with Lines and columns where the position (0,0) lies in the left upper corner. In the case of “ProjectedPoints”, the point (0,0) lies in the left bottom corner. The transformation is normally done automatically. However, sometimes the user wishes to skip the visualization and use projected points directly. Then ‘LC’ can be changed accordingly to LC[c(2,1)]. Seldom, there could be a rounding error leading to an error catch. In such a case try LC+1. 
+```{r,webGL = TRUE }
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
 Cls=DBSclustering(k=7, Hepta$Data, visualization$Bestmatches, visualization$LC,PlotIt=FALSE)
-GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls,nlevels=10)
 
 ```
-
-#Second Example: Interactive approach
-## First Module: Projection of high-dimensional Data
-2d projection, with instant visualization of annealing steps.
-DistanceMatrix hast to be defined by the user. In this case it is automatic Euclidiean because the Data itself is the input for 'Pswarm'.
+#Second Example: Interactive Approach
+In this example, we show how to improve an automatic clustering accordingly to the topographic map using a shiny interface.
+## First Module: Projection of High-dimensional Data
+First, we generate a 2d projection with instant visualization of annealing steps (PlotIt=TRUE). This shows the non-linear process of concentrating on global structures first and later on local structures. Such an approach enables to entangle non-linear high-dimensional structures.
+If the user does not define the DistanceMatrix, it is automatically set to Euclidean because the data itself can be the input for 'Pswarm'.
 ```{r}
+rgl::rgl.close()#please ignore, closes last plot of rgl to not show it multiple times
 library(DatabionicSwarm)
 data('Lsun3D')
 projection=Pswarm(Lsun3D$Data,Cls=Lsun3D$Cls,PlotIt=T,Silent=T)
 ```
 ## Second Module: Generalized Umatrix
-If Non Euclidean Distances are used, Please Use SammonsMapping
-from the ProjectionBasedClustering package with the correct OutputDimension to generate a new DataMatrix from the distances (see SheppardDiagram or KruskalStress).
+If Non-Euclidean Distances are used, Please Use SammonsMapping from the ProjectionBasedClustering package with the correct OutputDimension to generate a new data matrix from the distances (see SheppardDiagram of DataVisualization Package or KruskalStress).
 Here the Generalized Umatrix is calculated using a simplified emergent self-organizing map algorithm. Then the topographic map is visualized based on the information of the Generalized Umatrix.
-```{r}
+
+```{r,results = "hide",webGL = TRUE }
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
 visualization=GeneratePswarmVisualization(Data = Lsun3D$Data,projection$ProjectedPoints,projection$LC)
-GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+
+GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,nlevels=10)
+rgl::rgl.close()#please ignore, indicate that this plot should not be saved in Rmarkdown
 ```
-
 ## Third Module: Interactive Clustering
-The number of Cluster can be derived from dendrogram (PlotIt=TRUE) or from the visualization. In this example, outliers should marked manually in the visualization after the prozess of automatic clustering. Therefore we choose the three main valleys as the number of clusters. TThe function DBSclustering has one parameter to be set. Normally, the Defaul setting StructureType = TRUE works fine. However, for density based structures sometimes StructureType = FALSE of the function 'DBSclustering' yields better results. Please verify with the visualiziation or the Dendrogram. For the Dendrogram choose PlotIt=TRUE in the function 'DBSclustering'. Often, it helps to generate first the shape of an island out of the continous topographic map because then you already have the biggest mountains marked as the borders of the visualizations. Then you can improve the clustering by redefining valleys interactivly or marking outliers lying in vulcanos. It is strongly suggested to verify such a clustering externally, e.g. Heatmap or some unsupervised index.
-
-```{r}
+The number of clusters can be derived from dendrogram (PlotIt=TRUE) or the visualization. In this example, outliers should be marked manually in the visualization after the process of automatic clustering. Therefore we choose the three central valleys as the number of clusters. Often, it helps to generate first the shape of an island out of the continuous topographic map because then you already have the most prominent mountains marked as the borders of the visualizations. Then you can improve the clustering by redefining valleys interactively or marking outliers lying in vulcanos. It is strongly suggested to verify such a clustering externally, e.g. Heatmap or some unsupervised index.
+```{r,webGL = TRUE }
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
 Cls=DBSclustering(k=3, Lsun3D$Data, visualization$Bestmatches, visualization$LC,PlotIt=FALSE)
-GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls,nlevels=10)
+
 ```
-## Generating the Shape of an Island out of visualization
-To generate the 3D landscape in the shape of an island from the toroidal topographic map visualization you may cut your island interactivly around high mountain ranges.Currently, I am unable to show the output in R markdown :-(
-Please uncomment and try it out yourself.
-```{r}
+## Generating the Shape of an Island out of the Topograpahic Map
+To generate the 3D landscape in the shape of an island from the toroidal topographic map visualization you may cut your island interactively around high mountain ranges. Currently, I am unable to show the output in R markdown :-(
+If you know how to resolve the Rmarkdown issue, please mail me: info@deepbionics.org
+
+```{}
 library(DatabionicSwarm)
 library(ProjectionBasedClustering)
 library(GeneralizedUmatrix)
 
-#Imx = ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(visualization$Umatrix,visualization$Bestmatches,Cls)
+Imx = ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(visualization$Umatrix,visualization$Bestmatches,Cls)
 
-#GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches, Cls=Cls,Imx = Imx)
-```
-## Manually Improving the Clustering Using the Visualization
-In this example the four outliers can be marked manually with mouse clicks using the shiny interface. Currently, I am unable to show the output in R markdown :-(
-Please uncomment and try it out yourself.
-```{r}
-library(ProjectionBasedClustering)#install if not installed
-#Cls2=ProjectionBasedClustering::interactiveClustering(visualization$Umatrix, visualization$Bestmatches, Cls)
+GeneralizedUmatrix::plotTopographicMap(visualization$Umatrix,visualization$Bestmatches, Cls=Cls,Imx = Imx)
 ```
 
+## Manually Improving the Clustering Using the Topograpahic Map
+In this example, the four outliers can be marked manually with mouse clicks using the shiny interface. Currently, I am unable to show the output in R markdown :-(
+Please try it out yourself:
+```{}
+library(ProjectionBasedClustering)
+Cls2=ProjectionBasedClustering::interactiveClustering(visualization$Umatrix, visualization$Bestmatches, Cls)
+```
 # References
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, https://doi.org/10.1007/978-3-658-20540-9, 2018. 
