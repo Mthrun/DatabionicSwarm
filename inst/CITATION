@@ -1,4 +1,4 @@
-citHeader("To cite 'DatabionicSwarm' R package in publications, please use::")
+citHeader("To cite the 'DatabionicSwarm' R package in publications, please use:")
 
 citEntry(entry = "Book",
   title = "Projection-Based Clustering through Self-Organization and Swarm Intelligence",
