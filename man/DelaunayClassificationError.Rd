@@ -56,6 +56,19 @@ list of
 Michael Thrun
 }
 
+\examples{
+data(Hepta)
+\donttest{
+InputDistances=as.matrix(dist(Hepta$Data))
+projection=Pswarm(InputDistances)
+DelaunayClassificationError(Hepta$Data,projection$ProjectedPoints,Hepta$Cls,LC=projection$LC)$DCE
+}
+\dontshow{
+n=nrow(Hepta$Data)
+DelaunayClassificationError(Hepta$Data,cbind(runif(n),runif(n)),Hepta$Cls)$DCE
+}
+}
+
 \keyword{Classification Error}
 
 \keyword{Delaunay Classification Error}

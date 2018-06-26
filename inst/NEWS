@@ -1,6 +1,7 @@
 Version 1.1.0
     o Delaunay Classification Error (DCE) added. DCE evaluates projection methods unbiased.
-    
+    o ClusteringAccuracy added. Given a prior Classification this function evaluates a clustering algorithm unbiased.
+	o RelativeDifference added which calculates the difference of a positive x and y value in the range [-2,2].
 Version 1.0.4
     o Minor bugfixes
 	o Vignette added

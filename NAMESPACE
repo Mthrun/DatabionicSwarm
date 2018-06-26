@@ -1,3 +1,4 @@
+export(ClusteringAccuracy)
 export(DBSclustering)
 export(Delaunay4Points)
 export(DelaunayClassificationError)
@@ -8,6 +9,7 @@ export(sESOM4BMUs)
 export(setGridSize)
 export(ShortestGraphPathsC)
 export(DijkstraSSSP)
+export(RelativeDifference)
 export(RobustNormalization)
 
 import(Rcpp)
