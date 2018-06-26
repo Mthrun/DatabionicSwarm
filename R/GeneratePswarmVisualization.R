@@ -21,34 +21,14 @@ GeneratePswarmVisualization=function(Data,ProjectedPoints,LC,PlotIt=FALSE,Comput
 #											Therefore, The resulting grid size is given back here.
 #author MT 03/16
   Data=checkInputDistancesOrData(Data)
-  # requireNamespace("Rcpp", quietly = T)
-  # requireNamespace("RcppArmadillo", quietly = T)
-  # WhereAmI = getSrcDirectory(function(x) {x})
-  # path=sub('/R','/src/',WhereAmI)
-  # tryCatch({
-  #   if(Sys.info()["sysname"]=="Windows"){
-  #     if(path=='.'){
-  #       path=paste0(SubversionDirectory(),'PUB/dbt/DataBionicSwarm/src/')
-  #     }
-  #   }else{#lkonnte nur MacOs testen -_-
-  #     if(path==""){
-  #       path=paste0(SubversionDirectory(),'PUB/dbt/DataBionicSwarm/src/')
-  #     }
-  #   }
-  # },error=function(ex){
-  #   warning('Something is wrong with the path, assuming package instead of source files')
-  #   #path=paste0(SubversionDirectory(),'PUB/dbt/DataBionicSwarm/src/')
-  # })
-  # tryCatch({path=suppressWarnings(normalizePath(path))
-  # #print(path)
-  #   if(ComputeInR){
-  #     suppressWarnings(sourceCpp(paste0(path,'Delta3dWeightsC.cpp')))
-  #   }else{
-  #     suppressWarnings(sourceCpp(paste0(path,'trainstepC.cpp')))
-  #   }
-  # },error=function(ex){
-  #   print('Precompiled package, sourceCPP omitted.')
-  # })
+  
+if(missing(LC)){
+  LC=ceiling(apply(ProjectedPoints,2,max))+1
+  if(Lines>Columns){
+    ProjectedPoints=ProjectedPoints[,c(2,1)]
+    LC=ceiling(apply(ProjectedPoints,2,max))+1
+  }
+}
   Lines=LC[1]
   Columns=LC[2]
   
@@ -62,13 +42,12 @@ if(Lines>Columns){
   
 }
   
-
 #Der Standardalgorithmus funktioniert ohne Lines und Columns, und liefer nicht
 # immer exakt die Voreinstellung des Schwarmes an Lines/Columns
 Points=ProjectedPoints2Grid(ProjectedPoints,Lines,Columns)
 
-Lines=LC[1]+1
-Columns=LC[2]+1
+Lines=LC[1]
+Columns=LC[2]
 #############################################################################
 ##calcUmatrixToroid()
 ############################################################################
@@ -146,8 +125,26 @@ if(c==2){
 }else{
   stop('Error, wrong number of colums')
 }
-BMUs[,1]=Lines-BMUs[,1]+1
+
+BMUs[,1]=max(BMUs[,1])-BMUs[,1]+1
+#fixes start: error: Cube::operator(): index out of bounds
+LCtest=apply(BMUs,2,max)
+if(LCtest[1]>Lines){
+  BMUs=BMUs[,c(2,1)] #just rotate
+}
+#fixes end
+
 #BMUs=ProjectedPoints2Bestmatches(Points,Lines)
+
+# if(LCtest[1]>Lines){
+#   Lines=LCtest[1]
+#   warning('Maximum coordinate of BMU exceeds LC[1]. Setting LC[1] to max(BMU[,2])')
+# }
+# if(LCtest[2]>Columns){
+#   Columns=LCtest[2]
+#   warning('Maximum coordinate of BMU exceeds LC[2]. Setting LC[2] to max(BMU[,1])')
+# }
+
 d=ncol(Data) #NumberOfweights
 
   rnd=runif(n=d*Lines*Columns, min =min(as.numeric(Data),na.rm = T), max = max(as.numeric(Data),na.rm = T)) #besser als min(data) bis max(data)

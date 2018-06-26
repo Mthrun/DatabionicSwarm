@@ -1,10 +1,19 @@
-Version 1.1.0
+Version 1.1.0 (2018-06-26 CRAN)
     o Delaunay Classification Error (DCE) added. DCE evaluates projection methods unbiased.
+    
+	Version 1.0.7 (GitHub)
     o ClusteringAccuracy added. Given a prior Classification this function evaluates a clustering algorithm unbiased.
+    o Now on GitHub.
+    
+Version 1.0.6 (Local)
+	o Bugfix: error: Cube::operator(): index out of bounds
+    
+Version 1.0.5 (Local)
 	o RelativeDifference added which calculates the difference of a positive x and y value in the range [-2,2].
-Version 1.0.4
+    
+Version 1.0.4 (Local)
     o Minor bugfixes
 	o Vignette added
     
-Version 1.0.3 (2018-05-06)
+Version 1.0.3 (2018-05-06 CRAN)
     o Added distance methods of ParallelCpp package
