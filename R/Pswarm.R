@@ -103,10 +103,10 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   }
   Rmax = Lines / 2
   
-  reldiffp=function(x,y){
-    if(x+y==0) return(0)
-    return(signif((y-x)/(0.5*(x+y)),2)*100)
-  }
+  #reldiffp=function(x,y){
+  #  if(x+y==0) return(0)
+  #  return(signif((y-x)/(0.5*(x+y)),2)*100)
+  #}
   
   # Initialisierung von ben?tigten InputVariablen
   ################################################################################################
@@ -234,7 +234,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
       print(
         paste0(
           'Operator: weak Nash equilibrium found. Paypoff maximized with ',
-          reldiffp(List$stressverlauf[1],tail(List$stressverlauf, 1)),
+          signif(RelativeDifference(List$stressverlauf[1],tail(List$stressverlauf, 1)),2),
           ' %'
         )
       )
