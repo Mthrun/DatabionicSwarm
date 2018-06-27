@@ -12,6 +12,7 @@ export(DijkstraSSSP)
 export(RelativeDifference)
 export(RobustNormalization)
 
+
 import(Rcpp)
 
 importFrom("deldir","deldir")
@@ -21,7 +22,7 @@ importFrom("graphics", "axis", "box", "par", "plot.new", "points",
              "title","plot")
 importFrom("utils", "tail","getSrcDirectory")
 importFrom("GeneralizedUmatrix","plotTopographicMap")
-
+importFrom("utils", "head")
 #importFrom(ABCanalysis,"ABCRemoveSmallYields","ABCanalysis")
 #importFrom(AdaptGauss,"ParetoRadius")#
   importFrom("grDevices", "contourLines")

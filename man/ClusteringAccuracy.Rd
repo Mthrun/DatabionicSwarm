@@ -40,8 +40,12 @@ data(Hepta)
 \donttest{
 InputDistances=as.matrix(dist(Hepta$Data))
 projection=Pswarm(InputDistances)
-visualization=GeneratePswarmVisualization(Data = Hepta$Data,projection$ProjectedPoints,projection$LC)
-Cls=DBSclustering(k=7, Hepta$Data, visualization$Bestmatches, visualization$LC,PlotIt=FALSE)
+visualization=GeneratePswarmVisualization(Data = Hepta$Data,
+
+projection$ProjectedPoints,projection$LC)
+Cls=DBSclustering(k=7, Hepta$Data, visualization$Bestmatches,
+
+visualization$LC,PlotIt=FALSE)
 ClusteringAccuracy(Hepta$Cls,Cls,K=9)
 }
 \dontshow{
