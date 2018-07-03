@@ -1,7 +1,7 @@
-Version 1.1.0 (2018-06-26 CRAN)
+Version 1.1.0 (2018-07-02 CRAN)
     o Delaunay Classification Error (DCE) added. DCE evaluates projection methods unbiased.
     
-	Version 1.0.7 (GitHub)
+Version 1.0.7 (GitHub)
     o ClusteringAccuracy added. Given a prior Classification this function evaluates a clustering algorithm unbiased.
     o Now on GitHub.
     
