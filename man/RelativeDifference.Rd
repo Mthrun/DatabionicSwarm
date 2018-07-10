@@ -8,7 +8,7 @@ Relative Difference
 Calculates the difference between positive x and y values 
 }
 \usage{
-RelativeDifference(X, Y, epsilon = 10^-10)
+RelativeDifference(X, Y, epsilon = 10^-10,na.rm=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +19,10 @@ either a value or numerical vector of [1:n]
 either a value or numerical vector of [1:n]
 }
   \item{epsilon}{
-If both x and y are approximatly zero the output is also zero
+Optional, If both x and y are approximatly zero the output is also zero
+}
+  \item{na.rm}{
+Optional, function does not work with non finite values. If these cases should be automatically removed, set parameter TRUE
 }
 }
 \details{
