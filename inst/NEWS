@@ -1,4 +1,4 @@
-Version 1.1.1 (2018-07-10 CRAN)
+Version 1.1.1 (2018-07-10 GitHub)
     o bugfix: RelativeDifference now stops if non finite values in either x and y expaining the error
 	
 Version 1.1.0 (2018-06-26 CRAN)
