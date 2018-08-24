@@ -38,10 +38,10 @@ if \code{WithBackTransformation=FALSE}: TransformedData[1:n,1:d]
 
 if \code{WithBackTransformation=TRUE}: List with
 \item{TransformedData}{[1:n,1:d]  matrix}
-\item{MinX}{}
-\item{MaxX}{}
-\item{Denom}{}
-\item{Cenjter}{}
+\item{MinX}{scalar}
+\item{MaxX}{scalar}
+\item{Denom}{scalar}
+\item{Center}{scalar}
 }
 \references{
 [Milligan/Cooper, 1988]  Milligan, G. W., & Cooper, M. C.: A study of standardization of variables in cluster analysis, Journal of Classification, Vol. 5(2), pp. 181-204. 1988.
@@ -54,6 +54,20 @@ if \code{WithBackTransformation=TRUE}: List with
 \author{
 Michael Thrun
 }
+\examples{
 
+Scaled=RobustNormalization(rnorm(1000,2,100),Capped=T)
+hist(Scaled)
+
+m=cbind(c(1,2,3),c(2,6,4))
+List=RobustNormalization(m,F,F,F,T)
+TransformedData=List$TransformedData
+mback=TransformedData
+for(i in 1:ncol(TransformedData))
+  mback[,i]=TransformedData[,i]*List$Denom[i]+List$MinX[i]
+
+sum(m-mback)
+
+}
 
 \keyword{RobustNormalization}% use one of  RShowDoc("KEYWORDS")
