@@ -8,7 +8,9 @@ RobustNormalization
 RobustNormalization as described in [Milligan/Cooper, 1988].
 }
 \usage{
-RobustNormalization(Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE) 
+RobustNormalization(Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,
+
+WithBackTransformation=FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,15 +24,29 @@ RobustNormalization(Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE)
   \item{na.rm}{If TRUE, infinite vlaues are disregarded
 
 }
+\item{WithBackTransformation}{
+If in the case for forecasting with neural networks a backtransformation is required, this parameter can be set to 'TRUE'.
+}
 }
 \details{
-Range of most of values for each feature is not between zero and one. Fpr a more precise description please read [Thrun, 2018, p.17].
+Range of most of values for each feature is not between zero and one. For a more precise description please read [Thrun, 2018, p.17].
+
+"[The] scaling of the inputs determines the effective scaling of the weights in the last layer of a MLP with BP neural netowrk, it can have a large effect on the quality of the final solution. At the outset it is besto to standardize all inputs to have mean zero and standard deviation 1 [(or at least the range under 1)]. This ensures all inputs are treated equally in the regularization prozess, and allows to choose a meaningful range for the random starting weights."[Friedman et al., 2012]
 }
 \value{
-TransformedData[1:n,1:d]
+if \code{WithBackTransformation=FALSE}: TransformedData[1:n,1:d] 
+
+if \code{WithBackTransformation=TRUE}: List with
+\item{TransformedData}{[1:n,1:d]  matrix}
+\item{MinX}{}
+\item{MaxX}{}
+\item{Denom}{}
+\item{Cenjter}{}
 }
 \references{
 [Milligan/Cooper, 1988]  Milligan, G. W., & Cooper, M. C.: A study of standardization of variables in cluster analysis, Journal of Classification, Vol. 5(2), pp. 181-204. 1988.
+
+[Friedman et al., 2012]  Friedman, J., Hastie, T., & Tibshirani, R.: The Elements of Statistical Learning, (Second ed. Vol. 1), Springer series in statistics New York, NY, USA:, ISBN, 2012.
 
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
 
