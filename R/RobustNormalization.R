@@ -31,7 +31,7 @@ RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,With
       }
     }
     if(WithBackTransformation)
-      return(list(TransformedData=Data,MinX=minX,MaxX=maxX,Denom=Denom,Center=center))
+      return(list(TransformedData=Data,MinX=minX,MaxX=maxX,Denom=Denom,Center=center))#
     else
       return(Data)
   }
