@@ -1,5 +1,8 @@
 RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,WithBackTransformation=FALSE) 
 {
+if(isTRUE(na.rm)){
+Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
+}
   center=NULL
   Denom=NULL
   minX=NULL
@@ -16,10 +19,10 @@ RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,With
       center=median(Data,na.rm=na.rm)
       Data=Data-center
       if(Capped){
-        maxX=1
-        minX=-1
-        Data[Data>maxX]=maxX
-        Data[Data<minX]=minX
+        maxX2=1
+        minX2=-1
+        Data[Data>maxX2]=maxX2
+        Data[Data<minX2]=minX2
       }
     }else{
       if(Capped){
