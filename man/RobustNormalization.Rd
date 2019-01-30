@@ -8,9 +8,9 @@ RobustNormalization
 RobustNormalization as described in [Milligan/Cooper, 1988].
 }
 \usage{
-RobustNormalization(Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,
+RobustNormalization(Data,Centered=FALSE,Capped=FALSE,
 
-WithBackTransformation=FALSE) 
+na.rm=TRUE,WithBackTransformation=FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -56,11 +56,11 @@ Michael Thrun
 }
 \examples{
 
-Scaled=RobustNormalization(rnorm(1000,2,100),Capped=T)
+Scaled=RobustNormalization(rnorm(1000,2,100),Capped=TRUE)
 hist(Scaled)
 
 m=cbind(c(1,2,3),c(2,6,4))
-List=RobustNormalization(m,F,F,F,T)
+List=RobustNormalization(m,FALSE,FALSE,FALSE,TRUE)
 TransformedData=List$TransformedData
 mback=TransformedData
 for(i in 1:ncol(TransformedData))

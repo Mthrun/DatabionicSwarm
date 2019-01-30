@@ -14,8 +14,8 @@ For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{
 \tabular{ll}{
 Package: \tab Databonic swarm\cr
 Type: \tab Package\cr
-Version: \tab 1.1.0\cr
-Date: \tab 2018-07-02\cr
+Version: \tab 1.1.1\cr
+Date: \tab 2019-01-26\cr
 License: \tab CC BY-NC-SA 4.0\cr
 }
 

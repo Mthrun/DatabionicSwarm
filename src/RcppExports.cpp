@@ -31,20 +31,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// findPossiblePositionsCsingle
-ComplexVector findPossiblePositionsCsingle(NumericMatrix RadiusPositionsschablone, double jumplength, double alpha, double Lines);
-RcppExport SEXP _DatabionicSwarm_findPossiblePositionsCsingle(SEXP RadiusPositionsschabloneSEXP, SEXP jumplengthSEXP, SEXP alphaSEXP, SEXP LinesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type RadiusPositionsschablone(RadiusPositionsschabloneSEXP);
-    Rcpp::traits::input_parameter< double >::type jumplength(jumplengthSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type Lines(LinesSEXP);
-    rcpp_result_gen = Rcpp::wrap(findPossiblePositionsCsingle(RadiusPositionsschablone, jumplength, alpha, Lines));
-    return rcpp_result_gen;
-END_RCPP
-}
 // PswarmCurrentRadiusC2botsPositive
 List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld, double Radius, NumericMatrix DataDists, ComplexVector IndPossibleDBPosR, NumericMatrix RadiusPositionsschablone, NumericVector pp, NumericVector Nullpunkt, double Lines, double Columns, double nBots, int limit, int steigungsverlaufind, double StressConstAditiv, bool debug);
 RcppExport SEXP _DatabionicSwarm_PswarmCurrentRadiusC2botsPositive(SEXP AllDataBotsPosOldSEXP, SEXP RadiusSEXP, SEXP DataDistsSEXP, SEXP IndPossibleDBPosRSEXP, SEXP RadiusPositionsschabloneSEXP, SEXP ppSEXP, SEXP NullpunktSEXP, SEXP LinesSEXP, SEXP ColumnsSEXP, SEXP nBotsSEXP, SEXP limitSEXP, SEXP steigungsverlaufindSEXP, SEXP StressConstAditivSEXP, SEXP debugSEXP) {
@@ -66,6 +52,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type StressConstAditiv(StressConstAditivSEXP);
     Rcpp::traits::input_parameter< bool >::type debug(debugSEXP);
     rcpp_result_gen = Rcpp::wrap(PswarmCurrentRadiusC2botsPositive(AllDataBotsPosOld, Radius, DataDists, IndPossibleDBPosR, RadiusPositionsschablone, pp, Nullpunkt, Lines, Columns, nBots, limit, steigungsverlaufind, StressConstAditiv, debug));
+    return rcpp_result_gen;
+END_RCPP
+}
+// findPossiblePositionsCsingle
+ComplexVector findPossiblePositionsCsingle(NumericMatrix RadiusPositionsschablone, double jumplength, double alpha, double Lines);
+RcppExport SEXP _DatabionicSwarm_findPossiblePositionsCsingle(SEXP RadiusPositionsschabloneSEXP, SEXP jumplengthSEXP, SEXP alphaSEXP, SEXP LinesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type RadiusPositionsschablone(RadiusPositionsschabloneSEXP);
+    Rcpp::traits::input_parameter< double >::type jumplength(jumplengthSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type Lines(LinesSEXP);
+    rcpp_result_gen = Rcpp::wrap(findPossiblePositionsCsingle(RadiusPositionsschablone, jumplength, alpha, Lines));
     return rcpp_result_gen;
 END_RCPP
 }

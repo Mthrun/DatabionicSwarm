@@ -9,12 +9,12 @@ DijkstraSSSP <- function(Adj, Costs, source) {
     .Call(`_DatabionicSwarm_DijkstraSSSP`, Adj, Costs, source)
 }
 
-findPossiblePositionsCsingle <- function(RadiusPositionsschablone, jumplength, alpha, Lines) {
-    .Call(`_DatabionicSwarm_findPossiblePositionsCsingle`, RadiusPositionsschablone, jumplength, alpha, Lines)
-}
-
 PswarmCurrentRadiusC2botsPositive <- function(AllDataBotsPosOld, Radius, DataDists, IndPossibleDBPosR, RadiusPositionsschablone, pp, Nullpunkt, Lines, Columns, nBots, limit, steigungsverlaufind, StressConstAditiv, debug) {
     .Call(`_DatabionicSwarm_PswarmCurrentRadiusC2botsPositive`, AllDataBotsPosOld, Radius, DataDists, IndPossibleDBPosR, RadiusPositionsschablone, pp, Nullpunkt, Lines, Columns, nBots, limit, steigungsverlaufind, StressConstAditiv, debug)
+}
+
+findPossiblePositionsCsingle <- function(RadiusPositionsschablone, jumplength, alpha, Lines) {
+    .Call(`_DatabionicSwarm_findPossiblePositionsCsingle`, RadiusPositionsschablone, jumplength, alpha, Lines)
 }
 
 rDistanceToroidCsingle <- function(AllDataBotsPosX, AllDataBotsPosY, AllallowedDBPosR0, Lines, Columns, Nullpunkt) {

@@ -176,7 +176,7 @@ vec=pmax(seq(from=AnfangsRadius-1,by=-1,length.out = HeuristischerParameter),1)
 LCnew=c(dim(wts)[1],dim(wts)[2])
 if(PlotIt){
   requireNamespace("GeneralizedUmatrix")
-  GeneralizedUmatrix::plotTopographicMap(Umap,BMUs)
+  GeneralizedUmatrix::plotTopographicMap(Umap,BMUs,NoLevels=10)
 }
 return(list(Bestmatches=BMUs,Umatrix=Umap,WeightsOfNeurons=wts,GridPoints=Points,LC=LCnew))
 }

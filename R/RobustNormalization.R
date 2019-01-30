@@ -1,7 +1,17 @@
 RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,WithBackTransformation=FALSE) 
 {
+  if(is.data.frame(Data)){
+    warning('Matrix is expected but data.frame is given. Calling as.matrix().')
+    Data=as.matrix(Data)
+  }
 if(isTRUE(na.rm)){
-Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
+  # if(!is.data.frame(Data)){
+    Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
+  # }else{
+  #   ind=do.call(cbind, lapply(mtcars, is.finite))
+  #   Data[ind]=NaN
+  # }
+   
 }
   center=NULL
   Denom=NULL
