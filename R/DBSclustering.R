@@ -33,7 +33,10 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
     else
       rnames=1:nrow(DataOrDistance)
     requireNamespace('parallelDist')
-    InputD = as.matrix(parallelDist::parDist(DataOrDistance, method = method,...))
+    if(!PlotIt)
+       InputD = as.matrix(parallelDist::parDist(DataOrDistance, method = method,...))
+    else
+      InputD = as.matrix(parallelDist::parDist(DataOrDistance, method = method))
   }# end if(isSymmetric(DataOrDists))
   
  GabrielGraph=FALSE #gabriel graph immer schlechter...
@@ -52,11 +55,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
     hc <- hclust(pDist,method="single")
     m="Connected DBS clustering"
   }
-  if(PlotIt){
-    x=as.dendrogram(hc)
-    plot(x, main=m,xlab="No. of Data Points N", ylab="Distance",sub=" ",leaflab ="none")
-    axis(1,col="black",las=1)
-  }
+
   
   Cls=cutree(hc,k)
 
@@ -99,5 +98,17 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
     # print(counter)
   }
   names(Cls)=rnames
+  
+  if(PlotIt){
+    u=length(unique(Cls))
+    cols=DatabionicSwarm::DefaultColorSequence[1:u]
+    x=as.dendrogram(hc)
+    requireNamespace('dendextend')
+    x=dendextend::set(x,"branches_k_color", k = k,cols)
+  
+    plot(x, main=m,xlab="No. of Data Points N", ylab="Distance",sub=" ",leaflab ="none",...)
+    axis(1,col="black",las=1)
+  }
+  
   return(Cls)
 }
