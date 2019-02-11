@@ -1,10 +1,15 @@
-Version 1.1.1 (2018-07-10 GitHub)
+Version 1.1.2 (2019-02-10 GitHub)
+    o Improvement: DBSclustering has now a colored dendrogram.
+	
+Version 1.1.1 (2019-01-27 CRAN)
     o bugfix: RelativeDifference now stops if non finite values in either x and y expaining the error
+    o bugfix: RobustNormalization fixed in some special cases like non finite values.
+    o NoLevels of GeneralizedUmatrix integrated for fast plotting.
 	
 Version 1.1.0 (2018-06-26 CRAN)
     o Delaunay Classification Error (DCE) added. DCE evaluates projection methods unbiased.
     
-	Version 1.0.7 (GitHub)
+Version 1.0.7 (GitHub)
     o ClusteringAccuracy added. Given a prior Classification this function evaluates a clustering algorithm unbiased.
     o Now on GitHub.
     
