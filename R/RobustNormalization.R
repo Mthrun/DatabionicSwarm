@@ -65,15 +65,25 @@ if(isTRUE(na.rm)){
         Denom=cbind(Denom,xtrans$Denom)
         center=cbind(center,xtrans$Center)
       }
+      names=colnames(Data)
+      if(!is.null(names)){
+        colnames(DataOut) = names
+        names(minX) =  names
+        names(maxX) =  names
+        names(Denom)=  names
+      }
       
       return(list(TransformedData=DataOut,MinX=minX,MaxX=maxX,Denom=Denom,Center=center))
     }else{
-    cols = ncol(Data)
-    xtrans = Data
-    for (i in 1:cols) {
-      xtrans[, i] = RobustNormalization(as.vector(Data[, i]),Centered,Capped,na.rm,WithBackTransformation=WithBackTransformation)
-    }
-
+      cols = ncol(Data)
+      xtrans = Data
+      for (i in 1:cols) {
+        xtrans[, i] = RobustNormalization(as.vector(Data[, i]),Centered,Capped,na.rm,WithBackTransformation=WithBackTransformation)
+      }
+      names=colnames(Data)
+      if(!is.null(names))
+        colnames(xtrans)=names
+      
       return(xtrans)
     }
   }
