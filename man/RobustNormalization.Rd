@@ -62,12 +62,15 @@ hist(Scaled)
 m=cbind(c(1,2,3),c(2,6,4))
 List=RobustNormalization(m,FALSE,FALSE,FALSE,TRUE)
 TransformedData=List$TransformedData
-mback=TransformedData
-for(i in 1:ncol(TransformedData))
-  mback[,i]=TransformedData[,i]*List$Denom[i]+List$MinX[i]
+
+mback=RobustNorm_BackTrafo(TransformedData,List$MinX,List$Denom,List$Center)
 
 sum(m-mback)
 
+}
+
+\seealso{
+\code{\link{RobustNorm_BackTrafo}}
 }
 
 \keyword{RobustNormalization}% use one of  RShowDoc("KEYWORDS")

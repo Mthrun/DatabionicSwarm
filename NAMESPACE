@@ -11,6 +11,7 @@ export(ShortestGraphPathsC)
 export(DijkstraSSSP)
 export(RelativeDifference)
 export(RobustNormalization)
+export(RobustNorm_BackTrafo)
 
 
 import(Rcpp)

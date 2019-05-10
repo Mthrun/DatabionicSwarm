@@ -1,6 +1,7 @@
-Version 1.1.2 (2019-02-10 GitHub)
+Version 1.1.2 (2019-05-08 GitHub)
     o Improvement: DBSclustering has now a colored dendrogram.
-	
+    o RobustNorm_BackTrafo added: transforms the Robust Normalization back.
+		
 Version 1.1.1 (2019-01-27 CRAN)
     o bugfix: RelativeDifference now stops if non finite values in either x and y expaining the error
     o bugfix: RobustNormalization fixed in some special cases like non finite values.
