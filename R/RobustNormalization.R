@@ -1,4 +1,4 @@
-RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,WithBackTransformation=FALSE) 
+RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,WithBackTransformation=FALSE,pmin=0.01,pmax=0.99) 
 {
   if(is.data.frame(Data)){
     warning('Matrix is expected but data.frame is given. Calling as.matrix().')
@@ -18,7 +18,7 @@ if(isTRUE(na.rm)){
   minX=NULL
   maxX=NULL
   if (is.vector(Data)) {
-    quants = quantile(Data, c(0.01, 0.5, 0.99),na.rm = na.rm)
+    quants = quantile(Data, c(pmin, 0.5, pmax),na.rm = na.rm)
     minX = quants[1]
     maxX = quants[3]
     Denom=maxX - minX
@@ -36,7 +36,7 @@ if(isTRUE(na.rm)){
       }
     }else{
       if(Capped){
-        quants = quantile(Data, c(0.01, 0.5, 0.99),na.rm = na.rm)
+        quants = quantile(Data, c(pmin, 0.5, pmax),na.rm = na.rm)
         minX = quants[1]
         maxX = quants[3]
         Data[Data>maxX]=maxX
@@ -58,7 +58,7 @@ if(isTRUE(na.rm)){
       Denom=c()
       center=rep(0,cols)
       for (i in 1:cols) {
-        xtrans = RobustNormalization(Data = as.vector(Data[, i]),Centered = Centered,Capped = Capped,na.rm = na.rm,WithBackTransformation=WithBackTransformation)
+        xtrans = RobustNormalization(Data = as.vector(Data[, i]),Centered = Centered,Capped = Capped,na.rm = na.rm,WithBackTransformation=WithBackTransformation,pmin=pmin,pmax=pmax)
         DataOut=cbind(DataOut,as.matrix(xtrans$TransformedData))
         minX[i]=xtrans$MinX
         maxX[i]=xtrans$MaxX
@@ -79,7 +79,7 @@ if(isTRUE(na.rm)){
       cols = ncol(Data)
       xtrans = Data
       for (i in 1:cols) {
-        xtrans[, i] = RobustNormalization(as.vector(Data[, i]),Centered,Capped,na.rm,WithBackTransformation=WithBackTransformation)
+        xtrans[, i] = RobustNormalization(as.vector(Data[, i]),Centered,Capped,na.rm,WithBackTransformation=WithBackTransformation,pmin=pmin,pmax=pmax)
       }
       names=colnames(Data)
       if(!is.null(names))
@@ -91,7 +91,7 @@ if(isTRUE(na.rm)){
   else {
     tryCatch({
       warning("Data is not a vector or a matrix. Trying as.matrix")
-      return(RobustNormalization(as.matrix(Data),Centered,Capped,na.rm))
+      return(RobustNormalization(as.matrix(Data),Centered,Capped,na.rm,pmin=pmin,pmax=pmax))
     }, error = function(e) {
       stop("It did not work")
     })

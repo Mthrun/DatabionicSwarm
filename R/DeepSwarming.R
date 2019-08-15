@@ -1,4 +1,4 @@
-DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotIt=F,Cls=NULL,Silent=T,Debug=FALSE){
+DeepSwarming=function(DataOrDistance,NumberOfSwarms=12,LogicalProcessors=4,PlotIt=F,LC=c(NULL,NULL),method='euclidean',...){
 # bmus=DeepSwarming(DataOrDists,PlotIt=T,Cls)
 # Laesst multiple Pswarm Schwarmalgorithmen parallel ueber einen Datensatz laufen
 # anhand spieltheorie wird pro eppoche das beste nash equilibirum ausgewaehlt, siehe diss
@@ -19,31 +19,33 @@ DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotI
 # Silent                    =FALSE: No print Output, =TRUE some print outs
 # Debug                     =TRUE: Debigging Modus, Slow with alot of prints
 # OUTPUT Liste V
-# V$BestMatchingUnits[1:n,1:3]        n by 2 matrix containing  X and Y coordinates of the n BestMatches for each databot including unique key
+# Mit V$Swarms[1:NumberOfSwarms]
+# Bestehend aus
+# $BestMatchingUnits[1:n,1:3]        n by 2 matrix containing  X and Y coordinates of the n BestMatches for each databot including unique key
 #                           BestMatches need to be unique. Transformation from polar (R,phi) to kartesisch (x,y) is done automatically
-# V$Grid                    vector aus c(Lines,Columns)
-# V$Control                 Alle m?glichen Parameter, um nachzuvollziehen, wenn was schiefgeht
+# $Grid                    vector aus c(Lines,Columns)
+# $Control                 Alle m?glichen Parameter, um nachzuvollziehen, wenn was schiefgeht
 #  
-# Autor: MT 01/2015
-# Nota: im debugging modus sollten relativ differenzen des payoffs angegeben werden statt festen werten
+# Autor: MT 07/2019
+  #Plotting and Dubug and output not possible
+  Silent=TRUE
+  Debug=FALSE
+  Cls=NULL
+  DataOrDistance=checkInputDistancesOrData(DataOrDistance)
   
-  LC=c(NULL,NULL)
-
-  requireNamespace('parallel')
-  
-  if (missing(InputDistances)) {
+  if (missing(DataOrDistance)) {
     stop('Distances are Missing.')
   } else{
-    if (is.list(InputDistances)) {
-      stop('InputDistances is a list! It has to be a matrix.')
+    if (is.list(DataOrDistance)) {
+      stop('DataOrDistance is a list! It has to be a matrix.')
     }
-    if (!is.matrix(InputDistances)) {
+    if (!is.matrix(DataOrDistance)) {
       {
-        warning('InputDistances is not a matrix. Trying to circumvent...')
-        if (is.data.frame(InputDistances))
-          InputDistances = data.matrix(InputDistances)
+        warning('DataOrDistance is not a matrix. Trying to circumvent...')
+        if (is.data.frame(DataOrDistance))
+          DataOrDistance = data.matrix(DataOrDistance)
         else
-          InputDistances = as.matrix(InputDistances)
+          DataOrDistance = as.matrix(DataOrDistance)
       }
     }
   }
@@ -54,29 +56,27 @@ DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotI
   # if(PlotIt)
   #   tryCatch({requireNamespace("plotrix")},error=function(ex) {})#zum plotten
   #
-  if (isSymmetric(InputDistances)) {
-    DataDists = InputDistances
-    AnzVar = ncol(InputDistances)
-    AnzData = nrow(InputDistances)
+  if (isSymmetric(DataOrDistance)) {
+    DataDists = DataOrDistance
+    AnzVar = ncol(DataOrDistance)
+    AnzData = nrow(DataOrDistance)
   } else{
     #!isSymmetric
-    warning('Distances are not in a symmetric matrix, Datamatrix is assumed and dist() ist called')
+    if(!Silent)
+      print('Distances are not in a symmetric matrix, Datamatrix is assumed and parallelDist::parDist() ist called')
     
-    DataDists = as.matrix(dist(InputDistances, method = "euclidean", diag =
-                                 TRUE))
+    requireNamespace('parallelDist')
+    DataDists = as.matrix(parallelDist::parDist(DataOrDistance, method = method,...))
     AnzVar = ncol(DataDists)
     AnzData = nrow(DataDists)
   }# end if(isSymmetric(DataOrDists))
   
   if (is.null(LC[1]))
-    LC = setGridSize(InputDistances)
+    LC = setGridSize(DataDists)
   else{
-    if (!is.vector(LC))
-      stop('LC has to be a vector')
-    if (is.list(LC))
-      stop('LC has to be a vector not a list')
-    if (!is.numeric(LC))
-      stop('LC has to be numeric')
+    if(!is.vector(LC)) stop('LC has to be a vector')
+    if(is.list(LC)) stop('LC has to be a vector not a list')
+    if(!is.numeric(LC)) stop('LC has to be numeric')
   }
   DBAnzahl = AnzData
   if (is.null(Cls))
@@ -100,11 +100,10 @@ DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotI
   }
   Rmax = Lines / 2
   
-  reldiffp = function(x, y) {
-    if (x + y == 0)
-      return(0)
-    return(signif((y - x) / (0.5 * (x + y)), 2) * 100)
-  }
+  #reldiffp=function(x,y){
+  #  if(x+y==0) return(0)
+  #  return(signif((y-x)/(0.5*(x+y)),2)*100)
+  #}
   
   # Initialisierung von ben?tigten InputVariablen
   ################################################################################################
@@ -126,7 +125,7 @@ DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotI
                 size = DBAnzahl)
   binary = matrix(0, nrow = Lines, ncol = Columns)
   dballind = which(binary == 0, arr.ind = T)
-  DataBotsPos = dballind[init,]
+  DataBotsPos = dballind[init, ]
   #richtig cooler Trick
   AllDataBotsPos = DataBotsPos[, 1] + 1i * DataBotsPos[, 2]
   Nullpunkt = which(AllallowedDBPosR0 == 0, arr.ind = T)
@@ -173,123 +172,112 @@ DeepSwarming=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,PlotI
   Nachbahrschaftsfunktion[Nachbahrschaftsfunktion < 0] = 0
   N = sum(Nachbahrschaftsfunktion)
   StressConstAditiv = sum(Nachbahrschaftsfunktion * DataDists) / N
-  #library(parallel)
- 
+
+  dummy=0;
+  numberOfSteps=length(rvec)
+  if(Silent){
+    progress = txtProgressBar(min = dummy, max = numberOfSteps+1, style = 3)
+  }else{
+    ProzentualeZeitfolge=round(sort((rvec-Rmin)/(Rmax-Rmin),decreasing=F)*100,0)
+    ProzentualeZeitfolge[numberOfSteps]=99
+  }
+  ## Parallelisierung ----
   if(NumberOfSwarms<LogicalProcessors)
     numWorkers = NumberOfSwarms #min=8, max=48 bei 4-8gb ram und 4 prozessoren
   else
     numWorkers = LogicalProcessors 
   Workers = parallel::makeCluster(numWorkers, type = "PSOCK")
-  
-  for (Radius in rvec) {
-    if (!Silent)
-      print(paste0('Operator: Current focus: ', Radius))
-    
-    Eppoche = 1
-    Jumping = TRUE
-    limit = ceiling(1 / pp[Radius]) # Ab welcher Eppoche wird Abbruchbedingung geprueft
-    steigungsverlaufind = 20#limit #wieviele zurueckliegende eppochen werden maximal geprueft
-    if (PlotIt) {
-      bmu = getCartesianCoordinates(AllDataBotsPos,
-                                    GridRadius = GridRadii,
-                                    GridAngle,
-                                    QuadOrHexa = QuadOrHexa)
-      string = paste0('Radius ', Radius, ', Eppoche ', Eppoche)
-      plotSwarm(bmu, Cls, main = string)
-    } #end if
-    #Zeitfaktor: Je naeher DataBots springen, desto schneller riechen sie erneut entspricht, weniger DBs springen pro Eppoche
-    nBots = round(pp[Radius] * DBAnzahl)
-    #nBots=round(0.05*DBAnzahl)#s. Fast and reliable ESOM learning
-    Listen = parallel::parLapply(
-      cl = Workers,
-      1:NumberOfSwarms,
-      FUN = function(i,
-                     AllDataBotsPos,
-                     Radius,
-                     DataDists,
-                     IndPossibleDBPosR,
-                     RadiusPositionsschablone,
-                     pp,
-                     Nullpunkt,
-                     Lines,
-                     Columns,
-                     nBots,
-                     limit,
-                     steigungsverlaufind,
-                     StressConstAditiv,
-                     Debug)
-      return(
-        PswarmCurrentRadiusC2botsPositive(
-          AllDataBotsPos,
-          Radius,
-          DataDists,
-          IndPossibleDBPosR,
-          RadiusPositionsschablone,
-          pp,
-          Nullpunkt,
-          Lines,
-          Columns,
-          nBots,
-          limit,
-          steigungsverlaufind,
-          StressConstAditiv,
-          Debug
-        )
-      ),
-      AllDataBotsPos,
-      Radius,
-      DataDists,
-      IndPossibleDBPosR,
-      RadiusPositionsschablone,
-      pp,
-      Nullpunkt,
-      Lines,
-      Columns,
-      nBots,
-      limit,
-      steigungsverlaufind,
-      StressConstAditiv,
-      Debug
-    )
-    # Das Kriterium zur auswahl ist mir noch unklar
 
-    #ResultsStress=sapply(1:NumberOfSwarms,function(i,xx) return(length(xx[[i]]$stressverlauf)),Listen)
-    ResultsStress=sapply(1:NumberOfSwarms,function(i,xx) return(reldiffp(xx[[i]]$stressverlauf[1], tail(xx[[i]]$stressverlauf, 1))),Listen)
-
-    ind = which.max(ResultsStress)
-    #Listen=list(List1,List2,List3)
-    List = Listen[[ind]]
-    AllDataBotsPos = List$AllDataBotsPos
-    stressverlauf = c(stressverlauf, List$stressverlauf)
-    eppocheradiusreduziert = c(eppocheradiusreduziert, List$fokussiertlaufind)
-    if (!Silent) {
-      print(paste0(
-        'Operator: ',
-        tail(eppocheradiusreduziert, 1),
-        '.iteration'
-      ))
-      print(
-        paste0(
-          'Operator: weak Nash equilibrium found. Paypoff maximized with ',
-          reldiffp(List$stressverlauf[1], tail(List$stressverlauf, 1)),
-          ' %'
-        )
+  Swarms=parallel::parLapply(cl = Workers,X = 1:NumberOfSwarms,fun = function(
+    CurSwarmNo,rvec,pp,Silent,
+    AllDataBotsPos,GridRadii,GridAngle,QuadOrHexa,
+    Cls,DBAnzahl,DataDists,IndPossibleDBPosR,RadiusPositionsschablone,
+    Nullpunkt,Lines,Columns,StressConstAditiv,Debug
+  ){
+    #library(DatabionicSwarm)
+  ## Multiple Swarms ----
+    for (Radius in rvec) {
+      dummy=dummy+1
+      if (!Silent){  
+        print(paste0('Operator: ', ProzentualeZeitfolge[dummy],'% calculated.'))
+        #print(paste0('Operator: Current focus: ', Radius))
+        #setTxtProgressBar
+      }else{
+        progressm = setTxtProgressBar(progress, dummy)
+      }
+      Eppoche = 1
+      Jumping = TRUE
+      limit = ceiling(1 / pp[Radius]) # Ab welcher Eppoche wird Abbruchbedingung geprueft
+      steigungsverlaufind = 20#limit #wieviele zurueckliegende eppochen werden maximal geprueft
+      if (PlotIt) {
+        bmu = getCartesianCoordinates(AllDataBotsPos,
+                                      GridRadius = GridRadii,
+                                      GridAngle,
+                                      QuadOrHexa = QuadOrHexa)
+        string = paste0('Radius ', Radius, ', Eppoche ', Eppoche)
+        plotSwarm(bmu, Cls, main = string)
+      } #end if
+      #Zeitfaktor: Je naeher DataBots springen, desto schneller riechen sie erneut entspricht, weniger DBs springen pro Eppoche
+      nBots = round(pp[Radius] * DBAnzahl)
+      #nBots=round(0.05*DBAnzahl)#s. Fast and reliable ESOM learning
+      List = PswarmCurrentRadiusC2botsPositive(
+        AllDataBotsPos,
+        Radius,
+        DataDists,
+        IndPossibleDBPosR,
+        RadiusPositionsschablone,
+        pp,
+        Nullpunkt,
+        Lines,
+        Columns,
+        nBots,
+        limit,
+        steigungsverlaufind,
+        StressConstAditiv,
+        Debug
       )
-    }
-  } #end for rvec
-  parallel::stopCluster(Workers)
-  bmu = getCartesianCoordinates(AllDataBotsPos,
-                                GridRadius = GridRadii,
-                                GridAngle,
-                                QuadOrHexa = QuadOrHexa)
+      AllDataBotsPos = List$AllDataBotsPos
+      stressverlauf = c(stressverlauf, List$stressverlauf)
+      eppocheradiusreduziert = c(eppocheradiusreduziert, List$fokussiertlaufind)
+      if (!Silent) {
+        print(paste0('Operator: ', tail(eppocheradiusreduziert, 1), '.iteration'))
+        print(
+          paste0(
+            'Operator: weak Nash equilibrium found. Paypoff maximized with ',
+            signif(RelativeDifference(List$stressverlauf[1],tail(List$stressverlauf, 1)),2),
+            ' %'
+          )
+        )
+      }
+    } #end for rvec
+    
+    bmu = getCartesianCoordinates(AllDataBotsPos,
+                                  GridRadius = GridRadii,
+                                  GridAngle,
+                                  QuadOrHexa = QuadOrHexa)
+    
+    return(list(
+      ProjectedPoints = bmu,
+      LC = c(Lines, Columns),
+      Control = list(
+        stressverlauf = stressverlauf,
+        eppocheradiusreduziert = eppocheradiusreduziert,
+        LetzteEppocheStress = stress
+      )
+    ))
+    
+  },rvec,pp,Silent,
+  AllDataBotsPos,GridRadii,GridAngle,QuadOrHexa,
+  Cls,DBAnzahl,DataDists,IndPossibleDBPosR,RadiusPositionsschablone,
+  Nullpunkt,Lines,Columns,StressConstAditiv,Debug)
   
-  return(list(
-    ProjectedPoints = bmu,
-    LC = c(Lines, Columns),
-    Control = list(
-      stressverlauf = stressverlauf,
-      eppocheradiusreduziert = eppocheradiusreduziert,
-      LetzteEppocheStress = stress
-    )
-  ))
+  
+
+  
+  parallel::stopCluster(Workers)
+  progressm = setTxtProgressBar(pb = progress,value =  numberOfSteps+1)
+  print(progressm)
+  namesSw=paste0('PswarmNo_',1:NumberOfSwarms)
+  names(Swarms)=namesSw
+  return(Swarms)
 }
