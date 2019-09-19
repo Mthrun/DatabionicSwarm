@@ -26,7 +26,7 @@ MultipleSwarms=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,Plo
 #  
 # Autor: MT 01/2015
 # Nota: im debugging modus sollten relativ differenzen des payoffs angegeben werden statt festen werten
-  
+  warning('Highly Experimental!')
   LC=c(NULL,NULL)
 
   requireNamespace('parallel')
