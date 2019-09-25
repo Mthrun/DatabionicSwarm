@@ -1,6 +1,8 @@
 **First Example: Automatic approach**
 =====================================
 
+Currently, this Documentation is under development. For now please see to the vignette in order to learn how the algorithm can be applied.
+
 Here one example is presented using the automatic approach without any user interaction with shiny. Further automatic examples and a comparison to 26 common clustering algorithms is provided in http://www.deepbionics.org/Projects/ClusteringAlgorithms.html. If you want to verify your clustering result externally, you can use **Heatmap** or **SilhouettePlot** of the CRAN package ``DataVisualizations``.
 
 First Module: Projection of high-dimensional Data
