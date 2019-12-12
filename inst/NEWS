@@ -1,6 +1,7 @@
-Version 1.1.2 (2019-05-08 GitHub)
-    o Improvement: DBSclustering has now a colored dendrogram.
+Version 1.1.2 (2019-12-06 CRAN)
+    o Improvement: DBSclustering has now a colored dendrogram using package dendextend.
     o RobustNorm_BackTrafo added: transforms the Robust Normalization back.
+    o bugfix: Delaunay4Points uses inherits instead of class to check for matrix (see https://developer.r-project.org/Blog/public/2019/11/09/when-you-think-class.-think-again/index.html)
 		
 Version 1.1.1 (2019-01-27 CRAN)
     o bugfix: RelativeDifference now stops if non finite values in either x and y expaining the error

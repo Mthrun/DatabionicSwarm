@@ -42,6 +42,3 @@ LC=setGridSize(InputDistances)
 \seealso{
 automatic choice of LC for \code{\link{Pswarm}}
 }
-
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -13,6 +13,7 @@ export(RelativeDifference)
 export(RobustNormalization)
 export(RobustNorm_BackTrafo)
 export(DeepSwarming)
+export(Pswarm_mdsinit)
 
 import(Rcpp)
 

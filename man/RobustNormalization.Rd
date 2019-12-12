@@ -10,7 +10,9 @@ RobustNormalization as described in [Milligan/Cooper, 1988].
 \usage{
 RobustNormalization(Data,Centered=FALSE,Capped=FALSE,
 
-na.rm=TRUE,WithBackTransformation=FALSE) 
+na.rm=TRUE,WithBackTransformation=FALSE,
+
+pmin=0.01,pmax=0.99) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,14 +21,16 @@ na.rm=TRUE,WithBackTransformation=FALSE)
 }
   \item{Centered}{ centered data around zero by median if TRUE
 }
-  \item{Capped}{TRUE: Outliers are capped above 1 or below -1 and set to 1 or -1.
+  \item{Capped}{TRUE: outliers are capped above 1 or below -1 and set to 1 or -1.
 }
   \item{na.rm}{If TRUE, infinite vlaues are disregarded
-
 }
 \item{WithBackTransformation}{
 If in the case for forecasting with neural networks a backtransformation is required, this parameter can be set to 'TRUE'.
 }
+
+  \item{pmin}{defines outliers on the lower end of scale}
+  \item{pmax}{defines outliers on the higher end of scale}
 }
 \details{
 Range of most of values for each feature is not between zero and one. For a more precise description please read [Thrun, 2018, p.17].
@@ -55,18 +59,16 @@ if \code{WithBackTransformation=TRUE}: List with
 Michael Thrun
 }
 \examples{
-
-Scaled=RobustNormalization(rnorm(1000,2,100),Capped=TRUE)
+Scaled = RobustNormalization(rnorm(1000, 2, 100), Capped = TRUE)
 hist(Scaled)
 
-m=cbind(c(1,2,3),c(2,6,4))
-List=RobustNormalization(m,FALSE,FALSE,FALSE,TRUE)
-TransformedData=List$TransformedData
+m = cbind(c(1, 2, 3), c(2, 6, 4))
+List = RobustNormalization(m, FALSE, FALSE, FALSE, TRUE)
+TransformedData = List$TransformedData
 
-mback=RobustNorm_BackTrafo(TransformedData,List$MinX,List$Denom,List$Center)
+mback = RobustNorm_BackTrafo(TransformedData, List$MinX, List$Denom, List$Center)
 
-sum(m-mback)
-
+sum(m - mback)
 }
 
 \seealso{

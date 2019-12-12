@@ -175,11 +175,18 @@ MultipleSwarms=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,Plo
   StressConstAditiv = sum(Nachbahrschaftsfunktion * DataDists) / N
   #library(parallel)
  
-  if(NumberOfSwarms<LogicalProcessors)
-    numWorkers = NumberOfSwarms #min=8, max=48 bei 4-8gb ram und 4 prozessoren
-  else
-    numWorkers = LogicalProcessors 
-  Workers = parallel::makeCluster(numWorkers, type = "PSOCK")
+  if(inherits(LogicalProcessors,"cluster")){
+    print("Use clusters...")
+    Workers=LogicalProcessors
+  }else{
+    print("Make clusters...")
+    if(NumberOfSwarms<LogicalProcessors)
+      numWorkers = NumberOfSwarms #min=8, max=48 bei 4-8gb ram und 4 prozessoren
+    else
+      numWorkers = LogicalProcessors 
+    
+    Workers = parallel::makeCluster(numWorkers, type = "PSOCK")
+  }
   
   for (Radius in rvec) {
     if (!Silent)

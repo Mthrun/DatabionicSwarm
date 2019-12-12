@@ -17,10 +17,12 @@ Classes 7, stored in \code{Hepta$Cls}
 }
 
 \references{
-Ultsch, A.: Clustering with SOM: U*C, In Proc. Workshop on Self-Organizing Maps, Paris, France, (2005) , pp. 75-82
+[Ultsch,2005]   Ultsch, A.:Clustering with SOM: U*C, In Proc. Workshop on Self-Organizing Maps, Paris, France, pp. 75-82, 2005.
 }
 \examples{
 data(Hepta)
 str(Hepta)
 }
-\keyword{datasets,Hepta,FCPS}
+\keyword{Hepta}
+\keyword{dataset}
+\keyword{FCPS}

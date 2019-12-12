@@ -78,7 +78,7 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
       eps <-
         0.0000000001         # ab dieser Distanz zwischen 2 punkten sind diese identisch
       
-      if (class(data) != "matrix") {
+      if (inherits(data,"matrix")) {
         # If data is a vector.
         data <- as.matrix(data)
       }
