@@ -14,8 +14,8 @@ For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{
 \tabular{ll}{
 Package: \tab Databonic swarm\cr
 Type: \tab Package\cr
-Version: \tab 1.1.1\cr
-Date: \tab 2019-01-26\cr
+Version: \tab 1.1.3\cr
+Date: \tab 2020-02-02\cr
 License: \tab CC BY-NC-SA 4.0\cr
 }
 
@@ -28,6 +28,8 @@ Michal Thrun
 Maintainer: \packageMaintainer{DatabionicSwarm}
 }
 \references{
+[Thrun/Ultsch, 2020]  Thrun, M. C., and Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Artificial Intelligence, in press, \url{https://doi.org/10.1016/j.artint.2020.103237}, 2020.
+
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
 
 [Ultsch/Thrun, 2017]  Ultsch, A., & Thrun, M. C.: Credible Visualizations for Planar Projections, in Cottrell, M. (Ed.), 12th International Workshop on Self-Organizing Maps and Learning Vector Quantization, Clustering and Data Visualization (WSOM), IEEE Xplore, France, 2017.

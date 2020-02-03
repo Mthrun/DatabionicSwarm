@@ -8,7 +8,7 @@ A Swarm of Databots based on polar coordinates (Polar Swarm).
 }
 \description{
 This projetion method is a part of the databionic swarm which uses the nash equlibrium.
-Using polar coordinates for agents (here Databots) in two dimensions has many advantages, for further details see [Thrun, 2018].
+Using polar coordinates for agents (here Databots) in two dimensions has many advantages, for further details see [Thrun, 2018] and [Thrun/Ultsch, 2020].
 }
 \usage{
 Pswarm(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,
@@ -69,6 +69,8 @@ List with
 }
 \references{
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
+
+[Thrun/Ultsch, 2020]  Thrun, M. C., and Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Artificial Intelligence, in press, \url{https://doi.org/10.1016/j.artint.2020.103237}, 2020.
 }
 \note{
 LC is now automatically estimated; LC is the size of the grid c(Lines,Columns), number of Lines and Columns, default c(NULL,NULL) and automatic calculation by \code{\link{setGridSize}}
