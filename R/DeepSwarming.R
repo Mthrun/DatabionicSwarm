@@ -56,7 +56,7 @@ DeepSwarming=function(DataOrDistance,NumberOfSwarms=12,LogicalProcessors=4,PlotI
   # if(PlotIt)
   #   tryCatch({requireNamespace("plotrix")},error=function(ex) {})#zum plotten
   #
-  if (isSymmetric(DataOrDistance)) {
+  if (isSymmetric(unname(DataOrDistance))) {
     DataDists = DataOrDistance
     AnzVar = ncol(DataOrDistance)
     AnzData = nrow(DataOrDistance)

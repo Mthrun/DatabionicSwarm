@@ -14,7 +14,7 @@ setGridSize=function(InputDistances,minp=0.01,maxp=0.99,alpha=4){
   #2. Version: Okt 2016 MT & FL
   InputDistances=checkInputDistancesOrData(InputDistances)
   
-  if(!isSymmetric(InputDistances)) {
+  if(!isSymmetric(unname(InputDistances))) {
     warning('InputDistances are not a symmetric distance matrix')
   }
   InputDistancesTmp=InputDistances

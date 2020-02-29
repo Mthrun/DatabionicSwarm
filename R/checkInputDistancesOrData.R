@@ -9,7 +9,7 @@ checkInputDistancesOrData=function(Data){
     Data=as.matrix(Data)
   }
   
-  if (!isSymmetric(Data))
+  if (!isSymmetric(unname(Data)))
     string='Data'
   else
     string='Distances'

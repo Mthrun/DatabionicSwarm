@@ -54,7 +54,7 @@ MultipleSwarms=function(InputDistances,NumberOfSwarms=12,LogicalProcessors=4,Plo
   # if(PlotIt)
   #   tryCatch({requireNamespace("plotrix")},error=function(ex) {})#zum plotten
   #
-  if (isSymmetric(InputDistances)) {
+  if (isSymmetric(unname(InputDistances))) {
     DataDists = InputDistances
     AnzVar = ncol(InputDistances)
     AnzData = nrow(InputDistances)

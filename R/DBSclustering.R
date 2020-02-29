@@ -24,7 +24,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
   #requireRpackage('geometry')
   DataOrDistance=checkInputDistancesOrData(DataOrDistance)
   
-  if (isSymmetric(DataOrDistance)) {
+  if (isSymmetric(unname(DataOrDistance))) {
     InputD = DataOrDistance
     rnames=1:nrow(DataOrDistance)
   } else{

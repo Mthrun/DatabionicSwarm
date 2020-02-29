@@ -59,7 +59,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   # if(PlotIt)
   #   tryCatch({requireNamespace("plotrix")},error=function(ex) {})#zum plotten
   #
-  if (isSymmetric(DataOrDistance)) {
+  if (isSymmetric(unname(DataOrDistance))) {
     DataDists = DataOrDistance
     AnzVar = ncol(DataOrDistance)
     AnzData = nrow(DataOrDistance)

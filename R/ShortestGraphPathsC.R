@@ -36,9 +36,9 @@ ShortestGraphPathsC =function(Adj,Cost){
   if(n!=ncol(Adj)) stop('Adj hast not equal number of rows and colums.')
   if(nrow(Cost)!=ncol(Cost)) stop('Cost hast not equal number of rows and colums.')
   
-  if(!isSymmetric(Adj)) stop('Adj is not symmetric, maybe a directed instead of an undirected graph was used?')
+  if(!isSymmetric(unname(Adj))) stop('Adj is not symmetric, maybe a directed instead of an undirected graph was used?')
   
-  if(!isSymmetric(Cost)) warning('Cost is not symmetric.')
+  if(!isSymmetric(unname(Cost))) warning('Cost is not symmetric.')
   
   if(n!=nrow(Cost)) stop('Adj rows does not equal Cost rows.')
   

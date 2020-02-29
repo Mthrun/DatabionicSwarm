@@ -1,3 +1,6 @@
+Version 1.1.4 (2020-02-29 GitHub)
+    o Bugfix:  checkInputDistancesOrData, DBSclustering, Pswarm, setGridSize and ShortestGraphPathsC: using unname in isSymmetric to check correctly of symmetric distance matrix
+
 Version 1.1.3 (2020-02-02 CRAN)
     o Bugfix: deleted dependcy rowr because it was taken down from CRAN.
 
