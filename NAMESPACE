@@ -24,7 +24,7 @@ useDynLib(DatabionicSwarm, .registration = TRUE)
 importFrom("graphics", "axis", "box", "par", "plot.new", "points",
              "title","plot")
 importFrom("utils", "tail","getSrcDirectory")
-importFrom("GeneralizedUmatrix","plotTopographicMap")
+importFrom("GeneralizedUmatrix","plotTopographicMap","TopviewTopographicMap")
 importFrom("utils", "head")
 #importFrom(ABCanalysis,"ABCRemoveSmallYields","ABCanalysis")
 #importFrom(AdaptGauss,"ParetoRadius")#

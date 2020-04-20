@@ -34,24 +34,24 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
 #						                # BEWARE: If you choose hexagonal, Column number must be divisible by four 
 #
 
-  DataOrDistance=checkInputDistancesOrData(DataOrDistance)
+  DataOrDistance=checkInputDistancesOrData(DataOrDistance,funname='Pswarm')
   
-  if (missing(DataOrDistance)) {
-    stop('Distances are Missing.')
-  } else{
-    if (is.list(DataOrDistance)) {
-      stop('DataOrDistance is a list! It has to be a matrix.')
-    }
-    if (!is.matrix(DataOrDistance)) {
-      {
-        warning('DataOrDistance is not a matrix. Trying to circumvent...')
-        if (is.data.frame(DataOrDistance))
-          DataOrDistance = data.matrix(DataOrDistance)
-        else
-          DataOrDistance = as.matrix(DataOrDistance)
-      }
-    }
-  }
+  # if (missing(DataOrDistance)) {
+  #   stop('Pswarm: Distances are Missing.')
+  # } else{
+  #   if (is.list(DataOrDistance)) {
+  #     stop('Pswarm: DataOrDistance is a list! It has to be a matrix.')
+  #   }
+  #   if (!is.matrix(DataOrDistance)) {
+  #     {
+  #       warning('Pswarm: DataOrDistance is not a matrix. Trying to circumvent...')
+  #       if (is.data.frame(DataOrDistance))
+  #         DataOrDistance = data.matrix(DataOrDistance)
+  #       else
+  #         DataOrDistance = as.matrix(DataOrDistance)
+  #     }
+  #   }
+  # }
   if (!Silent)
     print('Operator: Setting options')
   

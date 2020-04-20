@@ -6,7 +6,7 @@ citEntry(entry = "Book",
   publisher = "Springer",
   year = "2018",
   doi = "10.1007/978-3-658-20540-9",
-   url = "https://www.springer.com/us/book/9783658205393",
+   url = "https://doi.org/10.1007/978-3-658-20540-9",
   textVersion =
   paste(
 "Thrun, M. C. :",

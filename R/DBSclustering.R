@@ -22,7 +22,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
 # Alus 2016 IDEE ueber die Distanz ist in AUstarDist.R implementiert
   #requireRpackage('deldir')
   #requireRpackage('geometry')
-  DataOrDistance=checkInputDistancesOrData(DataOrDistance)
+  DataOrDistance=checkInputDistancesOrData(DataOrDistance,funname='DBSclustering')
   
   if (isSymmetric(unname(DataOrDistance))) {
     InputD = DataOrDistance
@@ -100,13 +100,35 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
   names(Cls)=rnames
   
   if(PlotIt){
-    u=length(unique(Cls))
-    cols=DatabionicSwarm::DefaultColorSequence[1:u]
     x=as.dendrogram(hc)
-    requireNamespace('dendextend')
-    x=dendextend::set(x,"branches_k_color", k = k,cols)
-  
-    plot(x, main=m,xlab="No. of Data Points N", ylab="Distance",sub=" ",leaflab ="none",...)
+    if(requireNamespace('dendextend')){
+      #what is the ordering of the cluster in dendrogram
+      # from left to right
+      Cls_tmp=Cls[order.dendrogram(x)]
+      #count frequency in that ordering
+      uniqueClasses <- unique(Cls_tmp)
+      numberOfClasses <- length(uniqueClasses)
+      #countPerClass <- rep(0, numberOfClasses)
+      countPerClass=list()
+      for (i in uniqueClasses) {
+        inClassI <- sum(Cls_tmp == uniqueClasses[i])
+        countPerClass[[i]] = inClassI
+      }
+      names(countPerClass)=uniqueClasses
+      countPerClass=unlist(countPerClass)
+      #get the right number of colors
+      cols=ProjectionBasedClustering::DefaultColorSequence[1:numberOfClasses]
+      #what would be the ordering of datra based on frequency
+      data_order=order(countPerClass,decreasing = TRUE) #from highest frequency
+      #what would be the orders of the branches
+      unique_reordered=uniqueClasses[data_order]
+      # fit that order to the colors
+      cols_order = match(table = unique_reordered,uniqueClasses)
+      cols=cols[cols_order]
+      #branch colors with specific set of colors based on cluster frequency
+      x=dendextend::set(x,"branches_k_color", k = k,cols)
+    }
+    plot(x, main=m,xlab="No. of Data Points N", ylab="Ultrametric Portion of Distance",sub=" ",leaflab ="none")
     axis(1,col="black",las=1)
   }
   

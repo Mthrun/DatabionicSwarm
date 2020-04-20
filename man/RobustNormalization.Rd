@@ -16,7 +16,7 @@ pmin=0.01,pmax=0.99)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Data}{[1:n,1:d]
+  \item{Data}{[1:n,1:d] data matrix of n cases and d features
 
 }
   \item{Centered}{ centered data around zero by median if TRUE
@@ -33,19 +33,19 @@ If in the case for forecasting with neural networks a backtransformation is requ
   \item{pmax}{defines outliers on the higher end of scale}
 }
 \details{
-Range of most of values for each feature is not between zero and one. For a more precise description please read [Thrun, 2018, p.17].
+Normalizes features either between -1 to 1 (Centered=TRUE) or 0-1 (Centered=TRUE) without changing the distribution of a feature itself. For a more precise description please read [Thrun, 2018, p.17].
 
 "[The] scaling of the inputs determines the effective scaling of the weights in the last layer of a MLP with BP neural netowrk, it can have a large effect on the quality of the final solution. At the outset it is besto to standardize all inputs to have mean zero and standard deviation 1 [(or at least the range under 1)]. This ensures all inputs are treated equally in the regularization prozess, and allows to choose a meaningful range for the random starting weights."[Friedman et al., 2012]
 }
 \value{
-if \code{WithBackTransformation=FALSE}: TransformedData[1:n,1:d] 
+if \code{WithBackTransformation=FALSE}: TransformedData[1:n,1:d] i.e., normalized data matrix of n cases and d features
 
 if \code{WithBackTransformation=TRUE}: List with
-\item{TransformedData}{[1:n,1:d]  matrix}
-\item{MinX}{scalar}
-\item{MaxX}{scalar}
-\item{Denom}{scalar}
-\item{Center}{scalar}
+\item{TransformedData}{[1:n,1:d]  normalized data matrix of n cases and d features}
+\item{MinX}{[1:d] numerical vector used for manual back-transformation of each feature}
+\item{MaxX}{[1:d] numerical vector used for manual back-transformation of each feature}
+\item{Denom}{[1:d] numerical vector used for manual back-transformation of each feature}
+\item{Center}{[1:d] numerical vector used for manual back-transformation of each feature}
 }
 \references{
 [Milligan/Cooper, 1988]  Milligan, G. W., & Cooper, M. C.: A study of standardization of variables in cluster analysis, Journal of Classification, Vol. 5(2), pp. 181-204. 1988.

@@ -1,9 +1,36 @@
 RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,WithBackTransformation=FALSE,pmin=0.01,pmax=0.99) 
+#RobustNormalization(Data,Centered=FALSE,Capped=FALSE)
+#Normalizes features either between -1 to 1 (Centered=TRUE) or 0-1 (Centered=TRUE) without changing the distribution of a feature itself. For a more precise description please read [Thrun, 2018, p.17].
+#INPUT
+#Data							[1:n,1:d] data matrix of n cases and d features
+#Centered						centered data around zero by median if TRUE
+#Capped							TRUE: outliers are capped above 1 or below -1 and set to 1 or -1.
+# na.rm							If TRUE, infinite vlaues are disregarded
+# WithBackTransformation 		If in the case for forecasting with neural networks a backtransformation is required, this parameter can be set to 'TRUE'.
+# pmin							defines outliers on the lower end of scale}
+# pmax 							defines outliers on the higher end of scale}
+#OUTPUT
+#if WithBackTransformation=FALSE: 
+# 	TransformedData				[1:n,1:d]  normalized data matrix of n cases and d features
+
+#if WithBackTransformation=TRUE: List with
+#TransformedData				[1:n,1:d]  normalized data matrix of n cases and d features
+#MinX							[1:d] numerical vector used for manual back-transformation of each feature
+#MaxX							[1:d] numerical vector used for manual back-transformation of each feature
+#Denom							[1:d] numerical vector used for manual back-transformation of each feature
+#Center							[1:d] numerical vector used for manual back-transformation of each feature
+
+#author: MT
+#[Milligan/Cooper, 1988]  Milligan, G. W., & Cooper, M. C.: A study of standardization of variables in cluster analysis, Journal of Classification, Vol. 5(2), pp. 181-204. 1988.
+
+#[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
+
 {
-  if(is.data.frame(Data)){
-    warning('Matrix is expected but data.frame is given. Calling as.matrix().')
-    Data=as.matrix(Data)
-  }
+
+  #if(is.data.frame(Data)){
+  #  warning('Matrix is expected but data.frame is given. Calling as.matrix().')
+  #  Data=as.matrix(Data)
+  #}
 if(isTRUE(na.rm)){
   # if(!is.data.frame(Data)){
     Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
@@ -49,6 +76,7 @@ if(isTRUE(na.rm)){
       return(Data)
   }
   else if (is.matrix(Data)) {
+    Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
     if(WithBackTransformation){
       cols = ncol(Data)
       xtrans = list()
@@ -90,7 +118,8 @@ if(isTRUE(na.rm)){
   }
   else {
     tryCatch({
-      warning("Data is not a vector or a matrix. Trying as.matrix")
+      warning("RobustNormalization:: Data is not a vector or a matrix. Trying as.matrix")
+      Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
       return(RobustNormalization(as.matrix(Data),Centered,Capped,na.rm,pmin=pmin,pmax=pmax))
     }, error = function(e) {
       stop("It did not work")

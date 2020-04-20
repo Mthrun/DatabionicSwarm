@@ -23,7 +23,7 @@ contrary to SOM, here the grid size defined only the resolution of the visualiza
 The real grid size is predfined by Pswarm, but you may choose a factor x*res$LC if you so desire.
 Therefore, The resulting grid size is given back in the Output.
 }
-\item{PlotIt}{Optional, default(FALSE), If TRUE than uses \code{plotTopographicMap} of the package GeneralizedUmatrix}
+\item{PlotIt}{Optional, default(FALSE), If TRUE than uses \code{plotTopographicMap} of the package GeneralizedUmatrix is plotted as a topview in the tiled option, see details for explanation.}
 \item{ ComputeInR}{Optional, =TRUE: Rcode, =FALSE C++ implementation}
 }
 
@@ -42,6 +42,8 @@ see
 chapter 8 of [Thrun, 2018] for Pswarm
 
 chapter 5.3 of [Thrun, 2018] for generalized Umatrix and especially the \code{sESOM4BMUs} algorithm.
+
+Tiled: The topographic map is visualized 4 times because the projection is toroidal. The reason is that there are no border in the visualizations and clusters (if they exist) are not disrupted by borders of the plot.
 }
 \references{
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
@@ -57,6 +59,8 @@ list of
 \item{GridPoints}{matrix [1:n,1:2],quantized projected points: projected points now lie on a predefined grid.}
 \item{LC}{c(Lines,Columns), normally equal to grid size of Pswarm, sometimes it a better or a lower resolution for the visualization is better.
 Therefore here the grid size of the neurons is given back.
+}
+\item{PlotlyHandle}{If PlotIt=FALSE: NULL, otherwise plotly object for ploting topview of topographic map
 }
 
 }
