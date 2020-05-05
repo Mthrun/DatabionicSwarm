@@ -76,7 +76,7 @@ if(isTRUE(na.rm)){
       return(Data)
   }
   else if (is.matrix(Data)) {
-    Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
+    #Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
     if(WithBackTransformation){
       cols = ncol(Data)
       xtrans = list()
@@ -119,7 +119,7 @@ if(isTRUE(na.rm)){
   else {
     tryCatch({
       warning("RobustNormalization:: Data is not a vector or a matrix. Trying as.matrix")
-      Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
+      #Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
       return(RobustNormalization(as.matrix(Data),Centered,Capped,na.rm,pmin=pmin,pmax=pmax))
     }, error = function(e) {
       stop("It did not work")
