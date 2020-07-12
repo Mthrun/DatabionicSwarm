@@ -11,6 +11,7 @@ The generalized U-matrix generates the visualization of a topographic map with h
   <img src="./docs/source/TopographicMap.png" width="400" height="400">
  <div class="caption">Fig. 1: The Topographic map of the normalized generalized U-matrix visualizes the distance-based structures of 7447 Dimensions. Each point is a patient colored by their diagnosis. Patients with the same diagnosis lie in the same valley. </div>
 </p>
-![Download Figure as Interactive HTML](./docs/source/TopographicMap.html)
+
+[Download Figure as Interactive HTML](./docs/source/TopographicMap.html)
 
 Note: You have to download the raw source file by clicking in github "View raw", and then saving it with right click as *.html locally and then re-opening this file in your browser. 
