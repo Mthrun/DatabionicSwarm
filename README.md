@@ -9,6 +9,7 @@ The generalized U-matrix generates the visualization of a topographic map with h
 
 <p align="center">
   <img src="./docs/source/TopographicMap.png" width="400" height="400">
+ <div class="caption">Caption 2</div>
 </p>
 
 [Download Figure as Interactive HTML](./docs/source/TopographicMap.html)
