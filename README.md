@@ -13,4 +13,4 @@ The generalized U-matrix generates the visualization of a topographic map with h
 
 [Download Figure as Interactive HTML](./docs/source/TopographicMap.html)
 
-Note: You have to download the raw source file by saving it with right click as *.html locally and then re-opening this file in your browser. 
+Note: You have to download the raw source file by clicking in github "View raw", and then saving it with right click as *.html locally and then re-opening this file in your browser. 
