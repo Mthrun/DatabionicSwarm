@@ -7,4 +7,5 @@ Algorithms implementing populations of agents that interact with one another and
  
 The generalized U-matrix generates the visualization of a topographic map with hypsometric tints, which can be vividly described as a virtual 3D landscape with a specific color scale chosen with an algorithm defining the contour lines [24]. The topographic map addresses the central problem in clustering, i.e., the correct estimation of the number of clusters. It allows the assessment of the number of clusters [24] by inspecting the 3D landscape. The color scale and contour lines imitate valleys, ridges, and basins: blue colors indicate small distances (sea level), green and brown colors indicate middle distances (low hills), and shades of gray and white indicate vast distances (high mountains covered with snow and ice). Valleys and basins represent clusters, and the watersheds of hills and mountains represent the borders between clusters. In this 3D land-scape, the borders of the visualization are cyclically connected with a periodicity defined by two parameters (L,C).
 
-[Example](./docs/source/TopographicMap.html)
+![](./docs/source/TopographicMap.png)
+[Download Figure as Interactive HTML](./docs/source/TopographicMap.html)
