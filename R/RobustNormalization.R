@@ -31,20 +31,20 @@ RobustNormalization = function (Data,Centered=FALSE,Capped=FALSE,na.rm=TRUE,With
   #  warning('Matrix is expected but data.frame is given. Calling as.matrix().')
   #  Data=as.matrix(Data)
   #}
-if(isTRUE(na.rm)){
-  # if(!is.data.frame(Data)){
-    Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
-  # }else{
-  #   ind=do.call(cbind, lapply(mtcars, is.finite))
-  #   Data[ind]=NaN
-  # }
-   
-}
   center=0
   Denom=NULL
   minX=NULL
   maxX=NULL
   if (is.vector(Data)) {
+    if(isTRUE(na.rm)){
+      # if(!is.data.frame(Data)){
+      Data[!is.finite(Data)]=NaN #quantile does not accept inf,-inf
+      # }else{
+      #   ind=do.call(cbind, lapply(mtcars, is.finite))
+      #   Data[ind]=NaN
+      # }
+      
+    }
     quants = quantile(Data, c(pmin, 0.5, pmax),na.rm = na.rm)
     minX = quants[1]
     maxX = quants[3]
@@ -118,11 +118,12 @@ if(isTRUE(na.rm)){
   }
   else {
     tryCatch({
-      warning("RobustNormalization:: Data is not a vector or a matrix. Trying as.matrix")
+      warning("RobustNormalization: Data is not a vector or a matrix. Trying to call as.matrix()")
       #Data=checkInputDistancesOrData(Data,funname='RobustNormalization')
-      return(RobustNormalization(as.matrix(Data),Centered,Capped,na.rm,pmin=pmin,pmax=pmax))
+      Data=as.matrix(Data)
+      return(RobustNormalization(Data,Centered,Capped,na.rm,pmin=pmin,pmax=pmax))
     }, error = function(e) {
-      stop("It did not work")
+      stop(paste("RobustNormalization: as.matrix() call did not work because:",e))
     })
   }
 }

@@ -15,6 +15,7 @@ export(RobustNorm_BackTrafo)
 export(interactiveDBS)
 export(DeepSwarming)
 export(Pswarm_mdsinit)
+export(Pswarm_bigsize)
 
 import(Rcpp)
 
@@ -32,7 +33,3 @@ importFrom("utils", "head")
   importFrom("utils", "setTxtProgressBar", "txtProgressBar")
   
  importFrom("utils", "packageVersion")
-importFrom("shinyBS", "bsModal")
-importFrom("shinythemes","shinytheme")
-importFrom("shinyjs","hide","useShinyjs","toggle", "hidden", "enable", "disable")
-import(shiny)
