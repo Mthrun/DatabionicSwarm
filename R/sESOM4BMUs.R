@@ -101,9 +101,9 @@ sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = F) {
         ## End One Learnstep for one inputvector (1 Datenzeilen)
         
         # Hold BMUs
-        for (i in c(1:NumberOfDataSamples)) {
-          esom[BMUs[i, 1], BMUs[i, 2], ] = Data[i, ]
-        } # end for hold bmus
+        #for (i in c(1:NumberOfDataSamples)) {
+        #  esom[BMUs[i, 1], BMUs[i, 2], ] = Data[i, ]
+        #} # end for hold bmus
         esomAngepasst = esom
       } #end for 1:NumberOfDataSamples
     }

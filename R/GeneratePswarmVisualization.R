@@ -153,9 +153,9 @@ d=ncol(Data) #NumberOfweights
   print('Initializing sESOM algorithm')
  
   # BestMatches werden festgehalten
-  for(i in c(1:nrow(BMUs))){
-      wts[BMUs[i,1],BMUs[i,2],] = Data[i,]
-  }
+  #for(i in c(1:nrow(BMUs))){
+  #    wts[BMUs[i,1],BMUs[i,2],] = Data[i,]
+  #}
   #Jeder Radius sollte min. 1 Eppoche durchlaufen werden, mehr als eine Eppoche fuehrte nicht zu mehr Emergenz
   # s. auch Experimente mit iUmatrix(), wo eine Umatrix als Video pro Eppoche bei diverser Parameterwahl gezeichnet wird
   epochs=HeuristischerParameter
