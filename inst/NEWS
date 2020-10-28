@@ -1,3 +1,8 @@
+Version 1.1.5 (2020-10-28 GitHub)
+    o Improved documentation significantly.
+    o Pswarm now falls back to the dist function if the package parallelDist is not installed.
+    o sESOM agorithm for the generalized Umatrix improved and is described now in the MethodsX publication of [Thrun/Ultsch, 2020]. It differs from the first publication of [Thrun, 2018].
+	
 Version 1.1.4 (2020-02-29 GitHub)
     o Bugfix:  checkInputDistancesOrData, DBSclustering, Pswarm, setGridSize and ShortestGraphPathsC: using unname in isSymmetric to check correctly of symmetric distance matrix
     o checkInputDistancesOrData is now used in RobustNormalization and Pswarm correctly and indicates in which function the errors lies.
@@ -34,4 +39,4 @@ Version 1.0.4 (Local)
 	o Vignette added
     
 Version 1.0.3 (2018-05-06 CRAN)
-    o Added distance methods of ParallelCpp package
+    o Added distance methods of parallelDist package

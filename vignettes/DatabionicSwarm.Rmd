@@ -49,8 +49,9 @@ data('Hepta')
 InputDistances = as.matrix(dist(Hepta$Data))
 projection = Pswarm(InputDistances)
 ```
+
 ## Second Module: Generalized Umatrix
-Here the Generalized Umatrix is calculated using a simplified emergent self-organizing map algorithm. Then, the visualization of Generalized Umatrix is done by a 3D landscape called topographic map with hypsometric tints. 
+Here the Generalized Umatrix is calculated using a simplified emergent self-organizing map algorithm [Thrun/Ultsch, 2020b]. The output is a list (genUmatrixList) of several elements. Then, the visualization of Generalized Umatrix is can be shown by a 3D landscape called topographic map with hypsometric tints using the output of this list named genUmatrixList. 
 
 Hypsometric tints are surface colors  that represent ranges of elevation. For the 3D landscape the contour lines are combined with a specific color scale. The color scale is chosen to display various valleys, ridges, and basins: blue colors indicate small distances (sea level), green and brown colors indicate middle distances (low hills), and shades of white colors indicate vast distances (high mountains covered with snow and ice).
 
@@ -62,14 +63,14 @@ Note, that the 'NoLevels' option is only set to load this vignette faster and sh
 ```{r,results = "hide",webGL = TRUE,fig.keep="none"}
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
-visualization = GeneratePswarmVisualization(
+genUmatrixList = GeneratePswarmVisualization(
   Data = Hepta$Data, 
   projection$ProjectedPoints, 
   projection$LC)
 
 GeneralizedUmatrix::plotTopographicMap(
-  visualization$Umatrix, 
-  visualization$Bestmatches, 
+  genUmatrixList$Umatrix, 
+  genUmatrixList$Bestmatches, 
   NoLevels = 10)
 ```
 
@@ -83,13 +84,13 @@ library(GeneralizedUmatrix)
 Cls = DBSclustering(
   k = 7,
   Hepta$Data,
-  visualization$Bestmatches,
-  visualization$LC,
+  genUmatrixList$Bestmatches,
+  genUmatrixList$LC,
   PlotIt = FALSE
 )
 GeneralizedUmatrix::plotTopographicMap(
-  visualization$Umatrix,
-  visualization$Bestmatches,
+  genUmatrixList$Umatrix,
+  genUmatrixList$Bestmatches,
   Cls,
   NoLevels = 10)
 ```
@@ -118,14 +119,14 @@ Here the Generalized Umatrix is calculated using a simplified emergent self-orga
 ```{}
 library(DatabionicSwarm)
 library(GeneralizedUmatrix)
-visualization = GeneratePswarmVisualization(
+genUmatrixList = GeneratePswarmVisualization(
   Data = Lsun3D$Data,
   projection$ProjectedPoints,
   projection$LC)
 
 GeneralizedUmatrix::plotTopographicMap(
-  visualization$Umatrix, 
-  visualization$Bestmatches)
+  genUmatrixList$Umatrix, 
+  genUmatrixList$Bestmatches)
 ```
 
 ## Third Module: Interactive Clustering
@@ -136,13 +137,13 @@ library(GeneralizedUmatrix)
 Cls = DBSclustering(
   k = 3,
   Lsun3D$Data,
-  visualization$Bestmatches,
-  visualization$LC,
+  genUmatrixList$Bestmatches,
+  genUmatrixList$LC,
   PlotIt = FALSE)
 
 GeneralizedUmatrix::plotTopographicMap(
-  visualization$Umatrix, 
-  visualization$Bestmatches,
+  genUmatrixList$Umatrix, 
+  genUmatrixList$Bestmatches,
   Cls)
 ```
 ## Generating the Shape of an Island out of the Topograpahic Map
@@ -154,13 +155,13 @@ library(ProjectionBasedClustering)
 library(GeneralizedUmatrix)
 
 Imx = ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(
-  visualization$Umatrix, 
-  visualization$Bestmatches, 
+  genUmatrixList$Umatrix, 
+  genUmatrixList$Bestmatches, 
   Cls)
 
 GeneralizedUmatrix::plotTopographicMap(
-  visualization$Umatrix,
-  visualization$Bestmatches,
+  genUmatrixList$Umatrix,
+  genUmatrixList$Bestmatches,
   Cls = Cls,
   Imx = Imx)
 ```
@@ -171,8 +172,8 @@ In this example, the four outliers can be marked manually with mouse clicks usin
 ```{}
 library(ProjectionBasedClustering)
 Cls2 = ProjectionBasedClustering::interactiveClustering(
-  visualization$Umatrix,
-  visualization$Bestmatches,
+  genUmatrixList$Umatrix,
+  genUmatrixList$Bestmatches,
   Cls)
 ```
 
@@ -222,6 +223,8 @@ ClusteringAccuracy(Lsun3D$Cls,Cls)
 
 #References
 [Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Journal of Artificial Intelligence, Vol. in press, pp. doi 10.1016/j.artint.2020.103237, 2020.
+
+[Thrun/Ultsch, 2020b] Thrun, M. C., & Ultsch, A.: Uncovering High-Dimensional Structures of Projections from Dimensionality Reduction Methods, MethodsX, Vol. 7, pp. 101093, DOI 10.1016/j.mex.2020.101093, 2020. 
 
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, https://doi.org/10.1007/978-3-658-20540-9, 2018.
 

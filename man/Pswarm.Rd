@@ -96,15 +96,16 @@ res=Pswarm(distance,LC = c(10,12))
 \keyword{DBS}
 \keyword{swarm}
 \keyword{swarms}
-\keyword{Databonic swarm}
-\keyword{Databionic Swarm}
+\concept{Databionic swarm}
+\concept{Polar Swarm}
 \keyword{pswarm}
 \keyword{pSwarm}
 \keyword{PSwarm}
-\keyword{swarm intelligence}
-\keyword{cluster analysis}
+\concept{swarm intelligence}
+\concept{game theory}
+\concept{cluster analysis}
 \keyword{projection}
 \keyword{projection method}
-\keyword{dimensionality reduction}
+\concept{dimensionality reduction}
 \keyword{visualization}
 \keyword{DR}
