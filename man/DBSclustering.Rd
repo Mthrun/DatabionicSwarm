@@ -7,7 +7,7 @@ Databonic swarm clustering (DBS)
  DBS is a flexible and robust clustering framework that consists
  of three independent modules. The first module is the parameter-free
  projection method Pswarm \code{\link{Pswarm}}, which exploits the concepts of self-organization
- and emergence, game theory, swarm intelligence and symmetry considerations. 
+ and emergence, game theory, swarm intelligence and symmetry considerations [Thrun/Ultsch, 2021]. 
  The second module is a parameter-free high-dimensional data visualization technique, 
  which generates projected points on a topographic map with hypsometric colors \code{\link{GeneratePswarmVisualization}}, 
  called the generalized U-matrix. The third module is a clustering method with no 
@@ -15,7 +15,7 @@ Databonic swarm clustering (DBS)
  The term DBS refers to the method as a whole.
  
 The \code{\link{DBSclustering}} function applies the automated Clustering approach of the Databonic swarm using abstract U distances, which
-are the geodesic distances based on high-dimensional distances combined with low dimensional graph paths by using \code{ShortestGraphPathsC}, see [Thrun/Ultsch, 2020].
+are the geodesic distances based on high-dimensional distances combined with low dimensional graph paths by using \code{ShortestGraphPathsC}.
 }
 \usage{
 DBSclustering(k, DataOrDistance, BestMatches, LC, StructureType = TRUE, PlotIt = FALSE,
@@ -44,7 +44,7 @@ Often it is better to mark the outliers  manually after the prozess of clusterin
 [1:n] numerical vector of numbers defining the classification as the main output of this cluster analysis for the n cases of data corresponding to the n bestmatches. It has k unique numbers representing the arbitrary labels of the clustering. You can use \code{plotTopographicMap(Umatrix,Bestmatches,Cls)} for verification.
 }
 \references{
-[Thrun/Ultsch, 2020]  Thrun, M. C., and Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Artificial Intelligence, in press, \url{https://doi.org/10.1016/j.artint.2020.103237}, 2020.
+[Thrun/Ultsch, 2021]  Thrun, M. C., and Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Artificial Intelligence, Vol. 290, pp. 103237, \doi{10.1016/j.artint.2020.103237}, 2021.
 }
 \author{
 Michael Thrun

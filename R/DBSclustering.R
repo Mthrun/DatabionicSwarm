@@ -101,7 +101,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
   
   if(PlotIt){
     x=as.dendrogram(hc)
-    if(requireNamespace('dendextend')){
+    if(requireNamespace('dendextend',quietly = TRUE)){
       #what is the ordering of the cluster in dendrogram
       # from left to right
       Cls_tmp=Cls[order.dendrogram(x)]

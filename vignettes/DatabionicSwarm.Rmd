@@ -19,9 +19,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 ```{r setup, include=FALSE}
-library(rgl)
-#library(rglwidget) #does not show any pictures in Rmarkdown if rglwidget()  is called after rgl
-setupKnitr()
 knitr::opts_chunk$set(echo = TRUE,
                       fig.align = "center",
                       message=FALSE,
@@ -33,6 +30,24 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.keep = "all"
                       )
 ```
+
+```{r echo = FALSE}
+if (!requireNamespace("rmarkdown") || !rmarkdown::pandoc_available("1.12.3")) {
+  warning("This vignette requires pandoc version 1.12.3; code will not run in older versions.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+```{r echo = FALSE}
+if (!requireNamespace("rgl")) {
+  warning("This vignette requires the package rgl; code will not run without this package.")
+  knitr::opts_chunk$set(eval = FALSE)
+}else{
+  library(rgl)
+  setupKnitr()
+}
+```
+
 # Introduction
 DBS is a flexible and robust clustering framework that consists of three independent modules [Thrun/Ultsch, 2020]. The first module is the parameter-free projection method Pswarm, which exploits the concepts of self-organization and emergence, game theory, swarm intelligence and symmetry considerations [Thrun/Ultsch, 2020]. The second module is a parameter-free high-dimensional data visualization technique, which generates projected points on a topographic map with hypsometric colors, called the generalized U-matrix. The third module is a clustering method with no sensitive parameters. The clustering can be verified by the visualization and vice versa. The term DBS refers to the method as a whole [Thrun/Ultsch, 2020]. 
 For further details, see [Thrun/Ultsch, 2020]. 

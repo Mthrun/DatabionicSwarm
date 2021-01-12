@@ -177,7 +177,7 @@ LCnew=c(dim(wts)[1],dim(wts)[2])
 
 gplotres=FALSE
 if(isTRUE(PlotIt)){
-  requireNamespace("GeneralizedUmatrix")
+  requireNamespace("GeneralizedUmatrix",quietly = TRUE)
   #GeneralizedUmatrix::plotTopographicMap(Umap,BMUs,NoLevels=10)
   Cls=rep(1,nrow(BMUs))
   gplotres=TopviewTopographicMap(GeneralizedUmatrix = Umap,BestMatchingUnits = BMUs,Cls = Cls,Tiled =TRUE,BmSize =8) #Sondern Gebirge=Unbekannte Orte der U-Matrix

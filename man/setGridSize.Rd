@@ -26,7 +26,7 @@ grid is set such that minimum and maximum distances can be shown on the grid}
 LC=c(Lines,Columns) size of the grid for \code{Pswarm}
 }
 \references{
-[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
+[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \doi{10.1007/978-3-658-20540-9}, 2018. 
 }
 \author{
 Michael Thrun, Florian Lerch

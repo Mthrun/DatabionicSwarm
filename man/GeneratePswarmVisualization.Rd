@@ -41,9 +41,9 @@ Tiled: The topographic map is visualized 4 times because the projection is toroi
 If you used \code{\link{Pswarm}} with distance matrix instead of a data matrix (in the sense that you do not have any data matrix available), you may transform your distances into data by using \code{MDS} of the \pkg{ProjectionBasedClustering} package in order to use the \code{\link{GeneratePswarmVisualization}} function. The correct dimension can be found through the Sheppard diagram or kruskals stress.
 }
 \references{
-[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
+[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \doi{10.1007/978-3-658-20540-9}, 2018. 
 
-[Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Uncovering High-Dimensional Structures of Projections from Dimensionality Reduction Methods, MethodsX, Vol. 7, pp. 101093, DOI 10.1016/j.mex.2020.101093, 2020. 
+[Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Uncovering High-Dimensional Structures of Projections from Dimensionality Reduction Methods, MethodsX, Vol. 7, pp. 101093, \doi{10.1016/j.mex.2020.101093}, 2020. 
 }
 \note{
 If you used pswarm with distance matrix instead of a data matrix you can mds transform your distances into data (see the \code{MDS} function of the ProjectionBasedClustering package.). The correct dimension can be found through the Sheppard diagram or kruskals stress.

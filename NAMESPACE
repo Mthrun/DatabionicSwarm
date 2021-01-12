@@ -33,3 +33,4 @@ importFrom("utils", "head")
   importFrom("utils", "setTxtProgressBar", "txtProgressBar")
   
  importFrom("utils", "packageVersion")
+importFrom("stats", "order.dendrogram")

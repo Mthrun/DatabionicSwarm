@@ -68,7 +68,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
 	if(!Silent)
 		print('Distances are not in a symmetric matrix, Datamatrix is assumed and parallelDist::parDist() ist called')
     
-	if (!requireNamespace('parallelDist')) {
+	if (!requireNamespace('parallelDist',quietly = TRUE)) {
 		message(
 		  'Subordinate parallelDist package is missing. dist() function of stats is used.
 				Please install the package which is defined in "Suggests", if other distances than available in dist() or faster distance computation is necessary'
