@@ -15,7 +15,7 @@ For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{
 Package: \tab Databonic swarm\cr
 Type: \tab Package\cr
 Version: \tab 1.1.5\cr
-Date: \tab 2020-10-28\cr
+Date: \tab 2021-01-12\cr
 License: \tab CC BY-NC-SA 4.0\cr
 }
 
@@ -41,7 +41,7 @@ Maintainer: \packageMaintainer{DatabionicSwarm}
 [Thrun et al., 2016]  Thrun, M. C., Lerch, F., Loetsch, J., & Ultsch, A.: Visualization and 3D Printing of Multivariate Data of Biomarkers, in Skala, V. (Ed.), International Conference in Central Europe on Computer Graphics, Visualization and Computer Vision (WSCG), Vol. 24, Plzen, http://wscg.zcu.cz/wscg2016/short/A43-full.pdf, 2016.
 
 
-Successfully applied in
+Successfully used in
 
 [Thrun et al., 2018]   Thrun, M. C., Breuer, L., & Ultsch, A. : Knowledge discovery from low-frequency stream nitrate concentrations: hydrology and biology contributions, Proc. European Conference on Data Analysis (ECDA), pp. 46-47, Paderborn, Germany, 2018. 
 
@@ -51,28 +51,32 @@ Successfully applied in
 
 [Thrun, 2019]  Thrun, M. C.: : Cluster Analysis of Per Capita Gross Domestic Products, Entrepreneurial Business and Economics Review (EBER), Vol. 7(1), pp. 217-231, DOI: \doi{10.15678/EBER.2019.070113}, 2019.
 
-[López-García et al., 2020]  López-García, P., Argote, D. L., & Thrun, M. C.: Projection-based Classification of Chemical Groups and Provenance Analysis of Archaeological Materials, IEEE Access, Vol. 8, pp. 152439-152451, DOI \doi{10.1109/ACCESS.2020.3016244}, 2020. 
+[Lopez-Garcia et al., 2020]  Lopez-Garcia, P., Argote, D. L., & Thrun, M. C.: Projection-based Classification of Chemical Groups and Provenance Analysis of Archaeological Materials, IEEE Access, Vol. 8, pp. 152439-152451, DOI \doi{10.1109/ACCESS.2020.3016244}, 2020. 
 }
 
 
 \examples{
 data('Lsun3D')
 ##2d projection, without instant visualization of steps
+
+#Alternative I:
 #DistanceMatrix hast to be defined by the user.
 InputDistances=as.matrix(dist(Lsun3D$Data))
 \donttest{
 projection=Pswarm(InputDistances)
 #2d projection, with instant visualization 
-#of steps and DataMatrix (Distance is Euclidean per default)
 
+\dontrun{
+#Alternative II: DataMatrix, Distance is Euclidean per default
 projection=Pswarm(Lsun3D$Data,Cls=Lsun3D$Cls,PlotIt=T)
+}
 #
 ##Computation of Generalized Umatrix
 # If Non Euclidean Distances are used, Please Use \code{MDS}
 # from the ProjectionBasedClustering package with the correct OutputDimension
 # to generate a new DataMatrix from the distances (see SheppardDiagram
 # or KruskalStress)
-genUmatrixList=GeneratePswarmgenUmatrixList(Data = Lsun3D$Data,
+genUmatrixList=GeneratePswarmVisualization(Data = Lsun3D$Data,
 
 projection$ProjectedPoints,projection$LC)
 ## Visualizuation of GenerelizedUmatrix, 

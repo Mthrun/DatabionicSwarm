@@ -64,7 +64,7 @@ projection$ProjectedPoints,projection$LC)
 
 Cls=DBSclustering(k=3, Data, 
 
-genUmatrixList$ProjectedPoints, genUmatrixList$LC,PlotIt=TRUE)
+genUmatrixList$Bestmatches, genUmatrixList$LC,PlotIt=TRUE)
 }
 
 ## Example Two
