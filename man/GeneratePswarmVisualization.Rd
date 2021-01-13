@@ -64,7 +64,7 @@ Therefore here the grid size of the neurons is given back.
 Michael Thrun
 }
 \note{
-The extraction of an island out of the generalized Umatrix can be performed using the \code{\link[GeneralizedUmatrix]{interactiveGeneralizedUmatrixIsland}} function in the package \pkg{GeneralizedUmatrix}.
+The extraction of an island out of the generalized Umatrix can be performed using the \code{interactiveGeneralizedUmatrixIsland} function in the package \pkg{ProjectionBasedClustering}.
 
 The main code of both functions \code{GeneralizedUmatrix} and
  \code{GeneratePswarmVisualization} is the same C++ function

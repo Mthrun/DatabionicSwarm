@@ -34,7 +34,7 @@ ShortestPaths[1:n]   vector, shortest paths (geodesic) to all other vertices inc
 }
 \references{
 uses a changed code which is inspired by Shreyans Sheth 28.05.2015, see 
-\url{http://ideone.com/qkmt31}
+\url{https://ideone.com/qkmt31}
 }
 \author{
 Michael Thrun
