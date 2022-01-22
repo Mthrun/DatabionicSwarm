@@ -53,7 +53,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   #   }
   # }
   if (!Silent)
-    print('Operator: Setting options')
+    message('Operator: Setting options')
   
   QuadOrHexa = F #hesagonales Gitter => dichteste Kugelpackung
   # if(PlotIt)
@@ -66,7 +66,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   } else{
     #!isSymmetric
 	if(!Silent)
-		print('Distances are not in a symmetric matrix, Datamatrix is assumed and parallelDist::parDist() ist called')
+		message('Distances are not in a symmetric matrix, Datamatrix is assumed and parallelDist::parDist() ist called')
     
 	if (!requireNamespace('parallelDist',quietly = TRUE)) {
 		message(
@@ -159,7 +159,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   jumpthreshold = 0
   stressverlauf = c()
   if (!Silent)
-    print('Operator: Starting algorithm')
+    message('Operator: Preparing.')
   
   fokussiertlaufind = 1
   rvec = seq(from = Rmax, by = -1, to = Rmin)
@@ -191,11 +191,14 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
 	  ProzentualeZeitfolge=round(sort((rvec-Rmin)/(Rmax-Rmin),decreasing=F)*100,0)
 	  ProzentualeZeitfolge[numberOfSteps]=99
 	}
+  if (!Silent)
+    message('Operator: Starting algorithm')
+  
   for (Radius in rvec) {
 		dummy=dummy+1
     if (!Silent){  
-      print(paste0('Operator: ', ProzentualeZeitfolge[dummy],'% calculated.'))
-      #print(paste0('Operator: Current focus: ', Radius))
+      message(paste0('Operator: ', ProzentualeZeitfolge[dummy],'% calculated.'))
+      #message(paste0('Operator: Current focus: ', Radius))
 			#setTxtProgressBar
     }else{
 			 progressm = setTxtProgressBar(progress, dummy)
@@ -237,8 +240,8 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
     stressverlauf = c(stressverlauf, List$stressverlauf)
     eppocheradiusreduziert = c(eppocheradiusreduziert, List$fokussiertlaufind)
     if (!Silent) {
-      print(paste0('Operator: ', tail(eppocheradiusreduziert, 1), '.iteration'))
-      print(
+      message(paste0('Operator: ', tail(eppocheradiusreduziert, 1), '.iteration'))
+      message(
         paste0(
           'Operator: weak Nash equilibrium found. Paypoff maximized with ',
           signif(RelativeDifference(List$stressverlauf[1],tail(List$stressverlauf, 1)),2),
@@ -248,7 +251,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
     }
   } #end for rvec
   if (!Silent){  
-    print(paste0('Operator: 100 % calculated.'))
+    message(paste0('Operator: 100 % calculated.'))
   }else{
     progressm = setTxtProgressBar(progress, dummy+1)
     close(progress) 
