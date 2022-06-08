@@ -15,7 +15,9 @@ export(RobustNorm_BackTrafo)
 export(interactiveDBS)
 export(DeepSwarming)
 export(Pswarm_mdsinit)
+export(UniquePoints)
 export(Pswarm_bigsize)
+
 
 import(Rcpp)
 

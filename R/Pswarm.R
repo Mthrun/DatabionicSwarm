@@ -193,7 +193,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
 	}
   if (!Silent)
     message('Operator: Starting algorithm')
-  
+  #----------------------------------------------------------------------------#
   for (Radius in rvec) {
 		dummy=dummy+1
     if (!Silent){  
@@ -220,22 +220,20 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
     #Zeitfaktor: Je naeher DataBots springen, desto schneller riechen sie erneut entspricht, weniger DBs springen pro Eppoche
     nBots = round(pp[Radius] * DBAnzahl)
     #nBots=round(0.05*DBAnzahl)#s. Fast and reliable ESOM learning
-    List = PswarmCurrentRadiusC2botsPositive(
-      AllDataBotsPos,
-      Radius,
-      DataDists,
-      IndPossibleDBPosR,
-      RadiusPositionsschablone,
-      pp,
-      Nullpunkt,
-      Lines,
-      Columns,
-      nBots,
-      limit,
-      steigungsverlaufind,
-      StressConstAditiv,
-      Debug
-    )
+    List = PswarmCurrentRadiusC2botsPositive(AllDataBotsPos,
+                                             Radius,
+                                             DataDists,
+                                             IndPossibleDBPosR,
+                                             RadiusPositionsschablone,
+                                             pp,
+                                             Nullpunkt,
+                                             Lines,
+                                             Columns,
+                                             nBots,
+                                             limit,
+                                             steigungsverlaufind,
+                                             StressConstAditiv,
+                                             Debug)
     AllDataBotsPos = List$AllDataBotsPos
     stressverlauf = c(stressverlauf, List$stressverlauf)
     eppocheradiusreduziert = c(eppocheradiusreduziert, List$fokussiertlaufind)
@@ -250,6 +248,9 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
       )
     }
   } #end for rvec
+  #----------------------------------------------------------------------------#
+  
+  
   if (!Silent){  
     message(paste0('Operator: 100 % calculated.'))
   }else{
@@ -269,11 +270,10 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
   
   return(list(
     ProjectedPoints = bmu,
-    LC = c(Lines, Columns),
-    Control = list(
-      stressverlauf = stressverlauf,
-      eppocheradiusreduziert = eppocheradiusreduziert,
-      LetzteEppocheStress = stress
+    LC              = c(Lines, Columns),
+    Control         = list(stressverlauf          = stressverlauf,
+                           eppocheradiusreduziert = eppocheradiusreduziert,
+                           LetzteEppocheStress    = stress
     )
   ))
 }

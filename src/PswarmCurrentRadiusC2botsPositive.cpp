@@ -2,6 +2,27 @@
 
 using namespace std;
 #include <RcppArmadilloExtensions/sample.h>
+
+//#ifndef lmC
+//#include "lmC.h"
+//#endif 
+
+//#ifndef calcStressC
+//#include "calcStressC.h"
+//#endif 
+
+//#ifndef calcPolarPositionsC
+//#include "calcPolarPositionsC.h"
+//#endif 
+
+//#ifndef makePolarPositionToroidC
+//#include "makePolarPositionToroidC.h"
+//#endif 
+
+//#include "calcStressC.h"
+//#include "calcPolarPositionsC.h"
+//#include "makePolarPositionToroidC.h"
+
 // [[Rcpp::depends(RcppArmadillo)]]
 NumericVector sampleC(NumericVector x,double len) {
   bool replace=0;
@@ -34,7 +55,20 @@ NumericMatrix rDistanceToroidC(NumericVector AllDataBotsPosX, NumericVector AllD
   return Distances;
 }
 // [[Rcpp::export]]
-List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,double Radius,NumericMatrix DataDists,ComplexVector IndPossibleDBPosR,NumericMatrix RadiusPositionsschablone,NumericVector pp,NumericVector Nullpunkt,double Lines, double Columns,double nBots, int limit,int steigungsverlaufind, double StressConstAditiv, bool debug){
+List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,
+                                       double Radius,
+                                       NumericMatrix DataDists,
+                                       ComplexVector IndPossibleDBPosR,
+                                       NumericMatrix RadiusPositionsschablone,
+                                       NumericVector pp,
+                                       NumericVector Nullpunkt,
+                                       double Lines,
+                                       double Columns,
+                                       double nBots,
+                                       int limit,
+                                       int steigungsverlaufind, 
+                                       double StressConstAditiv, 
+                                       bool debug){
   // PswarmCurrentRadiusC2botsPositive( AllDataBotsPosOld,
   //                                      Radius, DataDists,
   //                                      IndPossibleDBPosR,
@@ -241,7 +275,8 @@ List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,double Ra
     }
   }// end While Jumping
   return Rcpp::List::create(
-    Rcpp::Named("AllDataBotsPos") = AllDataBotsPos,
-    Rcpp::Named("stressverlauf")       = stressverlauf,Rcpp::Named("fokussiertlaufind")       = fokussiertlaufind
+    Rcpp::Named("AllDataBotsPos")    = AllDataBotsPos,
+    Rcpp::Named("stressverlauf")     = stressverlauf,
+    Rcpp::Named("fokussiertlaufind") = fokussiertlaufind
   ) ;
 }

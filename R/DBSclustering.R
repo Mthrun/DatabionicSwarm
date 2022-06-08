@@ -32,7 +32,10 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
       rnames=rownames(DataOrDistance)
     else
       rnames=1:nrow(DataOrDistance)
-    requireNamespace('parallelDist')
+    if(!requireNamespace('parallelDist')){
+      warning("DBSclustering: package parallelDist is not installed, falling back to dist().")
+      InputD = as.matrix(dist(DataOrDistance, method = method))
+    }
     if(!PlotIt)
        InputD = as.matrix(parallelDist::parDist(DataOrDistance, method = method,...))
     else
