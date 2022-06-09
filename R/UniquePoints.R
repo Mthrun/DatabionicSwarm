@@ -33,18 +33,23 @@ UniquePoints <- function(Datapoints,Eps) {
     dists = as.matrix(parallelDist::parDist(Datapoints, method = "euclidean"))
   }
   
-
-  IsDuplicate = (dists < Eps) * 1 - diag(AnzPoints)
-  dists <-
-    dists - (dists * upper.tri(dists, diag = T)) + upper.tri(dists, diag = T) # ??? wozu das denn?
-  
+  IsDuplicate=rep(FALSE,AnzPoints)
+  # IsDuplicate = (dists < Eps) * 1 - diag(AnzPoints)
+  # dists <-
+  #   dists - (dists * upper.tri(dists, diag = T)) + upper.tri(dists, diag = T) # ??? wozu das denn?
+  # 
+  #in der diagnalen nicht suchen
+  diag(dists)=Inf
+  #nur in eine richtung suchen reicht, sonst werden beide punkte entfernt
+  dists[upper.tri(dists)]=Inf
   if (length(which(dists < Eps)) > 0) {
+   
     # Duplicates found.
     ind = which(dists < Eps, arr.ind = TRUE) # Get indices of duplicates.
     #    rownames(ind) <- ind[,1]
 
     ind = ind[as.character(unique(ind[, 1])), ,drop=FALSE] # remove multiples in the duplicates, so that only their first occurance remains. Example: if 1, 3, 4, and 6 are all duplicates of the same value, ind will contain [3,1], [4,1], [4,3], [6,1], [6,3] and [6,4]. This removes all except [3,1], [4,1] and [6,1]
-   
+    IsDuplicate[ind[, 1]]=TRUE
     uniqueDatapoints = Datapoints[-as.matrix(ind)[, 1], ,drop=FALSE] #MT: Korrektur, falls genau eine Dopplung besteht
   
     mergeind <- c(1:AnzPoints)
