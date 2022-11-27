@@ -22,10 +22,7 @@ MinX,Denom,Center=0)
 \details{
 For details see \code{\link{RobustNormalization}}
 }
-\value{
-[1:n,1:d]  Data matrix
-}
-
+\value{[1:n,1:d] Data matrix}
 \author{
 Michael Thrun
 }

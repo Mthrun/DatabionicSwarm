@@ -11,8 +11,8 @@ Delta3DWeightsC(vx,Datasample)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{vx}{ array of weights [1:Lines,1:Columns,1:Weights]}
-    \item{Datasample}{NumericVector of one Datapoint[1:n]}
+\item{vx}{ array of weights [1:Lines,1:Columns,1:Weights]}
+\item{Datasample}{NumericVector of one Datapoint[1:n]}
 }
 \details{
 intern function in case of \code{ComputeInR==FALSE} in \code{\link{GeneratePswarmVisualization}},

@@ -12,30 +12,25 @@ RelativeDifference(X, Y, epsilon = 10^-10,na.rm=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{X}{
-either a value or numerical vector of [1:n]
-}
-  \item{Y}{
-either a value or numerical vector of [1:n]
-}
-  \item{epsilon}{
-Optional, If both x and y are approximatly zero the output is also zero
-}
-  \item{na.rm}{
-Optional, function does not work with non finite values. If these cases should be automatically removed, set parameter TRUE
-}
+\item{X}{either a value or numerical vector of [1:n]}
+\item{Y}{either a value or numerical vector of [1:n]}
+\item{epsilon}{Optional, If both x and y are approximatly zero the output is
+also zero}
+\item{na.rm}{Optional, function does not work with non finite values. If these
+cases should be automatically removed, set parameter TRUE}
 }
 \details{
-Contrary to other approaches in this cases the range of values lies between [-2,2]. The approach is only valid for positive values of\code{X} and \code{Y}.
+Contrary to other approaches in this cases the range of values lies between
+[-2,2]. The approach is only valid for positive values of\code{X} and \code{Y}.
 The realtive difference \code{R} is defined with \deqn{R=\frac{Y-X}{0.5*(X+Y)}}
 
-Negative value indicate that \code{X}  is higher than \code{Y} and positive values that \code{X} is lower than \code{Y}.
+Negative value indicate that \code{X}  is higher than \code{Y} and positive
+values that \code{X} is lower than \code{Y}.
 }
-\value{
-R
-}
+\value{R}
 \references{
-Ultsch, A.: Is Log Ratio a Good Value for Measuring Return in Stock Investments? GfKl 2008, pp, 505-511, 2008.
+Ultsch, A.: Is Log Ratio a Good Value for Measuring Return in Stock Investments?
+GfKl 2008, pp, 505-511, 2008.
 }
 \author{
 Michael Thrun
@@ -43,7 +38,6 @@ Michael Thrun
 \note{
 It can be combined with the \code{DelaunayClassificationError} if a clear baseline is defined.
 }
-
 \seealso{
 \code{\link{DelaunayClassificationError}}
 }

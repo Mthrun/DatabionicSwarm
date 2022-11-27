@@ -1,29 +1,19 @@
 \name{ClusteringAccuracy}
 \alias{ClusteringAccuracy}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-ClusteringAccuracy
-}
-\description{
-ClusteringAccuracy
-}
-\usage{
-ClusteringAccuracy(PriorCls,CurrentCls,K=9)
+\title{ClusteringAccuracy}
+\description{ClusteringAccuracy}
+\usage{ClusteringAccuracy(PriorCls,CurrentCls,K=9)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{PriorCls}{
-%ground truth
+\item{PriorCls}{[1:n] integer vector; Ground truth}
+\item{CurrentCls}{[1:n] integer vector with clustering result}
+\item{K}{Maximal number of classes for computation.}
 }
-  \item{CurrentCls}{
-clustering result
-}
-  \item{K}{
-Maximal number of classes for computation.
-}
-}
-\details{
-Here, accuracy is defined as the normalized sum over all true positive labeled data points of a clustering algorithm. The best of all permutation of labels with the highest accuracy is selected in every trial because algorithms arbitrarily define the labels.
+\details{Here, accuracy is defined as the normalized sum over all true positive
+labeled data points of a clustering algorithm. The best of all permutation of
+labels with the highest accuracy is selected in every trial because algorithms
+arbitrarily define the labels.
 }
 \value{
 Accuracy Between zero and one
@@ -34,7 +24,6 @@ Michael C. Thrun, Felix Pape, Alfred Ultsch: Benchmarking Cluster Analysis Metho
 \author{
 Michael Thrun
 }
-
 \examples{
 data(Hepta)
 \donttest{

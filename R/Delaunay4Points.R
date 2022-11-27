@@ -1,22 +1,22 @@
 Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabriel=FALSE){
-# Delaunay=Delaunay4Points(BestMatches, IsToroid,Grid,PlotIt)$Delaunay
-# Calculates the adjacency matrix of the delaunay graph for bestmatches in tiled form if BMs are located on a toroid grid
-#
-# INPUT
-# BestMatches[1:n,1:3]            n by 3 matrix containing the BMKey, X and Y coordinates of the n BestMatches
-#                                 BestMatches NEED NOT BE UNIQUE!
-#                                 however, there is an edge in the Deaunay between duplicate points!  
-#
-# OPTIONAL
-# Grid[2]                         A vector of length 2, containing the number of lines and columns of the Grid
-# IsToroid                        logical, indicating if BM's are on a toroid grid. Default is True
-# PlotIt                          Set PlotIt=TRUE, if you want to see the Plots
-# OUTPUT
-# DelaunayAdjazenzMatrix[1:n,1:n]  adjacency matrix of the Delaunay-Graph
-#
-# NOTE: Im Unterschied zu Delauany4Bestmatches hier in cartesischer Definition, Testweise auch Gabriel Graph moeglich
-# 	     Die Unterfunktionen wurden fuer diesen einen Zweck noch nachoptimiert  
-# authors:  MT 03/16
+  # Delaunay=Delaunay4Points(BestMatches, IsToroid,Grid,PlotIt)$Delaunay
+  # Calculates the adjacency matrix of the delaunay graph for bestmatches in tiled form if BMs are located on a toroid grid
+  #
+  # INPUT
+  # BestMatches[1:n,1:3]            n by 3 matrix containing the BMKey, X and Y coordinates of the n BestMatches
+  #                                 BestMatches NEED NOT BE UNIQUE!
+  #                                 however, there is an edge in the Deaunay between duplicate points!  
+  #
+  # OPTIONAL
+  # Grid[2]                         A vector of length 2, containing the number of lines and columns of the Grid
+  # IsToroid                        logical, indicating if BM's are on a toroid grid. Default is True
+  # PlotIt                          Set PlotIt=TRUE, if you want to see the Plots
+  # OUTPUT
+  # DelaunayAdjazenzMatrix[1:n,1:n]  adjacency matrix of the Delaunay-Graph
+  #
+  # NOTE: Im Unterschied zu Delauany4Bestmatches hier in cartesischer Definition, Testweise auch Gabriel Graph moeglich
+  # 	     Die Unterfunktionen wurden fuer diesen einen Zweck noch nachoptimiert  
+  # authors:  MT 03/16
   if(is.list(Points))
     stop('Points is a list not a matrix')
   if (ncol(Points) > 3)
@@ -62,13 +62,16 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
     
    
     # Punkte unique machen
-    unique = UniquePoints(cbind(X, Y))
-    UniqXY = unique$Unique
-    #UniqueInd   = unique$UniqueInd
+    unique       = UniquePoints(cbind(X, Y))
+    UniqXY       = unique$Unique
+    UniqueInd    = unique$UniqueInd
     Uniq2DataInd = unique$Uniq2DatapointsInd
-    IsDuplicate = unique$IsDuplicate
-    UniqX =  UniqXY[, 1]
-    UniqY =  UniqXY[, 2]
+    IsDuplicate  = unique$IsDuplicate
+    UniqX        =  UniqXY[, 1]
+    UniqY        =  UniqXY[, 2]
+    # Der Index muss richtig berechnet werden, sonst funktioniert der Zugriff 
+    # auf die Delaunay Matrix nicht richtig (Linie 94)
+    RightIdx     = unlist(lapply(Uniq2DataInd, function(x) which(UniqueInd == x)))
     
     # Delaunay ausrechnen mit deldir
     DeldirOutput = deldir(UniqX , UniqY)  #
@@ -85,9 +88,11 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
         1  #Only Direct neighbours A and B get an one from A to B
     } # end for i neighbours
     
+    
     # jetzt uniqe points wieder auf originale uebertragen
     Delaunay = matrix(0, length(X), length(Y))
-    Delaunay = UniqDelaunay[Uniq2DataInd, Uniq2DataInd]
+    Delaunay = UniqDelaunay[RightIdx, RightIdx]
+    #Delaunay = UniqDelaunay[Uniq2DataInd, Uniq2DataInd]
     Delaunay = Delaunay + IsDuplicate # noch je eine Verbindung zwischen den Doubletten eintragen
     
     # ausgabe zusammenstellen

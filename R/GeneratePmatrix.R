@@ -26,16 +26,16 @@ if(missing(Lines)|missing(Columns))
 if(missing(Weights))
   stop("Weights are necessary")
 
-EsomNeurons=ListAsEsomNeurons(Weights,Lines,Columns)
+EsomNeurons=GeneralizedUmatrix::ListAsEsomNeurons(Weights,Lines,Columns)
 
 
 if(is.null(Radius)){
 
 x=x[lower.tri(x, diag = FALSE)]
 par=quantile(x,c(0.2)) #geschaetzter paretorRadius
-xx=ABCRemoveSmallYields(x,0.5)
+xx=ABCanalysis::ABCRemoveSmallYields(x,0.5)
 x=xx$SubstantialData
-res=suppressWarnings(ABCanalysis(x))
+res=suppressWarnings(ABCanalysis::ABCanalysis(x))
 Radius=1/(min(x[res$Aind])/max(x[res$Cind]))*par  #Verhaeltnis vermutliche inner/Inter Clusterdistanz
 #print(min(x[res$Aind])/max(x[res$Cind]))
 #print(par)
@@ -119,7 +119,7 @@ for ( i in 1:UmatrixLines ){
 #PMatrix=t(matrix(EsomNeuronsAnzInKugel,nrow=UmatrixCols,ncol=UmatrixLines))
 ###
 if(PlotIt){
-  p <- plotTopographicMap(PMatrix, Colormap=DataVisualizations::PmatrixColormap, Tiled=TRUE) +
+  p <- GeneralizedUmatrix::plotTopographicMap(PMatrix, Colormap=DataVisualizations::PmatrixColormap, Tiled=TRUE) +
     ggtitle('P-Matrix')
   print(p)
 #	optNrOfBins = OptimalNoBins(EsomNeuronsAnzInKugel)

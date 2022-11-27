@@ -1,4 +1,9 @@
-Version 1.1.5 (2020-10-28 GitHub)
+Version 1.1.6 (2022-11-26 CRAN)
+    o Corrected notes of CRAN derived from documentation
+    o Bugfixes in internal procedure of computing unique points for Delaunay4Points. Procedue is now available to the user as the function UniquePoints()	
+    o Print() replaced with message() in Pswarm()
+	
+Version 1.1.5 (2020-10-28 CRAN)
     o Improved documentation significantly.
     o Pswarm now falls back to the dist function if the package parallelDist is not installed.
     o sESOM agorithm for the generalized Umatrix improved and is described now in the MethodsX publication of [Thrun/Ultsch, 2020]. It differs from the first publication of [Thrun, 2018].
