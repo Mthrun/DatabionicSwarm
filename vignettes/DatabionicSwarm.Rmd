@@ -53,7 +53,7 @@ DBS is a flexible and robust clustering framework that consists of three indepen
 For further details, see [Thrun/Ultsch, 2020]. 
 
 # First Example: Automatic approach
-Here one example is presented using the automatic approach without any user interaction with shiny. Further automatic examples and a comparison to 26 common clustering algorithms is provided in http://www.deepbionics.org/Projects/ClusteringAlgorithms.html.
+Here an example is presented using the automatic approach without any user interaction with shiny. 
 If you want to verify your clustering result externally, you can use Heatmap or SilhouettePlot of the R package DataVisualizations on CRAN.
 
 ## First Module: Projection of high-dimensional Data
@@ -112,9 +112,7 @@ GeneralizedUmatrix::plotTopographicMap(
 
 #Second Example: Interactive Approach
 In this example, we show how to improve an automatic clustering accordingly to the topographic map using a shiny interface.
-The examples are not run in Rmarkdown, because CRAN wants to check the results regularly and this example is above their time limit. You may see
-http://www.deepbionics.org/Rpackages.html
-for the complete examples.
+The examples are not run in Rmarkdown, because CRAN wants to check the results regularly and this example is above their time limit.
 
 ## First Module: Projection of High-dimensional Data
 First, we generate a 2d projection with instant visualization of annealing steps (PlotIt=TRUE). This shows the non-linear process of concentrating on global structures first and later on local structures. Such an approach enables to entangle non-linear high-dimensional structures.

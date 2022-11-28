@@ -2,13 +2,14 @@
 \alias{getCartesianCoordinates}
 \title{Intern function: Transformation of Databot indizes to coordinates}
 \arguments{
-\item{DataBotsPos[1:N]}{complex vector Two Indizes per Databot describing its
+\item{DataBotsPos}{[1:N] complex vector Two Indizes per Databot describing its
 positions in an two dimensional grid}
-\item{GridRadius[Lines,Columns]}{Radii Matrix of all possible Positions of
+\item{GridRadius}{[Lines,Columns] Radii Matrix of all possible Positions of
 DataBots in Grid, see also documentation of \code{\link{setPolarGrid}}}
-\item{GridAngle[Lines,Columns]}{Angle Matrix of all possible Positions of
+\item{GridAngle}{[Lines,Columns] Angle Matrix of all possible Positions of
 DataBots in Grid, see also documentation of \code{\link{setPolarGrid}}}
-\item{Lines,Columns}{Size of planar toroid two dimensional grid}
+\item{Lines}{Defines Size of planar toroid two dimensional grid}
+\item{Columns}{Defines Size of planar toroid two dimensional grid}
 \item{QuadOrHexa}{Optional, FALSE=If DataPos on hexadiagonal grid, round to 2
 decimals after value, Default=TRUE}
 }
