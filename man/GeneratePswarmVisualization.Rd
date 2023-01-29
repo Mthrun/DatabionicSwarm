@@ -26,7 +26,7 @@ hypsometric tints can be visualized. To see this visualization use
 }
 \usage{
 GeneratePswarmVisualization(Data,ProjectedPoints,LC,PlotIt=FALSE,
-ComputeInR=FALSE)
+ComputeInR=FALSE,Parallel=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,6 +46,9 @@ grid size is given back in the Output.}
 \code{plotTopographicMap} of the package GeneralizedUmatrix is plotted as a
 topview in the tiled option, see details for explanation.}
 \item{ComputeInR}{Optional, =TRUE: Rcode, =FALSE C++ implementation}
+
+\item{Parallel}{Optional, =TRUE: Parallel C++ implementation, =FALSE C++ implementation}
+
 }
 \details{
 Tiled: The topographic map is visualized 4 times because the projection is

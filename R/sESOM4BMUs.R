@@ -1,4 +1,4 @@
-sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = F) {
+sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = FALSE, Parallel=FALSE) {
     #esom=sESOM4BMUs(bmpos,Data, esom, toroid=TRUE, CurrentRadius)=F
     #simplified ESOM Algorithmus for BestMatchingUnits
     # INPUT
@@ -52,8 +52,12 @@ sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = F) {
     #GetBestMatch Initialisierungen
     difference <- esom
     if (!ComputeInR) {
-      esomAngepasst = trainstepC(esom, aux - 1, newData, BMUnew - 1, k, m, CurrentRadius, toroid)
-      
+
+      if(Parallel){
+        esomAngepasst=trainstepC2(esom,aux-1,newData,BMUnew-1,k, m, w, CurrentRadius,toroid)
+      }else{
+        esomAngepasst = trainstepC(esom, aux - 1, newData, BMUnew - 1, k, m, CurrentRadius, toroid)
+      }
     } else{
       for (p in 1:NumberOfDataSamples) {
         ## Begin One Learnstep for one inputvector (1 Datenzeile)

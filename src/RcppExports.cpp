@@ -108,3 +108,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// trainstepC2
+NumericVector trainstepC2(NumericVector esomwts, NumericVector aux, NumericMatrix DataSampled, NumericMatrix BMUsampled, double Lines, double Columns, double Weights, double Radius, bool toroid);
+RcppExport SEXP _DatabionicSwarm_trainstepC2(SEXP esomwtsSEXP, SEXP auxSEXP, SEXP DataSampledSEXP, SEXP BMUsampledSEXP, SEXP LinesSEXP, SEXP ColumnsSEXP, SEXP WeightsSEXP, SEXP RadiusSEXP, SEXP toroidSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type esomwts(esomwtsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type aux(auxSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type DataSampled(DataSampledSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type BMUsampled(BMUsampledSEXP);
+    Rcpp::traits::input_parameter< double >::type Lines(LinesSEXP);
+    Rcpp::traits::input_parameter< double >::type Columns(ColumnsSEXP);
+    Rcpp::traits::input_parameter< double >::type Weights(WeightsSEXP);
+    Rcpp::traits::input_parameter< double >::type Radius(RadiusSEXP);
+    Rcpp::traits::input_parameter< bool >::type toroid(toroidSEXP);
+    rcpp_result_gen = Rcpp::wrap(trainstepC2(esomwts, aux, DataSampled, BMUsampled, Lines, Columns, Weights, Radius, toroid));
+    return rcpp_result_gen;
+END_RCPP
+}

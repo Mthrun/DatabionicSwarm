@@ -11,8 +11,8 @@ equlibrium [Thrun/Ultsch, 2021]. Using polar coordinates for agents (here
 Databots) in two dimensions has many advantages, for further details see
 [Thrun, 2018] and [Thrun/Ultsch, 2021].}
 \usage{
-Pswarm(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,
-Debug=FALSE,LC=c(NULL,NULL),method= "euclidean",...)
+Pswarm(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,
+Debug=FALSE,LC=c(NULL,NULL),method= "euclidean",Parallel=FALSE,...)
 }
 \arguments{
 \item{DataOrDistance}{Numeric matrix [1:n,1:n]: symmetric matrix of
@@ -31,6 +31,7 @@ messages, depricated for CRAN, because cout is not allowed.}
 \code{\link{setGridSize}} separately.}
 \item{method}{Optional, one of 39 distance methods of \code{parDist} of package
 parallelDist,  if Data matrix is chosen above}
+\item{Parallel}{Optional, =TRUE: Parallel C++ implementation, =FALSE C++ implementation}
 \item{\dots}{Further arguments passed on to the \code{parDist} function, e.g.
 user-defined distance functions}
 }

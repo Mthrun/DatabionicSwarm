@@ -1,4 +1,4 @@
-Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FALSE,LC=c(NULL,NULL),method='euclidean',...){
+Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,Debug=FALSE,LC=c(NULL,NULL),method='euclidean',Parallel=FALSE,...){
 # bmus=pswarmCpp(DataOrDists,PlotIt=T,Cls)
 # Laesst den Pswarm Schwarmalgorithmus ueber einen Datensatz laufen
 # polar oriatated swarm
@@ -14,6 +14,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=F,Cls=NULL,Silent=T,Debug=FA
 #
 # Silent                    =FALSE: No print Output, =TRUE some print outs
 # Debug                     =TRUE: Debigging Modus, Slow with alot of prints
+# Parallel				     ToDo
 # OUTPUT Liste V
 # V$BestMatchingUnits[1:n,1:3]        n by 2 matrix containing  X and Y coordinates of the n BestMatches for each databot including unique key
 #                           BestMatches need to be unique. Transformation from polar (R,phi) to kartesisch (x,y) is done automatically

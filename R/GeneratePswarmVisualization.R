@@ -1,4 +1,4 @@
-GeneratePswarmVisualization=function(Data,ProjectedPoints,LC,PlotIt=FALSE,ComputeInR=FALSE){
+GeneratePswarmVisualization=function(Data,ProjectedPoints,LC,PlotIt=FALSE,ComputeInR=FALSE,Parallel=FALSE){
 # results=GeneratePswarmVisualization(Data,res$ProjectedPoints,res$LC)
 # plotUmatrix(results$Umatrix,results$Bestmatches,Cls)
 #Generiert die ESOMneurons(wts) und die Umatrix (umx) fuer einen Schwarm
@@ -166,7 +166,7 @@ vec=pmax(seq(from=AnfangsRadius-1,by=-1,length.out = HeuristischerParameter),1)
   for (i in vec){
     CurrentRadius =  i#max(AnfangsRadius-i,1) #Endradius=1
     #Algorithmus
-      wts=sESOM4BMUs(BMUs,Data, wts, toroid=T, CurrentRadius,ComputeInR)
+      wts=sESOM4BMUs(BMUs,Data, wts, toroid=T, CurrentRadius,ComputeInR,Parallel=Parallel)
     print(paste0('Operator: getUmatrix4BMUs() at ',round(1-i/HeuristischerParameter,2)*100,'%'))
   } # end 1:epochs
  
