@@ -2,7 +2,7 @@ Package: DatabionicSwarm
 Type: Package
 License: GPL-3
 Title: Swarm Intelligence for Self-Organized Clustering
-Version: 1.1.6
+Version: 1.1.7
 Date: 2023-01-29
 Authors@R: person("Michael", "Thrun", email= "m.thrun@gmx.net",role=c("aut","cre","cph"), comment = c(ORCID = "0000-0001-9542-5543"))
 Maintainer: Michael Thrun <m.thrun@gmx.net>

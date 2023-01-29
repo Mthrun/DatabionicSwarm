@@ -59,26 +59,13 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
     m="Connected DBS clustering"
   }
 
-  
-  Cls=cutree(hc,k)
-
-  counter = 0
-  bool = T
-  NumberOfClassesSet = k
-  while (counter < 0.05 * length(Cls)) {
-    counter = counter + 1
-    uniqueClasses <- sort(na.last = T, unique(Cls))
-    numberOfClasses <- length(uniqueClasses)
-    countPerClass <- rep(0, numberOfClasses)
-    for (i in 1:numberOfClasses) {
-      inClassI <-
-        sum(Cls == uniqueClasses[i]) # counts all occurances of uniqueClass[i] in cls
-      countPerClass[i] = inClassI
-    }
-    
-    if (max(countPerClass) > 0.95 * length(Cls)) {
-      k = k + 1
-      Cls = cutree(hc, k)
+  if(k>1){
+    Cls=cutree(hc,k)
+    counter = 0
+    bool = T
+    NumberOfClassesSet = k
+    while (counter < 0.05 * length(Cls)) {
+      counter = counter + 1
       uniqueClasses <- sort(na.last = T, unique(Cls))
       numberOfClasses <- length(uniqueClasses)
       countPerClass <- rep(0, numberOfClasses)
@@ -87,18 +74,33 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
           sum(Cls == uniqueClasses[i]) # counts all occurances of uniqueClass[i] in cls
         countPerClass[i] = inClassI
       }
-      ind = order(countPerClass, decreasing = F, na.last = T)
-      n = numberOfClasses - NumberOfClassesSet
-      for (l in 1:n) {
-        indc = which(Cls == uniqueClasses[ind[l]])
-        Cls[indc] = 99
+      
+      if (max(countPerClass) > 0.95 * length(Cls)) {
+        k = k + 1
+        Cls = cutree(hc, k)
+        uniqueClasses <- sort(na.last = T, unique(Cls))
+        numberOfClasses <- length(uniqueClasses)
+        countPerClass <- rep(0, numberOfClasses)
+        for (i in 1:numberOfClasses) {
+          inClassI <-
+            sum(Cls == uniqueClasses[i]) # counts all occurances of uniqueClass[i] in cls
+          countPerClass[i] = inClassI
+        }
+        ind = order(countPerClass, decreasing = F, na.last = T)
+        n = numberOfClasses - NumberOfClassesSet
+        for (l in 1:n) {
+          indc = which(Cls == uniqueClasses[ind[l]])
+          Cls[indc] = 99
+        }
+      } else{
+        bool = FALSE
       }
-    } else{
-      bool = FALSE
+      if (!bool)
+        break
+      # print(counter)
     }
-    if (!bool)
-      break
-    # print(counter)
+  }else{#no clustering was performed
+    Cls=rep(1,length(rnames))
   }
   names(Cls)=rnames
   
@@ -111,6 +113,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
       #count frequency in that ordering
       uniqueClasses <- unique(Cls_tmp)
       numberOfClasses <- length(uniqueClasses)
+      
       #countPerClass <- rep(0, numberOfClasses)
       countPerClass=list()
       for (i in uniqueClasses) {
@@ -120,7 +123,10 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
       names(countPerClass)=uniqueClasses
       countPerClass=unlist(countPerClass)
       #get the right number of colors
-      cols=ProjectionBasedClustering::DefaultColorSequence[1:numberOfClasses]
+      if(numberOfClasses>1)
+        cols=ProjectionBasedClustering::DefaultColorSequence[1:numberOfClasses]
+      else
+        cols="black"
       #what would be the ordering of datra based on frequency
       data_order=order(countPerClass,decreasing = TRUE) #from highest frequency
       #what would be the orders of the branches
