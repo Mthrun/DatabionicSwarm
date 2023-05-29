@@ -1,29 +1,40 @@
-DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt=FALSE,method='euclidean',...){
-#Cls=DBSclustering(k,Data,BestMatches,LC,StructureType=TRUE,PlotIt=F,method='euclidean')
-# automated Clustering approach of the DataBionicSwarm with abstact U distances
-# INPUT
-# k                   number of classes, how many to you see in the 3d landscape?
-# DataOrDistance      Matrix of Data or Distance that will be used. One DataPoint per row
-# BestMatches         Array with positions of Bestmatches=ProjectedPoints
-# LC
-# OPTIONAL  
-# StructureType           compact structure of clusters assumed, =FALSE: connected structure of clusters assumed
-# PlotIt              Plots Dendrogramm
-# method              do not change 
-# OUTPUT 
-# Cls                 vector with selected classes of the bestmatches
-#  
-# author: MT 06/16 
-#  
-#  NOTE: das ist eine eigene Idee: Nehme die Distantz in LoetschUltsch2014 definiert und stecke sie in
-#		Distanz=ShortestGraphPaths -> Cluster sind immer in sich geschlossen in 2D
-#							-> Politische Karte irrelevant -> Nahteil: Falls Projektion Fehler hat (Punke des einen Clusters innerhalb des anderen Clusters)
-#							-> Hat Clusterung fehler und CLusterung ist nichtmehr dichte basiert
-# Alus 2016 IDEE ueber die Distanz ist in AUstarDist.R implementiert
+DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,
+                       PlotIt=FALSE,ylab,main,method='euclidean',...){
+  #Cls=DBSclustering(k,Data,BestMatches,LC,StructureType=TRUE,PlotIt=F,method='euclidean')
+  # automated Clustering approach of the DataBionicSwarm with abstact U distances
+  # INPUT
+  # k                   number of classes, how many to you see in the 3d landscape?
+  # DataOrDistance      Matrix of Data or Distance that will be used. One DataPoint per row
+  # BestMatches         Array with positions of Bestmatches=ProjectedPoints
+  # LC
+  # OPTIONAL  
+  # StructureType           compact structure of clusters assumed, =FALSE: connected structure of clusters assumed
+  # PlotIt              Plots Dendrogramm
+  # method              do not change 
+  # OUTPUT 
+  # Cls                 vector with selected classes of the bestmatches
+  #  
+  # author: MT 06/16 
+  #  
+  #  NOTE: das ist eine eigene Idee: Nehme die Distantz in LoetschUltsch2014 definiert und stecke sie in
+  #		Distanz=ShortestGraphPaths -> Cluster sind immer in sich geschlossen in 2D
+  #							-> Politische Karte irrelevant -> Nahteil: Falls Projektion Fehler hat (Punke des einen Clusters innerhalb des anderen Clusters)
+  #							-> Hat Clusterung fehler und CLusterung ist nichtmehr dichte basiert
+  # Alus 2016 IDEE ueber die Distanz ist in AUstarDist.R implementiert
   #requireRpackage('deldir')
   #requireRpackage('geometry')
   DataOrDistance=checkInputDistancesOrData(DataOrDistance,funname='DBSclustering')
-  
+  if(missing(ylab)){
+  ylab="Ultrametric Portion of Distance"
+  }
+   if(missing(main)){
+   if(isTRUE(StructureType)){
+   StructureTypeStr="Compact"
+   }else{
+   StructureTypeStr="Connected"
+   }
+  main=paste0("Cluster Structure Type ",StructureTypeStr)
+  }
   if (isSymmetric(unname(DataOrDistance))) {
     InputD = DataOrDistance
     rnames=1:nrow(DataOrDistance)
@@ -49,14 +60,12 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
   if(StructureType){
     pDist=as.dist(Dist)
     hc <- hclust(pDist,method="ward.D")
-    m="Compact DBS clustering"
   }else{
     ind=which(GOutput==0,arr.ind=T)
     Dist2=Dist*GOutput
     Dist2[ind]=max(Dist)*2
     pDist=as.dist(Dist2)
     hc <- hclust(pDist,method="single")
-    m="Connected DBS clustering"
   }
 
   if(k>1){
@@ -137,7 +146,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,PlotIt
       #branch colors with specific set of colors based on cluster frequency
       x=dendextend::set(x,"branches_k_color", k = k,cols)
     }
-    plot(x, main=m,xlab="No. of Data Points N", ylab="Ultrametric Portion of Distance",sub=" ",leaflab ="none")
+    plot(x, main=main,xlab="No. of Data Points N", ylab=ylab,sub=" ",leaflab ="none", ...)
     axis(1,col="black",las=1)
   }
   

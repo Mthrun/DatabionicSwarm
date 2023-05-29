@@ -39,7 +39,8 @@ DelaunayClassificationError=function(Data,ProjectedPoints,Cls,LC=NULL){
     del = Delaunay4Points(ProjectedPoints, F)
   else
     # Im toroiden fall gibts die ESOM definition, wo x und y vertauscht sind
-    del = Delaunay4Points(ProjectedPoints, T, LC[c(2, 1)])
+    #del = Delaunay4Points(Points = ProjectedPoints, IsToroid = TRUE, Grid = LC[c(2, 1)])
+    del = Delaunay4Points(Points = ProjectedPoints, IsToroid = TRUE, Grid = LC)
   #######################################################################
   HarmonicDecay = function(n) {
     #  HD = HarmonicDecay(n)

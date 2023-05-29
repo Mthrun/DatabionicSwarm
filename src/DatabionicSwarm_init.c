@@ -14,6 +14,8 @@ extern SEXP _DatabionicSwarm_findPossiblePositionsCsingle(SEXP, SEXP, SEXP, SEXP
 extern SEXP _DatabionicSwarm_PswarmCurrentRadiusC2botsPositive(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _DatabionicSwarm_rDistanceToroidCsingle(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _DatabionicSwarm_trainstepC(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _DatabionicSwarm_trainstepC2(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+
 
 static const R_CallMethodDef CallEntries[] = {
     {"_DatabionicSwarm_Delta3DWeightsC",                   (DL_FUNC) &_DatabionicSwarm_Delta3DWeightsC,                    2},
@@ -22,6 +24,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DatabionicSwarm_PswarmCurrentRadiusC2botsPositive", (DL_FUNC) &_DatabionicSwarm_PswarmCurrentRadiusC2botsPositive, 14},
     {"_DatabionicSwarm_rDistanceToroidCsingle",            (DL_FUNC) &_DatabionicSwarm_rDistanceToroidCsingle,             6},
     {"_DatabionicSwarm_trainstepC",                        (DL_FUNC) &_DatabionicSwarm_trainstepC,                         8},
+    {"_DatabionicSwarm_trainstepC2",                       (DL_FUNC) &_DatabionicSwarm_trainstepC2,                        9},
     {NULL, NULL, 0}
 };
 

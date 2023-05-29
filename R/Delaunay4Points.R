@@ -67,17 +67,17 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
     UniqueInd    = unique$UniqueInd
     Uniq2DataInd = unique$Uniq2DatapointsInd
     IsDuplicate  = unique$IsDuplicate
-    UniqX        =  UniqXY[, 1]
-    UniqY        =  UniqXY[, 2]
+    UniqX        = UniqXY[, 1]
+    UniqY        = UniqXY[, 2]
     # Der Index muss richtig berechnet werden, sonst funktioniert der Zugriff 
     # auf die Delaunay Matrix nicht richtig (Linie 94)
     RightIdx     = unlist(lapply(Uniq2DataInd, function(x) which(UniqueInd == x)))
     
     # Delaunay ausrechnen mit deldir
-    DeldirOutput = deldir(UniqX , UniqY)  #
-    PointsAndIndices = DeldirOutput$delsgs # dadrin stecken die indices des Delaunays von -> Nach
-    FromInd =  PointsAndIndices$ind1     #  indices der Ausgangspunkte des Delanays
-    ToInd   =  PointsAndIndices$ind2     #  indices der Endpunkte des Delanays
+    DeldirOutput     = deldir::deldir(UniqX , UniqY)  #
+    PointsAndIndices = DeldirOutput$delsgs            # dadrin stecken die indices des Delaunays von -> Nach
+    FromInd          =  PointsAndIndices$ind1         #  indices der Ausgangspunkte des Delanays
+    ToInd            =  PointsAndIndices$ind2         #  indices der Endpunkte des Delanays
     
     # Adjazenzmatrix befuellen
     UniqDelaunay = matrix(0, length(UniqX), length(UniqY))  # Adjazenzmatrix initialisieren
@@ -100,16 +100,16 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
   }# end function  DelaunayGraphMatrix
   ###############################################################################################
   ##############################################################################################
-  if (IsToroid) {
+  if(IsToroid){
     # behandlung eines pack-man (toroiden) MapSpaces
     
     TiledX = Points[, 1]
     TiledY = Points[, 2]
     TiledX = c(TiledX, TiledX + Xgrid, TiledX + Xgrid, TiledX)
     TiledY = c(TiledY, TiledY, TiledY + Ygrid, TiledY + Ygrid)
-    if (Gabriel) {
+    if(Gabriel){
       Delaunay = calcGabrielGraph2D(cbind(TiledX, TiledY), PlotIt = PlotIt)
-    } else{
+    }else{
       Delaunay = DelaunayGraphMatrix_hlp(TiledX, TiledY, PlotIt = PlotIt)
     }
     

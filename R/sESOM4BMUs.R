@@ -1,4 +1,4 @@
-sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = FALSE, Parallel=FALSE) {
+sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = FALSE, Parallel=TRUE) {
     #esom=sESOM4BMUs(bmpos,Data, esom, toroid=TRUE, CurrentRadius)=F
     #simplified ESOM Algorithmus for BestMatchingUnits
     # INPUT
@@ -54,7 +54,7 @@ sESOM4BMUs =function(BMUs,Data,esom,toroid,CurrentRadius, ComputeInR = FALSE, Pa
     if (!ComputeInR) {
 
       if(Parallel){
-        esomAngepasst=trainstepC2(esom,aux-1,newData,BMUnew-1,k, m, w, CurrentRadius,toroid)
+        esomAngepasst=trainstepC2(esom,aux-1, newData, BMUnew-1,k, m, NumberOfweights, CurrentRadius,toroid)
       }else{
         esomAngepasst = trainstepC(esom, aux - 1, newData, BMUnew - 1, k, m, CurrentRadius, toroid)
       }

@@ -26,7 +26,7 @@ hypsometric tints can be visualized. To see this visualization use
 }
 \usage{
 GeneratePswarmVisualization(Data,ProjectedPoints,LC,PlotIt=FALSE,
-ComputeInR=FALSE,Parallel=FALSE)
+ComputeInR=FALSE,Parallel=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -271,7 +271,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,D
   
   return(list(
     ProjectedPoints = bmu,
-    LC              = c(Lines, Columns),
+    LC              = c(Columns, Lines),
     Control         = list(stressverlauf          = stressverlauf,
                            eppocheradiusreduziert = eppocheradiusreduziert,
                            LetzteEppocheStress    = stress

@@ -1,4 +1,4 @@
-GeneratePswarmVisualization=function(Data,ProjectedPoints,LC,PlotIt=FALSE,ComputeInR=FALSE,Parallel=FALSE){
+GeneratePswarmVisualization=function(Data,ProjectedPoints,LC,PlotIt=FALSE,ComputeInR=FALSE,Parallel=TRUE){
 # results=GeneratePswarmVisualization(Data,res$ProjectedPoints,res$LC)
 # plotUmatrix(results$Umatrix,results$Bestmatches,Cls)
 #Generiert die ESOMneurons(wts) und die Umatrix (umx) fuer einen Schwarm
