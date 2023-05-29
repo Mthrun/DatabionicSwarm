@@ -33,7 +33,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,
    }else{
    StructureTypeStr="Connected"
    }
-  main=paste0("Cluster Structure Type ",StructureTypeStr)
+  main=paste0(StructureTypeStr," DBS Clustering")
   }
   if (isSymmetric(unname(DataOrDistance))) {
     InputD = DataOrDistance
@@ -54,7 +54,7 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,
   }# end if(isSymmetric(DataOrDists))
   
  GabrielGraph=FALSE #gabriel graph immer schlechter...
-  GOutput=Delaunay4Points(BestMatches, Grid = LC, IsToroid=T,PlotIt=F,Gabriel=GabrielGraph)
+  GOutput=Delaunay4Points(BestMatches, LC = LC[c(2,1)], IsToroid=T,PlotIt=F,Gabriel=GabrielGraph)
     
     Dist=ShortestGraphPathsC(GOutput,InputD)
   if(StructureType){

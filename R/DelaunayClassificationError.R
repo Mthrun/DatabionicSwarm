@@ -1,4 +1,4 @@
-DelaunayClassificationError=function(Data,ProjectedPoints,Cls,LC=NULL){
+DelaunayClassificationError=function(Data,ProjectedPoints,Cls,LC){
 # DCE  = DelaunayClassificationError(Data,ProjectedPoints,Cls) 
 # [DCE,DCEperPoint] = DelaunayClassificationError(Data,ProjectedPoints,Cls) 
 # [DCE,DCEperPoint,nn,AnzNN,NNdists,HD] = DelaunayClassificationError(OutputDelaunay,InputDistances,Cls) 
@@ -34,13 +34,13 @@ DelaunayClassificationError=function(Data,ProjectedPoints,Cls,LC=NULL){
     ProjectedPoints = ProjectedPoints[, 2:3]
   }
 #Calculate Delaunay Graph in Outputspace  
-  if (is.null(LC))
+  if (missing(LC))
     #Berechne Delaunay Graphen, eigene Funktion, falls das mal auf CRAN soll
-    del = Delaunay4Points(ProjectedPoints, F)
+    del = Delaunay4Points(Points=ProjectedPoints, IsToroid=F)
   else
     # Im toroiden fall gibts die ESOM definition, wo x und y vertauscht sind
     #del = Delaunay4Points(Points = ProjectedPoints, IsToroid = TRUE, Grid = LC[c(2, 1)])
-    del = Delaunay4Points(Points = ProjectedPoints, IsToroid = TRUE, Grid = LC)
+    del = Delaunay4Points(Points = ProjectedPoints, IsToroid = TRUE, LC = LC)
   #######################################################################
   HarmonicDecay = function(n) {
     #  HD = HarmonicDecay(n)

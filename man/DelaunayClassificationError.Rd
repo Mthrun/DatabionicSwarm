@@ -10,14 +10,13 @@ neighbors in the Output space. A low value indicates a better two-dimensional
 projection of the high-dimensional Input space.
 }
 \usage{
-DelaunayClassificationError(Data,ProjectedPoints,Cls,LC=NULL)
+DelaunayClassificationError(Data,ProjectedPoints,Cls,LC)
 }
 \arguments{
 \item{Data}{[1:n,1:d] Numeric matrix}
 \item{ProjectedPoints}{[1:n,1:2]}
 \item{Cls}{[1:n,1]}
-\item{LC}{Optional, default NULL,  Wenn toroid, muss c(Lines,Columns) angeben
-werden}
+\item{LC}{Optional, if toroid, please set c(Lines,Columns)}
 }
 \details{
 Delaunay classification error (DCE) makes an unbiased evaluation of distance and

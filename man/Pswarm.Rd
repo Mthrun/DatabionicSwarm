@@ -49,7 +49,7 @@ and vice versa. The term DBS refers to the method as a whole. }
 \value{
 List with
 \item{ProjectedPoints}{[1:n,1:2] xy cartesian coordinates of projection}
-\item{LC}{number of Lines and Columns in c(Lines,Columns)}
+\item{LC}{number of Lines and Columns in c(Lines,Columns). Lines is a value slightly above the maximum of the x-coordinates and Columns is a value slightly above the maximum of the y-coordinates  of ProjectedPoints}
 \item{Control}{List, only for intern debugging}
 }
 \references{

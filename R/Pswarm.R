@@ -23,7 +23,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,D
 #  
 # Autor: MT 01/2015
 # Nota: im debugging modus sollten relativ differenzen des payoffs angegeben werden statt festen werten
-  
+# parallelCPP version author: QS 2023
 #############################
 ## Not required anymore  
   # LC                        Vector of Lines and Colums, specific:
@@ -271,7 +271,7 @@ Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,D
   
   return(list(
     ProjectedPoints = bmu,
-    LC              = c(Columns, Lines),
+    LC              = c(Lines,Columns),
     Control         = list(stressverlauf          = stressverlauf,
                            eppocheradiusreduziert = eppocheradiusreduziert,
                            LetzteEppocheStress    = stress

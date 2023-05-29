@@ -1,6 +1,6 @@
 citHeader("To cite the 'DatabionicSwarm' R package in publications, please use:")
 
-citEntry(entry = "Book",
+bibentry(bibtype = "Book",
   title = "Projection-Based Clustering through Self-Organization and Swarm Intelligence",
   author = personList(person(given="Michael Christoph", family="Thrun")),
   publisher = "Springer",

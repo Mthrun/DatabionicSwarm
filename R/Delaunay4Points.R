@@ -1,14 +1,14 @@
-Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabriel=FALSE){
-  # Delaunay=Delaunay4Points(BestMatches, IsToroid,Grid,PlotIt)$Delaunay
+Delaunay4Points <- function(Points, IsToroid = TRUE,LC,PlotIt=FALSE,Gabriel=FALSE){
+  # Delaunay=Delaunay4Points(Points, IsToroid,Grid,PlotIt)$Delaunay
   # Calculates the adjacency matrix of the delaunay graph for bestmatches in tiled form if BMs are located on a toroid grid
   #
   # INPUT
-  # BestMatches[1:n,1:3]            n by 3 matrix containing the BMKey, X and Y coordinates of the n BestMatches
-  #                                 BestMatches NEED NOT BE UNIQUE!
+  # Points[1:n,1:3]            n by 3 matrix containing the BMKey, X and Y coordinates of the n Points
+  #                                 Points NEED NOT BE UNIQUE!
   #                                 however, there is an edge in the Deaunay between duplicate points!  
   #
   # OPTIONAL
-  # Grid[2]                         A vector of length 2, containing the number of lines and columns of the Grid
+  # LC[1:2]                         A vector of length 2, containing the number of lines (y-points) and columns (x-points) of the Grid
   # IsToroid                        logical, indicating if BM's are on a toroid grid. Default is True
   # PlotIt                          Set PlotIt=TRUE, if you want to see the Plots
   # OUTPUT
@@ -17,6 +17,8 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
   # NOTE: Im Unterschied zu Delauany4Bestmatches hier in cartesischer Definition, Testweise auch Gabriel Graph moeglich
   # 	     Die Unterfunktionen wurden fuer diesen einen Zweck noch nachoptimiert  
   # authors:  MT 03/16
+  
+
   if(is.list(Points))
     stop('Points is a list not a matrix')
   if (ncol(Points) > 3)
@@ -29,10 +31,17 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,Gabri
   if (ncol(Points) == 3) {
     Points = Points[, 2:3]
   }
-  if (IsToroid)
-    if (is.null(Grid))
-      stop('Grid has to be set, if toroid=TRUE')
-  if (!is.null(Grid)) {
+  
+  if(!missing(LC)){
+    #shuffle so that it works for points
+    Grid=LC[c(2,1)]
+    #Grid=LC
+  }else{
+    if (IsToroid){
+      stop('LC has to be set, if toroid=TRUE')
+    }
+  }
+  if (!missing(LC)) {
     Xgrid = Grid[1]
     Ygrid = Grid[2]
   }

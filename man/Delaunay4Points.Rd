@@ -6,7 +6,7 @@ Adjacency matrix of the delaunay graph for BestMatches of Points
 \description{
 Calculates the adjacency matrix of the delaunay graph for BestMatches (BMs) in
 tiled form if BestMatches are located on a toroid grid.}
-\usage{Delaunay4Points(Points, IsToroid = TRUE,Grid=NULL,PlotIt=FALSE,
+\usage{Delaunay4Points(Points, IsToroid = TRUE,LC,PlotIt=FALSE,
 Gabriel=FALSE)}
 \arguments{
 \item{Points}{[1:n,1:3] matrix containing the BMKey, X and Y coordinates of the
@@ -14,8 +14,7 @@ n,  BestMatches NEED NOT to be UNIQUE,  however, there is an edge in the Deaunay
 between duplicate points!}
 \item{IsToroid}{Optional, logical, indicating if BM's are on a toroid grid.
 Default is True}
-\item{Grid}{Optional, A vector of length 2, containing the number of lines and
-columns of the Grid}
+\item{LC}{Optional, A vector of length 2, containing the number of lines and columns of the Grid. Lines is a value slightly above the maximum of the x-coordinates and Columns is a value slightly above the maximum of the y-coordinates  of Points.}
 \item{PlotIt}{Optional, bool, Plots the graph}
 \item{Gabriel}{Optional, bool, default: FALSE, If TRUE: calculates the gabriel
 graph instead of the delaunay graph}
