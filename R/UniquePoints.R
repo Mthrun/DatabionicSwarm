@@ -1,144 +1,197 @@
-UniquePoints <- function(Datapoints,Eps) {
+UniquePoints <- function(Datapoints, Cls, Eps=1e-10) {
+  # 
   # V <- UniquePoints(Datapoints)
   # return only the unique points in Datapoints
-  #
+  # 
+  # DESCRIPTION
+  # This function will return the set of unique points within an epsilon 
+  # neighborhood.
+  # 
   # INPUT
   # Datapoints[1:n,1:d]   [1:n,1:d] matrix of Datapoints points of dimension d
   #				                the points are in the  rows
   #
-  # Eps                   Optional,scalarabove zero that defines minimum non-identical euclidean distance between two points
+  # Eps                   Optional,scalarabove zero that defines minimum non-
+  #                       identical euclidean distance between two points
+  # 
   # OUTPUT
   # a list V containing:
-  # Unique                  [1:k,1:d]      the Datapoints points  without duplicate points
-  # IsDuplicate             [1:n,1:n]      for i!=j IsDuplicate[i,j]== 1  if Datapoints[i,] == Datapoints[j,]    IsDuplicate[i,i]==0
-  # UniqueInd               [1:k]		       an index vector 1:k such that Unique ==  Datapoints[UniqueInd,], it has k non-consecutive numbers or labels, each label defines a row number within Datapoints[1:n,1:d] of a unique data point
-  # Uniq2DatapointsInd      [1:n] 	       an index vector 1:n. It has k unique index numbers representing the arbitrary labels. Each labels is mapped uniquely to a point in Unique. Logically in a way such that Datapoints ==  Unique[Uniq2DatapointsInd,] (will not work directly in R this way) 
+  # Unique[1:k,1:d]        the Datapoints points  without duplicate points
+  # IsDuplicate[1:n]       is the datapoint a unique or a doublet
+  # (IsDuplicate[1:n,1:n]   for i!=j IsDuplicate[i,j]== 1  if Datapoints[i,] == Datapoints[j,]    IsDuplicate[i,i]==0)
+  # UniqueInd[1:k]		     an index vector 1:k such that
+  #                        Unique == Datapoints[UniqueInd,], it has k
+  #                        non-consecutive numbers or labels, each label defines
+  #                        a row number within Datapoints[1:n,1:d] of a unique
+  #                        data point
+  # Uniq2DatapointsInd[1:n]    an index vector 1:n. It has k unique index
+  #                            numbers representing the arbitrary labels. Each
+  #                            labels is mapped uniquely to a point in Unique.
+  #                            Logically in a way such that
+  #                            Datapoints == Unique[Uniq2DatapointsInd,]
+  #                            (will not work directly in R this way) 
   #
-  #Description: Euclidean distance is computed and used within. Setting \code{Eps} to a very small number results in the identification of unique data points. Setting epsilon to a higher number results in the definition of mesh points within an d-dimensional R-ball grap
-  #MT 06/2022
-
-  if(missing(Eps)){                 # ab dieser Distanz zwischen 2 punkten sind diese identisch
-    Eps =0.0000000001
-  }
-  if (inherits(Datapoints,"matrix")) {
-    # If Datapoints is a vector.
+  # Description: Euclidean distance is computed and used within. Setting 
+  # \code{Eps} to a very small number results in the identification of unique
+  # data points. Setting epsilon to a higher number results in the definition of
+  # mesh points within an d-dimensional R-ball grap
+  # 
+  # DETAILS
+  # Careful! This function is mathematically not uniquely defined! There can be
+  # different outcomes if data is shuffled. This is due to the order of the
+  # data, which determines the rank in distances, where the first occurence is
+  # always regarded as the unique point, and the subsequent close neighbors are
+  # doublets!
+  # 
+  # Algorithmic idea: MT 2022, Solved: QS 09/2023
+  
+  
+  #if(inherits(Datapoints,"matrix")) {
+  if(is.vector(Datapoints)) {
+      # If Datapoints is a vector.
     Datapoints <- as.matrix(Datapoints)
   }
-  AnzPoints = nrow(Datapoints)               # soviele punkte in den Daten
-  rownames(Datapoints) = c(1:AnzPoints)      # gib den Zeilen als namen ihren zeilennummer
   
-  if(!requireNamespace('parallelDist')){
-    warning("UniquePoints: package parallelDist is not installed, falling back to dist().")
-    dists = as.matrix(dist(Datapoints))     # Distance with diagonal = 0.
-  }else{
-    dists = as.matrix(parallelDist::parDist(Datapoints, method = "euclidean"))
-  }
+  N           = dim(Datapoints)[1]
+  DM          = as.matrix(parallelDist::parDist(Datapoints))
   
-  IsDuplicate=rep(FALSE,AnzPoints)
-  diag(dists)=Inf                              # in der diagonalen nicht suchen
-  dists[upper.tri(dists)]=Inf                  # nur in eine richtung suchen reicht, sonst werden beide punkte entfernt
-
-  #zeile ist die dublette
-  #spalte ist der datenpunkt auf den die dublette verweist
-  #kann moeglicherweise wieder eine dublette sein
-  ind_all = which(dists < Eps, arr.ind = TRUE) # Get indices of duplicates.
-  
-
-  if(length(ind_all) == 0){    # keine duplikate gefunden
-    return(list("Unique" = Datapoints,
-                "UniqueInd" = c(1:AnzPoints), #sortind
-                "Uniq2DatapointsInd" = c(1:AnzPoints),
-                IsDuplicate = IsDuplicate))
-  }
-
-  tmpVar  = as.character(unique(ind_all[, 1]))     # Get unique points with close points nearby - "search from one direction"
-  ind     = ind_all[tmpVar, ,drop=FALSE]           # Keep first occurancy, drop rest
-  IsDuplicate[ind[, 1]] = TRUE                     # Mark duplicates as such
-  uniqueDatapoints      = Datapoints[IsDuplicate==FALSE, ,drop=FALSE] # MT: Korrektur, falls genau eine Dopplung besteht
-  
-  #----------------------------------------------------------------------------#
-  # According to the logic here there are three groups to consider:
-  # 1. Representatives with a neighborhood
-  # 2. Representatives without a neighborhood
-  # 3. Nonrepresentatives within a neighborhood
-  
-  Representatives = which(IsDuplicate == FALSE)
-  NonRepresentatives = which(IsDuplicate == TRUE)
-  REN = setdiff(1:dim(dists)[1], unique(ind_all[,2]))
-  REN = setdiff(REN, unique(ind_all[,1]))
-  RWN = setdiff(Representatives, REN)
-  
-  ClassAssignment = rbind(cbind(Representatives, Representatives), ind)
-  CAIdx = order(ClassAssignment[,1])
-  ClassAssignment = ClassAssignment[CAIdx,]
-  rownames(ClassAssignment) = NULL
-  colnames(ClassAssignment) = c("DatapointIndex", "ClassIndex")
-  
-  Uniq2DatapointsInd = ClassAssignment[,2]
-  #----------------------------------------------------------------------------#  
-      
-  # remove multiples in the duplicates, so that
-  # only their first occurance remains. Example: if 1, 3, 4, and 6 are all duplicate
-  # of the same value, ind will contain [3,1], [4,1], [4,3], [6,1], [6,3] and [6,4]. 
-  # This removes all except [3,1], [4,1] and [6,1]
-  ind = ind_all[as.character(unique(ind_all[, 1])), ,drop=FALSE] 
-  #aus irgendeinem grund ist das as.character wichtig!
-  #ind = ind[unique(ind[, 1]), ,drop=FALSE] #funktioniert nicht
-  IsDuplicate[ind[, 1]]=TRUE
-  uniqueDatapoints = Datapoints[IsDuplicate==FALSE, ,drop=FALSE] #MT: Korrektur, falls genau eine Dopplung besteht
-  
-  #init, wir initialisieren mit den index aller,
-  #damit wir fuer die dubletten mit den index von ind arbeiten koennen
-  mergeind <- c(1:AnzPoints)
-  #index der uniquen
-  indhelp <- c(1:nrow(uniqueDatapoints))
-  #index der echten punkte
-  names(indhelp) <- rownames(uniqueDatapoints)
-  #setze an position der echten punkte
-  #den index der uniquen
-  mergeind[as.numeric(names(indhelp))] <- indhelp
-  #befuelle die dubletten
-  #Achtung, vorher muessen wir noch sicherstellen, das auf keine
-  #weiteren dubletten in der 2ten spalte von ind verwiesen wird
-  #suche alle fuer die das zutrifft
-  uniquerowlabels=as.numeric(rownames(uniqueDatapoints))
-  #finde diejenigen verweise, welche von dublett aud dublett gehen
-  notfound=which(!(ind[,2]%in%uniquerowlabels))
-  #ergaenze den vektor, sodass der verweis
-  #auf ein nicht dublett geht
-  ind_complete=ind
-  notfound_point_ind=unique(ind_complete[notfound,2])
-  for(j in notfound_point_ind){
-    #welches label is geeignet?
-    uniquePointLabelInd=ind_complete[ind_complete[,1]==j,2]
-    #koennenvielen sein
-    
-    #aus irgendeinem grund findet er manchmal keine ueberschneidung
-    #GetuniquePointLabelInds=ind_all[ind_all[,1]==j,2]
-    #wir wollen davon keine dubletten
-    #uniquePointLabelInd=intersect(GetuniquePointLabelInds,uniquerowlabels)
-    
-    #dahin soll das label gespeichert werden:
-    if(length(uniquePointLabelInd)==1){
-    ind_complete[ind_complete[,2]==j,2]=uniquePointLabelInd
-    }else{#sollteesnicht geben
-     warning("UniquePoints: Something went wrong...")
-     #message(GetuniquePointLabelInds)
-     #message(uniquerowlabels)
-     #ind_complete[ind_complete[,2]==j,2]=NA
+  if(missing(Eps)){                 # ab dieser Distanz zwischen 2 punkten sind diese identisch
+    if(N < 1000){
+      Eps = 0.1
+      # Test:
+      DMInfo = DM[lower.tri(x = DM, diag = FALSE)]
+      Perc1  = percentiles(DMInfo, 1)
+      Eps    = round(Perc1, 2)
+    }else{
+      DMInfo = DM[lower.tri(x = DM, diag = FALSE)]
+      Perc1  = percentiles(DMInfo, 1)
+      #PR          = ParetoRadius(Data = DMInfo)
+      #Eps         = 3*PR
+      #message(paste0("UniquePoints: Automatically estimated epsilon 'eps' to four times of the Pareto Radius (", PR, ") = ", Eps))
+      Eps    = round(Perc1, 2)
+      message(paste0("UniquePoints: Automatically estimated epsilon 'eps' to one percent percentile ", Eps))
     }
-    
   }
-     
-    #der index an der stelle der duplikate ist der werte von mergeind
-    # an der stelle wohin das duplikat in der distanz fuert
-    #und dieses muesste ja zu einem wert von indhelp fueren
-    mergeind[ind_complete[, 1]] = mergeind[ind_complete[, 2]] # Datapointsindex with marked duplicates
+  
+  if(missing(Cls)){
+    tmpVi        = hlp_UniquePoints(DM = DM, Datapoints = Datapoints, Eps = Eps)
+    Unique       = tmpVi$Unique
+    UniqueInd    = tmpVi$UniqueInd
+    Uniq2DataIdx = tmpVi$Uniq2DatapointsInd
+    IsDuplicate  = tmpVi$IsDuplicate
+    Eps          = tmpVi$Eps
+    # Edit
+    NewUniqueInd    = 1:length(UniqueInd)
+    NewUniq2DataIdx = unlist(lapply(Uniq2DataIdx, function(x, y){
+      which(y == x)
+    }, UniqueInd))
+    
+    return(list("Unique"             = Unique,
+                "UniqueInd"          = UniqueInd,
+                "Uniq2DatapointsInd" = Uniq2DataIdx,
+                "NewUniqueInd"       = NewUniqueInd,
+                "NewUniq2DataIdx"    = NewUniq2DataIdx,
+                "IsDuplicate"        = IsDuplicate,
+                "Eps"                = Eps))
+  }else{
+    UniqueCls    = unique(Cls)
+    NumCls       = length(UniqueCls)
+    Unique       = NULL
+    UniqueInd    = c()
+    Uniq2DataIdx = c()
+    #IsDuplicate  = rep(FALSE, N)
+    IsDuplicate  = rep(TRUE, N)
+    for(i in 1:NumCls){
+      tmpIdx = which(Cls == UniqueCls[i])
+      tmpVi  = hlp_UniquePoints(DM = DM, Datapoints = Datapoints[tmpIdx,], Eps = Eps)
+      tmpUniqIdx = tmpIdx[tmpVi$UniqueInd]
+      UniqueInd  = c(UniqueInd, tmpIdx[tmpVi$UniqueInd])
+      Uniq2DataIdx[tmpIdx]    = tmpIdx[tmpVi$Uniq2DatapointsInd]
+      #DuplIdx                 = setdiff(tmpIdx, tmpIdx[tmpVi$UniqueInd])
+      #IsDuplicate[DuplIdx]    = TRUE
+      IsDuplicate[tmpUniqIdx] = FALSE
+    }
+    Unique = Datapoints[UniqueInd, ]
+  }
+  
+  # Edit
+  NewUniqueInd    = 1:length(UniqueInd)
+  NewUniq2DataIdx = unlist(lapply(Uniq2DataIdx, function(x, y){
+    which(y == x)
+  }, UniqueInd))
+  
+  
+  return(list("Unique"             = Unique,
+              "UniqueInd"          = UniqueInd,
+              "Uniq2DatapointsInd" = Uniq2DataIdx,
+              "NewUniqueInd"       = NewUniqueInd,
+              "NewUniq2DataIdx"    = NewUniq2DataIdx,
+              "IsDuplicate"        = IsDuplicate,
+              "Eps"                = Eps))
+}
 
-    return(list("Unique"             = as.matrix(uniqueDatapoints),
-                "UniqueInd"          = as.numeric(rownames(uniqueDatapoints)),
-                "Uniq2DatapointsInd" = Uniq2DatapointsInd,
-                #"Uniq2DatapointsInd2" = Uniq2DatapointsInd,
-                IsDuplicate          = IsDuplicate,
-                ind_all              = ind_all))#nur fürs debugging, spaeter entfernen
+hlp_UniquePoints = function(DM, Datapoints, Eps){
+  N             = dim(Datapoints)[1]
+  IsDuplicate   = rep(FALSE, N)
+  Idx           = 1:N
+  UniqueInd     = c()
+  Uniq2DataIdx  = Idx
+  
+  while(length(Idx) > 0){                                                       # Proceed until no sample is left
+    Draw                     = sample(x = Idx, size = 1)                        # Draw a sample
+    # Ensure, that a draw is not by mistake already a unique representative or
+    # contained in an eps ngbh
+    Cond1       = !(Draw %in% UniqueInd)
+    if(length(UniqueInd) > 0){
+      tmpVar1   = as.matrix(dist(rbind(Datapoints[Draw,], Datapoints[UniqueInd,])))[1,]
+      tmpVar2   = tmpVar1[2:length(tmpVar1)]
+      Cond2     = all(tmpVar2 >= Eps)
+    }else{
+      Cond2     = TRUE
+    }
+    if(all(Cond1, Cond2)){
+      Ngbh      = get_indices_smaller_than_eps(Draw, DM, Eps)                   # Get eps ngbh of sample
+      UniqueInd = c(UniqueInd, Draw)                                            # Add sample to unique index
+      CutOut    = c(Draw, Ngbh)                                                 # 
+      Idx       = setdiff(Idx, CutOut)                                          # Remove draw with its ngbh from index  
+    }else{
+      Idx       = setdiff(Idx, Draw)
+    }
+  }
+  
+  UniqueInd = sort(UniqueInd)
+  if(length(UniqueInd) != length(unique(UniqueInd))){
+    warning("Something went wrong: There are redundant entries in the unique index!")
+  }
+  
+  Duplicates               = setdiff(1:N, UniqueInd)
+  NumDupl                  = length(Duplicates)
+  tmpVar1                  = DM[Duplicates,UniqueInd]
+  tmpRes                   = apply(tmpVar1, 1, function(x){order(x)[2]})
+  Uniq2DataIdx[Duplicates] = UniqueInd[as.numeric(tmpRes)]
+  Unique                   = Datapoints[UniqueInd,]
+  IsDuplicate[Duplicates]  = TRUE
+  
+  return(list("Unique"             = Unique,
+              "UniqueInd"          = UniqueInd,
+              "Uniq2DatapointsInd" = Uniq2DataIdx,
+              "IsDuplicate"        = IsDuplicate,
+              "Eps"                = Eps))
+}
+
+get_indices_smaller_than_eps = function(Draw, DM, Eps){
+  return(setdiff(as.numeric(which(DM[Draw,] < Eps)), Draw))
+}
+
+percentiles=function (x, y = c(1:100)){
+  ss <- sort(na.last = T, x)
+  n <- length(x)
+  i <- n/100
+  index <- t(seq(i, n, i))
+  index <- round(index)
+  index <- index[1:100]
+  nullInd <- which(index < 1)
+  index[nullInd] <- 1
+  p <- ss[index]
+  return(p[y])
 }

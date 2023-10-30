@@ -10,14 +10,7 @@
 }
 \details{
 For a brief introduction to \pkg{DatabionicSwarm} please see the vignette \href{../doc/DatabionicSwarm.html}{Short Intro to the Databionic Swarm (DBS)}.
-
-\tabular{ll}{
-Package: \tab Databonic swarm\cr
-Type: \tab Package\cr
-Version: \tab 1.1.5\cr
-Date: \tab 2021-01-12\cr
-License: \tab CC BY-NC-SA 4.0\cr
-}
+The license is CC BY-NC-SA 4.0.
 
 \packageIndices{DatabionicSwarm}
 
@@ -111,9 +104,7 @@ genUmatrixList$Bestmatches, Cls)
 data2=matrix(runif(n = 100),10,10)
 distance=as.matrix(dist(data2))
 res=Pswarm(distance,LC = c(10,12))
-Cls=DBSclustering(k=2, data2, 
-
-res$ProjectedPoints, res$LC,PlotIt=FALSE)
+Cls=DBSclustering(k=2, data2, res$ProjectedPoints, res$LC,PlotIt=FALSE)
 
 resUmatrix=GeneratePswarmVisualization(data2,res$ProjectedPoints,res$LC)
 }

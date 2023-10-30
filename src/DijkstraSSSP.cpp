@@ -35,18 +35,19 @@ vector<pair<int,double> > a[sz]; //Adjacency list
   double w;
   double cw; //the final shortest distance for this vertex
   double cwCurrent; // current shortest disane
-  for(int i=0;i<n;i++) //Building Graph
-    for(int j=0;j<m;j++)
-    {
+  for(int i=0;i<n;i++){ //Building Graph
+    for(int j=0;j<m;j++){
       if(Adj(i,j)==1){
         w=Costs(i,j);
         a[i+1].push_back(make_pair(j+1,w));
         a[j+1].push_back(make_pair(i+1,w));
       }
     }
+	}
     //for(int source =1;source<n;source++){
-    for(int i=0;i<sz;i++) //Set initial distances to Infinity
+    for(int i=0;i<sz;i++){ //Set initial distances to Infinity
       dis[i]=INF;
+	}
   
   //Custom Comparator for Determining priority for priority queue (shortest edge comes first)
   class prioritize{
@@ -66,11 +67,12 @@ vector<pair<int,double> > a[sz]; //Adjacency list
     if(vis[cv]) //If the vertex is already visited, no point in exploring adjacent vertices
       continue;
     vis[cv]=true;
-    for(unsigned int i=0;i<a[cv].size();i++) //Iterating through all adjacent vertices
+    for(unsigned int i=0;i<a[cv].size();i++){ //Iterating through all adjacent vertices
       if(!vis[a[cv][i].first] && a[cv][i].second+cw<dis[a[cv][i].first]) {//If this node is not visited and the current parent node distance+distance from there to this node is shorted than the initial distace set to this node, update it
         cwCurrent=a[cv][i].second;
         pq.push(make_pair(a[cv][i].first,(dis[a[cv][i].first]=cwCurrent+cw))); //Set the new distance and add to priority queue
       }
+	}
   }
   
   for(int k=0;k<n;k++){

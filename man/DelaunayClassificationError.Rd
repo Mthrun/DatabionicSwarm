@@ -10,13 +10,30 @@ neighbors in the Output space. A low value indicates a better two-dimensional
 projection of the high-dimensional Input space.
 }
 \usage{
-DelaunayClassificationError(Data,ProjectedPoints,Cls,LC)
+DelaunayClassificationError(Data,ProjectedPoints,Cls,LC,Gabriel=FALSE,
+PlotIt=FALSE,Plotter = "native", Colors = NULL,LineColor= 'grey',
+main = "Name of Projection", mainSize = 24,xlab = "X", ylab = "Y", xlim, ylim,
+pch,lwd,Margin=list(t=50,r=0,l=0,b=0))
 }
 \arguments{
-\item{Data}{[1:n,1:d] Numeric matrix}
-\item{ProjectedPoints}{[1:n,1:2]}
-\item{Cls}{[1:n,1]}
-\item{LC}{Optional, if toroid, please set c(Lines,Columns)}
+\item{Data}{[1:n,1:d] Numeric matrix with n cases and d variables}
+\item{ProjectedPoints}{[1:n,1:2] Numeric matrix with 2D points in cartesian coordinates}
+\item{Cls}{[1:n] Numeric vector with class labels}
+\item{LC}{Optional, Numeric vector of two values determining grid size of the underlying projection}
+\item{Gabriel}{Optional, Boolean: TRUE/FALSE => Gabriel/Delauny graph (Default: FALSE => Delaunay)}
+\item{PlotIt}{Optional, Boolean: TRUE/FALSE => Plot/Do not plot (Default: FALSE)}
+\item{Plotter}{Optional, Character with plot technique (native or plotly)}
+\item{Colors}{Optional, Character vector of class colors for points}
+\item{LineColor}{Optional, Character of line color used for edges of graph}
+\item{main}{Optional, Character plot title}
+\item{mainSize}{Optional, Numeric size of plot title}
+\item{xlab}{Optional, Character name of x ax}
+\item{ylab}{Optional, Character name of y ax}
+\item{xlim}{Optional, Numeric vector with two values defining x ax range}
+\item{ylim}{Optional, Numeric vector with two values defining y ax range}
+\item{pch}{Optional, Numeric of point size (graphic parameter)}
+\item{lwd}{Optional, Numeric of linewidth (graphic parameter)}
+\item{Margin}{Optional, Margin of plotly plot}
 }
 \details{
 Delaunay classification error (DCE) makes an unbiased evaluation of distance and

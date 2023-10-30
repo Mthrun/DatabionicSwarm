@@ -119,14 +119,19 @@ Cls=Lsun3D$Cls
 InputDistances=as.matrix(dist(Data))
 \donttest{
 projList=Pswarm(InputDistances)
-genUmatrixList=GeneratePswarmVisualization(Data,projList$ProjectedPoints,projList$LC)
+genUmatrixList=GeneratePswarmVisualization(Data,
+  projList$ProjectedPoints,projList$LC,
+  Parallel=FALSE)#CRAN guidelines do not allow =TRUE for testing
 library(GeneralizedUmatrix)
 plotTopographicMap(genUmatrixList$Umatrix,genUmatrixList$Bestmatches,Cls)
 }
 \dontshow{data2=matrix(runif(n = 100),10,10)
 distance=as.matrix(dist(data2))
 projList2=Pswarm(distance,LC = c(10,12))
-genUmatrixList=GeneratePswarmVisualization(matrix(runif(n = 100),10,10),projList2$ProjectedPoints,projList2$LC)
+genUmatrixList=GeneratePswarmVisualization(matrix(runif(n = 100),10,10),
+  projList2$ProjectedPoints,
+  projList2$LC,
+  Parallel=FALSE)#CRAN guidelines do not allow =TRUE for testing
 }
 
 }

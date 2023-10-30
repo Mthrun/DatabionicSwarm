@@ -2,7 +2,7 @@ citHeader("To cite the 'DatabionicSwarm' R package in publications, please use:"
 
 bibentry(bibtype = "Book",
   title = "Projection-Based Clustering through Self-Organization and Swarm Intelligence",
-  author = personList(person(given="Michael Christoph", family="Thrun")),
+  author = c(person(given="Michael Christoph", family="Thrun")),
   publisher = "Springer",
   year = "2018",
   doi = "10.1007/978-3-658-20540-9",

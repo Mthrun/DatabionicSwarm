@@ -138,7 +138,7 @@ List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,
   NumericVector Dy(DBAnzahl);
   NumericVector D1(DBAnzahl);
   NumericVector D2(DBAnzahl);
-
+  
   //NumericVector CurrentKeyBot(leng);
   NumericVector ChosenForJump(nBots);
   NumericVector AllDataBotsPosReal(DBAnzahl);
@@ -166,7 +166,7 @@ List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,
   NumericVector stressverlauf;
   NumericVector KeySteigung(steigungsverlaufind);
   NumericVector stresstail(steigungsverlaufind);
-  double epsilon=0.0001;//Steigungsgenauigkeit, steigung nimmt kaum mehr ab
+  double epsilon=0.01;//Steigungsgenauigkeit, steigung nimmt kaum mehr ab
   for(int i=0;i<steigungsverlaufind;i++)
     KeySteigung(i)=i;
   
@@ -232,8 +232,8 @@ List PswarmCurrentRadiusC2botsPositive(ComplexVector AllDataBotsPosOld,
     double SumStress=0;
     for(int i=0;i<leng ;i++){
       stress(i)=PosAndStres(i,0);
-      if(PosAndStres(i,1)>0){
-        if(PosAndStres(i,2)==0)
+      if(PosAndStres(i,1)!=-1){ // Edit QMS: Improvement must be decided with -1 versus databot index 0:NAllbots
+        if(PosAndStres(i,2)==0) //           Before: improvement was decided with 0 versus databot index 0:NAllbots => databot index 0 never jumps
           AllDataBotsPos(PosAndStres(i,1))=DataBotsPosNeu(PosAndStres(i,1));
         if(PosAndStres(i,2)==1)
           AllDataBotsPos(PosAndStres(i,1))=DataBotsPosNeu2(PosAndStres(i,1));

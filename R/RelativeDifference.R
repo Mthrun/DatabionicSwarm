@@ -1,4 +1,4 @@
-RelativeDifference=function(X,Y,epsilon=10^-10,na.rm=FALSE){
+RelativeDifference=function(X,Y,epsilon=10^-10,na.rm=FALSE,Silent=FALSE){
   if(isTRUE(na.rm)){ #achtung irgendwas stimmt hier nicht
     noNaNInd <- which(is.finite(X)&is.finite(Y))
     X <- X[noNaNInd]
@@ -10,10 +10,12 @@ RelativeDifference=function(X,Y,epsilon=10^-10,na.rm=FALSE){
   unten=X+Y
   if(!is.finite(unten)) stop('Some of your values are not finite. Please use na.rm=TRUE')
   if(abs(unten)<epsilon){
-    warning('X and Y are too small to calcualte Relative Differences. Returning 0')
+    if(isFALSE(Silent))
+      message('RelativeDifference: X + Y are smaller than epsilon, returning 0')
+    
     return(0)
   }
-  if(X<0) stop('Not defined for negative X values')
-  if(Y<0) stop('Not defined for negative Y values')
+  if(X<0) stop('RelativeDifference: Not defined for negative X values')
+  if(Y<0) stop('RelativeDifference: Not defined for negative Y values')
   return(2*oben/unten)
 }

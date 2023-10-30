@@ -25,17 +25,17 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,
   #requireRpackage('geometry')
   DataOrDistance=checkInputDistancesOrData(DataOrDistance,funname='DBSclustering')
   if(missing(ylab)){
-  ylab="Ultrametric Portion of Distance"
+    ylab="Ultrametric Portion of Distance"
   }
-   if(missing(main)){
-   if(isTRUE(StructureType)){
-   StructureTypeStr="Compact"
-   }else{
-   StructureTypeStr="Connected"
-   }
+  if(missing(main)){
+    if(isTRUE(StructureType)){
+      StructureTypeStr="Compact"
+    }else{
+      StructureTypeStr="Connected"
+  }
   main=paste0(StructureTypeStr," DBS Clustering")
   }
-  if (isSymmetric(unname(DataOrDistance))) {
+  if(isSymmetric(unname(DataOrDistance))){
     InputD = DataOrDistance
     rnames=1:nrow(DataOrDistance)
   } else{
@@ -53,10 +53,14 @@ DBSclustering=function(k,DataOrDistance,BestMatches,LC,StructureType=TRUE,
       InputD = as.matrix(parallelDist::parDist(DataOrDistance, method = method))
   }# end if(isSymmetric(DataOrDists))
   
- GabrielGraph=FALSE #gabriel graph immer schlechter...
-  GOutput=Delaunay4Points(BestMatches, LC = LC[c(2,1)], IsToroid=T,PlotIt=F,Gabriel=GabrielGraph)
-    
-    Dist=ShortestGraphPathsC(GOutput,InputD)
+  GabrielGraph = FALSE                                                          # Gabriel graph immer schlechter...
+  GOutput      = Delaunay4Points(Points   = BestMatches, LC = LC[c(2,1)],
+                                 IsToroid = TRUE, PlotIt = FALSE,
+                                 Gabriel = GabrielGraph)
+  if(!is.matrix(GOutput)){
+    GOutput = GOutput[[1]]
+  }
+  Dist=ShortestGraphPathsC(GOutput,InputD)
   if(StructureType){
     pDist=as.dist(Dist)
     hc <- hclust(pDist,method="ward.D")

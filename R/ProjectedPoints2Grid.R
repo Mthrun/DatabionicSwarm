@@ -1,4 +1,4 @@
-ProjectedPoints2Grid <- function(ProjectedPoints, Lines, Columns,PlotIt=F){
+ProjectedPoints2Grid <- function(ProjectedPoints, Lines, Columns,PlotIt=FALSE, Cls){
 # ProjectedPoints2Grid(ProjectedPoints,Lines,Columns)  
 # Converts numeric ProjectedPoints to integervalues corresponding to a two dimensional rectangular grid
 # INPUT
@@ -33,6 +33,9 @@ c=ncol(ProjectedPoints)
 if(c>3 |c<2)
   stop(paste0('Wrong number of Columns of ProjectedPoints: ',c))
 
+if(missing(Cls)){
+  Cls = rep(1,n)
+}
 if(c==3){
    coord=ProjectedPoints[,2:3]
    coordtmp=ProjectedPoints[,2:3]
@@ -166,8 +169,8 @@ else
 if(PlotIt){
   #windows()
   par(mfrow = c(1,2))
-  plotSwarm(coordtmp,main='ProjectedPoints')
-  plotSwarm(BestMatches[,2:3],main='Corresponding BestMatches')
+  plotSwarm(coordtmp, Cls = Cls, main='ProjectedPoints')
+  plotSwarm(BestMatches[,2:3], Cls = Cls, main='Corresponding BestMatches')
 }
 return(BestMatches)
 

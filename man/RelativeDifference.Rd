@@ -8,7 +8,9 @@ Relative Difference
 Calculates the difference between positive x and y values 
 }
 \usage{
-RelativeDifference(X, Y, epsilon = 10^-10,na.rm=FALSE)
+RelativeDifference(X, Y, epsilon = 10^-10,
+
+na.rm=FALSE,Silent=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +20,8 @@ RelativeDifference(X, Y, epsilon = 10^-10,na.rm=FALSE)
 also zero}
 \item{na.rm}{Optional, function does not work with non finite values. If these
 cases should be automatically removed, set parameter TRUE}
+
+\item{Silent}{Optional, if TRUE message abput values below epsilon is not given back}
 }
 \details{
 Contrary to other approaches in this cases the range of values lies between
@@ -36,10 +40,10 @@ GfKl 2008, pp, 505-511, 2008.
 Michael Thrun
 }
 \note{
-It can be combined with the \code{DelaunayClassificationError} if a clear baseline is defined.
+It can be combined with the \code{GabrielClassificationError} if a clear baseline is defined.
 }
 \seealso{
-\code{\link{DelaunayClassificationError}}
+\code{\link[DRquality]{GabrielClassificationError}}
 }
 \examples{
 x=c(1:5)

@@ -19,19 +19,28 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,LC,PlotIt=FALSE,Gabriel=FALS
   # authors:  MT 03/16
   
 
-  if(is.list(Points))
+  if(is.list(Points)){
     stop('Points is a list not a matrix')
-  if (ncol(Points) > 3)
+  }
+  if(ncol(Points) > 3){
     stop('Points have wrong number of dimensions')
-  if (ncol(Points) < 1)
+  }
+  if(ncol(Points) < 1){
     stop('Points have wrong number of dimensions')
-  
+  }
   # if(ncol(Points)==2)
   #   if(!is.null(Grid)) stop('Points have wrong number of dimensions or LC is not NULL')
-  if (ncol(Points) == 3) {
+  if(ncol(Points) == 3) {
     Points = Points[, 2:3]
   }
   
+  if(missing(LC)){
+    IsToroid=FALSE
+	if(isTRUE(Gabriel))
+		warning("calcGabrielGraph2D: As Input argument *LC* is missing, IsToroid is set to FALSE.")
+	else
+		warning("Delaunay4Points: As Input argument *LC* is missing, IsToroid is set to FALSE.")
+  }
   if(!missing(LC)){
     #shuffle so that it works for points
     Grid=LC[c(2,1)]
@@ -45,11 +54,13 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,LC,PlotIt=FALSE,Gabriel=FALS
     Xgrid = Grid[1]
     Ygrid = Grid[2]
   }
-  if (IsToroid) {
-    if (max(Points[, 1]) > Grid[1])
+  if(IsToroid){
+    if(floor(max(Points[, 1])) > floor(Grid[1])){
       stop('Grid[1]>max(Points[,1])')
-    if (max(Points[, 2]) > Grid[2])
+    }
+    if(round(max(Points[, 2])) > round(Grid[2])){
       stop('Grid[2]>max(Points[,2])')
+    }
   }
   #####################################################################################
   DelaunayGraphMatrix_hlp <- function(X, Y, PlotIt = FALSE) {
@@ -66,43 +77,47 @@ Delaunay4Points <- function(Points, IsToroid = TRUE,LC,PlotIt=FALSE,Gabriel=FALS
     # a list of
     # Delaunay[1:n,1:n]       The adjacency matrix of the Delaunay-Graph.
     #
-    
     # uses packages deldir
     
-   
     # Punkte unique machen
-    unique       = UniquePoints(cbind(X, Y))
-    UniqXY       = unique$Unique
-    UniqueInd    = unique$UniqueInd
-    Uniq2DataInd = unique$Uniq2DatapointsInd
-    IsDuplicate  = unique$IsDuplicate
-    UniqX        = UniqXY[, 1]
-    UniqY        = UniqXY[, 2]
-    # Der Index muss richtig berechnet werden, sonst funktioniert der Zugriff 
-    # auf die Delaunay Matrix nicht richtig (Linie 94)
-    RightIdx     = unlist(lapply(Uniq2DataInd, function(x) which(UniqueInd == x)))
-    
-    # Delaunay ausrechnen mit deldir
-    DeldirOutput     = deldir::deldir(UniqX , UniqY)  #
-    PointsAndIndices = DeldirOutput$delsgs            # dadrin stecken die indices des Delaunays von -> Nach
-    FromInd          =  PointsAndIndices$ind1         #  indices der Ausgangspunkte des Delanays
-    ToInd            =  PointsAndIndices$ind2         #  indices der Endpunkte des Delanays
-    
-    # Adjazenzmatrix befuellen
-    UniqDelaunay = matrix(0, length(UniqX), length(UniqY))  # Adjazenzmatrix initialisieren
+    unique           = UniquePoints(cbind(X, Y))
+    UniqXY           = unique$Unique
+    UniqueInd        = unique$UniqueInd
+    Uniq2DataInd     = unique$Uniq2DatapointsInd
+    Uniq2DataInd2    = unique$NewUniq2DataIdx
+    IsDuplicate      = unique$IsDuplicate
+    UniqX            = UniqXY[, 1]
+    UniqY            = UniqXY[, 2]
+    DeldirOutput     = deldir::deldir(UniqX , UniqY)                            # Delaunay ausrechnen mit deldir
+    PointsAndIndices = DeldirOutput$delsgs                                      # dadrin stecken die indices des Delaunays von -> Nach
+    FromInd          = PointsAndIndices$ind1                                    #  indices der Ausgangspunkte des Delanays
+    ToInd            = PointsAndIndices$ind2                                    #  indices der Endpunkte des Delanays
+    UniqDelaunay     = matrix(0, length(UniqX), length(UniqY))                  # Adjazenzmatrix initialisieren
     for (i in c(1:length(FromInd))) {
-      UniqDelaunay[FromInd[i],  ToInd[i]]  <-
-        1  #Only Direct neighbours A and B get an one from A to B
-      UniqDelaunay[ToInd[i]  , FromInd[i]]  <-
-        1  #Only Direct neighbours A and B get an one from A to B
+      UniqDelaunay[FromInd[i], ToInd[i]] = 1                                    # Only Direct neighbours A and B get an one from A to B
+      UniqDelaunay[ToInd[i], FromInd[i]] = 1                                    # Only Direct neighbours A and B get an one from A to B
     } # end for i neighbours
     
-    
-    # jetzt uniqe points wieder auf originale uebertragen
     Delaunay = matrix(0, length(X), length(Y))
-    Delaunay = UniqDelaunay[RightIdx, RightIdx]
+    Delaunay = UniqDelaunay[Uniq2DataInd2, Uniq2DataInd2]
+    #Delaunay = Delaunay + diag(IsDuplicate)
+    if(sum(IsDuplicate)>1){ #Verstehe ich nicht, aber bei genau einem duplikat funktioniert es nicht
+      Duplicates = which(IsDuplicate)
+      UniqueNgbh = unique$Uniq2DatapointsInd[which(IsDuplicate)]
+      diag(Delaunay[Duplicates,UniqueNgbh]) = 1 
+    }
+    #erstmal fallback auf urspruengliche version
+    if(sum(IsDuplicate)==1){
+      Delaunay = Delaunay + diag(IsDuplicate)
+    }
+    
+    #Delaunay[IsDuplicate, ]
+    # jetzt uniqe points wieder auf originale uebertragen
+    #Delaunay = matrix(0, length(X), length(Y))
+    #Delaunay = UniqDelaunay[RightIdx, RightIdx]
     #Delaunay = UniqDelaunay[Uniq2DataInd, Uniq2DataInd]
-    Delaunay = Delaunay + IsDuplicate # noch je eine Verbindung zwischen den Doubletten eintragen
+    #Delaunay = Delaunay + IsDuplicate # noch je eine Verbindung zwischen den Doubletten eintragen
+    #Delaunay = Delaunay + diag(IsDuplicate)
     
     # ausgabe zusammenstellen
     return(Delaunay = Delaunay)

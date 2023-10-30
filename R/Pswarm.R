@@ -1,4 +1,5 @@
-Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,Debug=FALSE,LC=c(NULL,NULL),method='euclidean',Parallel=FALSE,...){
+Pswarm = pswarmCpp = function(DataOrDistance,PlotIt=FALSE,Cls=NULL,Silent=TRUE,
+                              Debug=FALSE,LC=c(NULL,NULL),method='euclidean',Parallel=FALSE,...){
 # bmus=pswarmCpp(DataOrDists,PlotIt=T,Cls)
 # Laesst den Pswarm Schwarmalgorithmus ueber einen Datensatz laufen
 # polar oriatated swarm

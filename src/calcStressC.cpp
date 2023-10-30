@@ -104,7 +104,7 @@ NumericMatrix calcStressC(NumericMatrix DataDists,NumericMatrix OutputDistance,N
     else
     {
       xx(db,2)=0;
-      xx(db,1)=0;
+      xx(db,1)=-1; // Edit QMS: No improvement => -1 instead of 0, so that databot index 0 implies improvement of databot 0
       xx(db,0)=phi;
       
     }
