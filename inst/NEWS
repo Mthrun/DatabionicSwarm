@@ -1,6 +1,6 @@
 Version 1.3.0 (2023-10-30 GitHub)   
    o Major bugfix of Quirin Stier in calcStressC.cpp and PswarmCurrentRadiusC2botsPositive: swarm allows every databot to change position by checking a new index. Priorly, databot with index 0 was frozen in the projection.
-   o RelativeDifference can now be called silent
+   o RelativeDifference can now be called silent and as a bugfix for vectors x and y optional parameter are now used
    
 Version 1.2.1 (2023-10-10 CRAN)   
    o Moved RobustNormalization and RobustNorm_BackTrafo to DataVisualizations package available on CRAN

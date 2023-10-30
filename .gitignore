@@ -39,3 +39,5 @@
 /.Rproj.user/shared/notebooks/A3951B6D-DatabionicSwarm/1/s/chunks.json
 /.Rproj.user/shared/notebooks/patch-chunk-names
 /.Rproj.user/shared/notebooks/paths
+.Rproj.user
+/*.Rhistory
